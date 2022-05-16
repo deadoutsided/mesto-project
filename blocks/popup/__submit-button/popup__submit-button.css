@@ -12,8 +12,19 @@
   color: #FFFFFF;
   transition: opacity 0.2s linear;
   cursor: pointer;
+  border: 0;
 }
 
 .popup__submit-button:hover{
   opacity: 0.8;
+}
+
+@media screen and (max-width: 660px) {
+  .popup__submit-button{
+    font-size: 14px;
+    line-height: 17px;
+    width: 238px;
+    height: 46px;
+    margin: 45px 22px 25px;
+  }
 }

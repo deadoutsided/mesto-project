@@ -12,3 +12,10 @@
   border-bottom: 1px solid #00000033;
   padding: 0 0 13px 0;
 }
+
+@media screen and (max-width: 660px) {
+  .popup__field{
+    width: calc(282px - 22px*2);
+    margin: 0 22px 30px;
+  }
+}
