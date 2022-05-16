@@ -1,0 +1,18 @@
+.profile__paragraph{
+  font-family: 'Inter', Arial, sans-serif;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 18px;
+  line-height: 22px;
+  margin:0;
+  color: #FFFFFF;
+}
+
+@media screen and (max-width: 701px) {
+  .profile__paragraph{
+    padding-bottom: 36px;
+    font-size: 14px;
+    line-height: 17px;
+    text-align: center;
+  }
+}

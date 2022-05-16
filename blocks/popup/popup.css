@@ -1,0 +1,9 @@
+.popup{
+  position: fixed;
+  top: 0;
+  right: 0;
+  display: none;
+  max-width: none;
+  width: 100vw;
+  height: 100vh;
+}

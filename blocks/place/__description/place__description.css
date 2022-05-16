@@ -1,0 +1,8 @@
+.place__description{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  margin: 20px auto 30px;
+  max-width: 246px;
+}

@@ -1,0 +1,9 @@
+.header{
+  padding-top: 45px;
+}
+
+@media screen and (max-width:701px) {
+  .header{
+    padding-top: 28px;
+  }
+}
