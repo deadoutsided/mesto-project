@@ -3,10 +3,9 @@
   min-height: 330px;
   background-color: #FFF;
   border-radius: 10px;
-  position: relative;
 }
 
-@media screen and (max-width: 701px) {
+@media screen and (max-width: 770px) {
   .popup__form{
     max-width: 282px;
     min-height: 322px;
