@@ -9,7 +9,9 @@
 
 @media screen and (max-width: 919px) {
   .places{
-    column-gap: calc(90% - 262px*2);
+    width: calc(282px*2 + 20px);
+    margin: 0 auto 0;
+    column-gap: 20px;
     grid-template-columns: repeat(2, 282px);
     grid-template-rows: repeat(3, 361px);
   }
