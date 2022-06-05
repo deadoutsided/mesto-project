@@ -24,48 +24,7 @@
     <button type="button" class="profile__add-button"></button>
   </section>
   <section class="places">
-    <div class="place">
-      <img class="place__image" src="./images/karachaevsk.jpg" alt="Фото пейзажей Карачаевска">
-      <div class="place__description">
-        <h2 class="place__title">Карачаевск</h2>
-        <button type="button" class="place__like-button"></button>
-      </div>
-    </div>
-    <div class="place">
-      <img class="place__image" src="./images/elbrus.jpg" alt="Фото пейзажей Эльбруса">
-      <div class="place__description">
-        <h2 class="place__title">Гора Эльбрус</h2>
-        <button type="button" class="place__like-button"></button>
-      </div>
-    </div>
-    <div class="place">
-      <img class="place__image" src="./images/dombai.jpg" alt="Фото пейзажей Домбая">
-      <div class="place__description">
-        <h2 class="place__title">Домбай</h2>
-        <button type="button" class="place__like-button"></button>
-      </div>
-    </div>
-    <div class="place">
-      <img class="place__image" src="./images/elbrus_2.jpg" alt="Фото пейзажей Эльбруса">
-      <div class="place__description">
-        <h2 class="place__title">Гора Эльбрус</h2>
-        <button type="button" class="place__like-button"></button>
-      </div>
-    </div>
-    <div class="place">
-      <img class="place__image" src="./images/dombai_2.jpg" alt="Фото пейзажей Домбая">
-      <div class="place__description">
-        <h2 class="place__title">Домбай</h2>
-        <button type="button" class="place__like-button"></button>
-      </div>
-    </div>
-    <div class="place">
-      <img class="place__image" src="./images/karachaevo-ch.jpg" alt="Фото пейзажей Карачаево-Черкессии">
-      <div class="place__description">
-        <h2 class="place__title">Карачаево-Черкессия</h2>
-        <button type="button" class="place__like-button"></button>
-      </div>
-    </div>
+
   </section>
   <footer class="footer">
     <p class="footer__copyright">&copy; 2022 Mesto Russia</p>
@@ -87,12 +46,21 @@
       <button type="button" class="popup__close-button"></button>
       <form name="add-place-form" class="popup__form">
         <h3 class="popup__title">Новое место</h3>
-        <input class="popup__field" type="text" name="place-title">
-        <input class="popup__field" type="text" name="image-url">
+        <input class="popup__field" type="text" name="place-title" placeholder="Название">
+        <input class="popup__field" type="text" name="image-url" placeholder="Ссылка на картинку">
         <button type="submit" class="popup__submit-button">Создать</button>
       </form>
     </div>
   </section>
+  <template class="place-template">
+    <div class="place">
+      <img class="place__image">
+      <div class="place__description">
+        <h2 class="place__title"></h2>
+        <button type="button" class="place__like-button"></button>
+      </div>
+    </div>
+  </template>
   <script src="./script.js"></script>
 </body>
 </html>

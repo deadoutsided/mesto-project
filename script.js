@@ -36,3 +36,60 @@ function popupClose(popup){
 
 buttonEdit.addEventListener('click', () => {popupAppearance(popEdit)});
 buttonAdd.addEventListener('click', () => {popupAppearance(popAdd)});
+
+const initialCards = [
+  {
+    name: 'Архыз',
+    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/arkhyz.jpg'
+  },
+  {
+    name: 'Челябинская область',
+    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/chelyabinsk-oblast.jpg'
+  },
+  {
+    name: 'Иваново',
+    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/ivanovo.jpg'
+  },
+  {
+    name: 'Камчатка',
+    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kamchatka.jpg'
+  },
+  {
+    name: 'Холмогорский район',
+    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kholmogorsky-rayon.jpg'
+  },
+  {
+    name: 'Байкал',
+    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/baikal.jpg'
+  }
+];
+
+
+let placesContainer = document.querySelector('.places');
+let placeTemplate = document.querySelector('.place-template').content;
+
+for(let i = 0; i < initialCards.length; i++){
+  let placeElement = placeTemplate.querySelector('.place').cloneNode(true);
+  placeElement.querySelector('.place__image').src = initialCards[i].link;
+  placeElement.querySelector('.place__title').textContent = initialCards[i].name;
+  placeElement.querySelector('.place__image').setAttribute('alt', initialCards[i].name);
+  placesContainer.append(placeElement);
+}
+
+
+let addForm = popAdd.querySelector('.popup__form');
+
+function formSubmitCardAdd(evt){
+  evt.preventDefault();
+  let cardName = addForm.querySelector('.popup__field').value;
+  let cardUrl = addForm.querySelectorAll('.popup__field')[1].value;
+  let placeElement = placeTemplate.querySelector('.place').cloneNode(true);
+  placeElement.querySelector('.place__image').src = cardUrl;
+  placeElement.querySelector('.place__title').textContent = cardName;
+  placeElement.querySelector('.place__image').setAttribute('alt', cardName);
+  placesContainer.prepend(placeElement);
+  popupClose(popAdd);
+  addForm.querySelector('.popup__field').value = '';
+  addForm.querySelectorAll('.popup__field')[1].value = '';
+}
+addForm.addEventListener('submit', formSubmitCardAdd);
