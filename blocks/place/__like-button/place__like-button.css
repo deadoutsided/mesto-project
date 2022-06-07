@@ -13,7 +13,7 @@
   opacity: 0.5;
 }
 
-.place__like-button:active{
+/*.place__like-button:active{
   background-image: url(../../../images/like-button_active.svg);
   opacity: 1;
-}
+}*/
