@@ -68,11 +68,34 @@ const initialCards = [
 let placesContainer = document.querySelector('.places');
 let placeTemplate = document.querySelector('.place-template').content;
 
+let popupPlaceTemp = document.querySelector('.popup__place-template').content;
+function createPopPlace(card){
+  let popPlaceElement = popupPlaceTemp.querySelector('.popup').cloneNode(true);
+  popPlaceElement.querySelector('.popup__img').src = card.querySelector('.place__image').src;
+  popPlaceElement.querySelector('.popup__subtitle').textContent = card.querySelector('.place__title').textContent;
+  document.querySelector('.page').append(popPlaceElement);
+  popPlaceElement.classList.add('popup_opened');
+  popPlaceCloseBtn = popPlaceElement.querySelector('.popup__close-button_card');
+  popPlaceCloseBtn.addEventListener('click', function(evt){
+    const delPopCard = popPlaceCloseBtn.closest('.popup_type_place');
+    delPopCard.remove();
+  })
+  console.log(popPlaceElement);
+}
+
 for(let i = 0; i < initialCards.length; i++){
   let placeElement = placeTemplate.querySelector('.place').cloneNode(true);
-  placeElement.querySelector('.place__image').src = initialCards[i].link;
+  let placeImg = placeElement.querySelector('.place__image');
+  placeImg.src = initialCards[i].link;
   placeElement.querySelector('.place__title').textContent = initialCards[i].name;
-  placeElement.querySelector('.place__image').setAttribute('alt', initialCards[i].name);
+  placeImg.setAttribute('alt', initialCards[i].name);
+
+
+  placeImg.addEventListener('click', function(evt){
+    const cardRef = evt.target.closest('.place');
+    console.log(cardRef);
+    createPopPlace(cardRef);
+  })
   placeElement.querySelector('.place__like-button').addEventListener('click', function(evt){
     const likeButton = evt.target;
     likeButton.classList.toggle('place__like-button_active');
@@ -93,9 +116,15 @@ function formSubmitCardAdd(evt){
   let cardName = addForm.querySelector('.popup__field').value;
   let cardUrl = addForm.querySelectorAll('.popup__field')[1].value;
   let placeElement = placeTemplate.querySelector('.place').cloneNode(true);
-  placeElement.querySelector('.place__image').src = cardUrl;
+  let placeImg = placeElement.querySelector('.place__image');
+  placeImg.src = cardUrl;
   placeElement.querySelector('.place__title').textContent = cardName;
-  placeElement.querySelector('.place__image').setAttribute('alt', cardName);
+  placeImg.setAttribute('alt', cardName);
+  placeImg.addEventListener('click', function(evt){
+    const cardRef = evt.target.closest('.place');
+    console.log(cardRef);
+    createPopPlace(cardRef);
+  })
   placeElement.querySelector('.place__like-button').addEventListener('click', function(evt){
     const likeButton = evt.target;
     likeButton.classList.toggle('place__like-button_active');
