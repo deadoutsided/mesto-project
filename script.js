@@ -80,7 +80,6 @@ function createPopPlace(card){
     const delPopCard = popPlaceCloseBtn.closest('.popup_type_place');
     delPopCard.remove();
   })
-  console.log(popPlaceElement);
 }
 
 for(let i = 0; i < initialCards.length; i++){
@@ -93,7 +92,6 @@ for(let i = 0; i < initialCards.length; i++){
 
   placeImg.addEventListener('click', function(evt){
     const cardRef = evt.target.closest('.place');
-    console.log(cardRef);
     createPopPlace(cardRef);
   })
   placeElement.querySelector('.place__like-button').addEventListener('click', function(evt){
@@ -122,7 +120,6 @@ function formSubmitCardAdd(evt){
   placeImg.setAttribute('alt', cardName);
   placeImg.addEventListener('click', function(evt){
     const cardRef = evt.target.closest('.place');
-    console.log(cardRef);
     createPopPlace(cardRef);
   })
   placeElement.querySelector('.place__like-button').addEventListener('click', function(evt){
