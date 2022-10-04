@@ -35,8 +35,10 @@
       <button type="button" class="popup__close-button"></button>
       <form name="edit-profile-form" class="popup__form popup__form_content_edit-profile">
         <h3 class="popup__title">Редактировать профиль</h3>
-        <input class="popup__field popup__field_info_name" type="text" name="name">
-        <input class="popup__field popup__field_info_desc" type="text" name="nickname">
+        <input class="popup__field popup__field_info_name" id="name-field" type="text" name="name" required minlength="2" maxlength="40" novalidate pattern="[a-zа-яёA-ZА-ЯЁ\s\-]+" data-error-message="Разрешены только латинские буквы, кириллические буквы, знаки дефиса и пробелы.">
+        <span class="popup__field-error name-field-error"></span>
+        <input class="popup__field popup__field_info_desc" id="desc-field" type="text" name="nickname" required minlength="2" maxlength="200" novalidate pattern="[a-zа-яёA-ZА-ЯЁ\s\-]+" data-error-message="Разрешены только латинские буквы, кириллические буквы, знаки дефиса и пробелы.">
+        <span class="popup__field-error desc-field-error"></span>
         <button type="submit" class="popup__submit-button">Сохранить</button>
       </form>
     </div>
@@ -46,8 +48,10 @@
       <button type="button" class="popup__close-button"></button>
       <form name="add-place-form" class="popup__form">
         <h3 class="popup__title">Новое место</h3>
-        <input class="popup__field popup__field_info_card-name" type="text" name="place-title" placeholder="Название">
-        <input class="popup__field popup__field_info_card-img" type="text" name="image-url" placeholder="Ссылка на картинку">
+        <input class="popup__field popup__field_info_card-name" id="card-field" type="text" name="place-title" placeholder="Название" required minlength="2" maxlength="30" pattern="[a-zа-яёA-ZА-ЯЁ\s\-]+" data-error-message="Разрешены только латинские буквы, кириллические буквы, знаки дефиса и пробелы.">
+        <span class="popup__field-error card-field-error"></span>
+        <input class="popup__field popup__field_info_card-img" id="img-field" type="url" name="image-url" placeholder="Ссылка на картинку" required>
+        <span class="popup__field-error img-field-error"></span>
         <button type="submit" class="popup__submit-button">Создать</button>
       </form>
     </div>

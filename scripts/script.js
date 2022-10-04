@@ -17,6 +17,79 @@ const closeButtons = document.querySelectorAll('.popup__close-button');
 const placesContainer = document.querySelector('.places');
 const placeTemplate = document.querySelector('.place-template').content;
 
+const hasInvalidInput = (inputList) => {
+  return inputList.some((inputEl) => {
+    return !inputEl.validity.valid;
+  })
+}
+
+const showFieldError = (inputElement, errorMessage) => {
+  const errorEl = document.querySelector(`.${inputElement.id}-error`);
+  inputElement.classList.add('popup__field_type_error');
+  console.log(inputElement.getAttribute('id'));
+  errorEl.textContent = errorMessage;
+  errorEl.classList.add('popup__field-error_active');
+}
+
+const hideFieldError = (inputElement) => {
+  const errorEl = document.querySelector(`.${inputElement.id}-error`);
+  inputElement.classList.remove('popup__field_type_error');
+  errorEl.classList.remove('popup__field-error_active');
+  errorEl.textContent = '';
+}
+
+const checkInputValidity = (inputEl) => {
+  if(inputEl.validity.patternMismatch){
+    inputEl.setCustomValidity(inputEl.dataset.errorMessage);
+  } else{
+    console.log('SOOOSIIII');
+    inputEl.setCustomValidity('');
+  }
+  if(!inputEl.validity.valid){
+    console.log(inputEl.validationMessage);
+    showFieldError(inputEl, inputEl.validationMessage);
+  } else{
+    hideFieldError(inputEl);
+  }
+}
+
+const toggleButtonState = (inputList, buttonEl) => {
+  if(hasInvalidInput(inputList)){
+    buttonEl.disabled = true;
+    buttonEl.classList.add('popup__submit-button_disabled');
+  } else{
+    buttonEl.classList.remove('popup__submit-button_disabled');
+    buttonEl.disabled = false;
+  }
+}
+
+const setEventListeners = (inputList, buttonEl) => {
+  inputList.forEach((inputEl) => {
+    console.log(inputEl);
+    inputEl.addEventListener('input', function () {
+      checkInputValidity(inputEl);
+      toggleButtonState(inputList, buttonEl);
+    });
+  })
+}
+
+function enableValidation({formSelector, inputSelector, submitButtonSelector, inactiveButtonClass, inputErrorClass, errorClass}){
+  const formList = document.querySelectorAll(`${formSelector}`);
+  formList.forEach((formEl) => {
+    const inputList = Array.from(formEl.querySelectorAll(`${inputSelector}`));
+    console.log(inputList);
+    const submitButton = formEl.querySelector(`${submitButtonSelector}`);
+    setEventListeners(inputList, submitButton);
+    toggleButtonState(inputList, submitButton);
+  })
+}
+
+enableValidation({
+  formSelector: '.popup__form',
+  inputSelector: '.popup__field',
+  submitButtonSelector: '.popup__submit-button'
+})
+
 const initialCards = [
   {
     name: 'Архыз',
