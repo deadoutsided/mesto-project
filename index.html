@@ -33,10 +33,10 @@
   <section class="popup popup_type_edit-profile">
     <div class="popup__overlay">
       <button type="button" class="popup__close-button"></button>
-      <form name="edit-profile-form" class="popup__form">
+      <form name="edit-profile-form" class="popup__form popup__form_content_edit-profile">
         <h3 class="popup__title">Редактировать профиль</h3>
-        <input class="popup__field" type="text" name="name">
-        <input class="popup__field" type="text" name="nickname">
+        <input class="popup__field popup__field_info_name" type="text" name="name">
+        <input class="popup__field popup__field_info_desc" type="text" name="nickname">
         <button type="submit" class="popup__submit-button">Сохранить</button>
       </form>
     </div>
@@ -46,8 +46,8 @@
       <button type="button" class="popup__close-button"></button>
       <form name="add-place-form" class="popup__form">
         <h3 class="popup__title">Новое место</h3>
-        <input class="popup__field" type="text" name="place-title" placeholder="Название">
-        <input class="popup__field" type="text" name="image-url" placeholder="Ссылка на картинку">
+        <input class="popup__field popup__field_info_card-name" type="text" name="place-title" placeholder="Название">
+        <input class="popup__field popup__field_info_card-img" type="text" name="image-url" placeholder="Ссылка на картинку">
         <button type="submit" class="popup__submit-button">Создать</button>
       </form>
     </div>
@@ -62,7 +62,6 @@
       <button class="place__delete-button"></button>
     </div>
   </template>
-  <template class="popup__place-template">
     <section class="popup popup_type_place">
       <div class="popup__overlay popup__overlay_column">
         <div class="popup__container">
@@ -72,7 +71,6 @@
         </div>
       </div>
     </section>
-  </template>
-  <script src="./script.js"></script>
+  <script src="./scripts/script.js"></script>
 </body>
 </html>
