@@ -1,0 +1,13 @@
+.popup__field-error{
+  color:#F00;
+  font-family: 'Inter', Arial, sans-serif;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 15px;
+  opacity: 0;
+  display: none;
+  transition: linear opacity 0.3s;
+  margin: 5px 36px 13px;
+  max-width: 360px;
+}

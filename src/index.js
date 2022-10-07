@@ -1,3 +1,5 @@
+import './pages/index.css';
+
 const buttonEdit = document.querySelector('.profile__edit-button');
 const popEdit = document.querySelector('.popup_type_edit-profile');
 const popAdd = document.querySelector('.popup_type_add-place');
@@ -16,6 +18,7 @@ const cardPopupImg = cardPopup.querySelector('.popup__img');
 const closeButtons = document.querySelectorAll('.popup__close-button');
 const placesContainer = document.querySelector('.places');
 const placeTemplate = document.querySelector('.place-template').content;
+const popups = document.querySelectorAll('.popup__overlay');
 
 const hasInvalidInput = (inputList) => {
   return inputList.some((inputEl) => {
@@ -42,11 +45,9 @@ const checkInputValidity = (inputEl) => {
   if(inputEl.validity.patternMismatch){
     inputEl.setCustomValidity(inputEl.dataset.errorMessage);
   } else{
-    console.log('SOOOSIIII');
     inputEl.setCustomValidity('');
   }
   if(!inputEl.validity.valid){
-    console.log(inputEl.validationMessage);
     showFieldError(inputEl, inputEl.validationMessage);
   } else{
     hideFieldError(inputEl);
@@ -65,7 +66,6 @@ const toggleButtonState = (inputList, buttonEl) => {
 
 const setEventListeners = (inputList, buttonEl) => {
   inputList.forEach((inputEl) => {
-    console.log(inputEl);
     inputEl.addEventListener('input', function () {
       checkInputValidity(inputEl);
       toggleButtonState(inputList, buttonEl);
@@ -77,7 +77,6 @@ function enableValidation({formSelector, inputSelector, submitButtonSelector, in
   const formList = document.querySelectorAll(`${formSelector}`);
   formList.forEach((formEl) => {
     const inputList = Array.from(formEl.querySelectorAll(`${inputSelector}`));
-    console.log(inputList);
     const submitButton = formEl.querySelector(`${submitButtonSelector}`);
     setEventListeners(inputList, submitButton);
     toggleButtonState(inputList, submitButton);
@@ -192,3 +191,17 @@ function handleformSubmitCardAdd(evt){
 }
 addForm.addEventListener('submit', handleformSubmitCardAdd);
 
+function keyHandler(evt){
+  if(evt.key === 'Escape'){
+    closePopup(document.querySelector('.popup_opened'));
+  }
+}
+
+function setExitPopupListeners(popup){
+  popup.addEventListener('click', (evt) => closePopup(evt.target.closest('.popup')));
+  document.addEventListener('keydown', keyHandler);
+}
+
+popups.forEach((popup) => {
+  setExitPopupListeners(popup);
+})

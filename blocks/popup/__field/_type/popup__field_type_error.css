@@ -1,0 +1,10 @@
+.popup__field_type_error{
+  margin: 0 36px 0;
+  border-bottom: 1px solid #F00;
+}
+
+@media screen and (max-width:770px) {
+  .popup__field_type_error{
+    margin: 0 22px 0;
+  }
+}
