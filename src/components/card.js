@@ -38,8 +38,6 @@ function createCard(title, img, template, subtitle, cardImg, cardPopup){  //temp
 
   placeImg.addEventListener('click', function(evt){
     const cardRef = evt.target.closest('.place');
-    console.log(cardRef);
-    console.log(subtitle);
     subtitle.textContent = cardRef.querySelector('.place__title').textContent;
     cardImg.src = cardRef.querySelector('.place__image').src;
     cardImg.alt = cardRef.querySelector('.place__image').alt;
