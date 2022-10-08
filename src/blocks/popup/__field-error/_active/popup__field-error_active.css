@@ -1,0 +1,5 @@
+.popup__field-error_active{
+  opacity: 1;
+  transition: linear opacity 0.3s;
+  display: block;
+}
