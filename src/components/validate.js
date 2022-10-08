@@ -60,4 +60,4 @@ function enableValidation({formSelector, inputSelector, submitButtonSelector, in
   })
 }
 
-export {enableValidation};
+export {enableValidation, toggleButtonState};

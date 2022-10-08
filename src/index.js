@@ -1,6 +1,6 @@
 import './pages/index.css';
 
-import { enableValidation } from './components/validate';
+import { enableValidation, toggleButtonState } from './components/validate';
 import { addCards, initialCards } from './components/card';
 import { handleProfileFormSubmit, handleformSubmitCardAdd, openPopup, closePopup } from './components/util';
 import { setExitPopupListeners } from './components/modal';
@@ -49,7 +49,12 @@ buttonEdit.addEventListener('click', () => {
   formDescription.value = profileDescription.textContent;
   formName.value = profileName.textContent;
 });
-buttonAdd.addEventListener('click', () => {openPopup(popAdd)});
+buttonAdd.addEventListener('click', () => {
+  openPopup(popAdd);
+  const inputList = Array.from(popAdd.querySelectorAll('.popup__field'));
+  const submitButton = popAdd.querySelector('.popup__submit-button');
+  toggleButtonState(inputList, submitButton, 'popup__submit-button_disabled');
+});
 
 addCards(initialCards, placeTemplate, cardPopupName, cardPopupImg, cardPopup);
 

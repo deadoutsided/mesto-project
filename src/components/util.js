@@ -1,6 +1,6 @@
 import { createCard } from './card'
 
-function keyHandler(evt){
+function handleEscClose(evt){
   if(evt.key === 'Escape'){
     closePopup(document.querySelector('.popup_opened'));
   }
@@ -8,12 +8,12 @@ function keyHandler(evt){
 
 function openPopup(popup){
   popup.classList.add('popup_opened');
-  document.addEventListener('keydown', keyHandler);
+  document.addEventListener('keydown', handleEscClose);
 }
 
 function closePopup(popup){
   popup.classList.remove('popup_opened');
-  document.removeEventListener('keydown', keyHandler)
+  document.removeEventListener('keydown', handleEscClose)
 }
 
 function handleformSubmitCardAdd(evt, container, name, url, template, popup, subtitle, cardImg, cardPopup){
