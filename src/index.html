@@ -4,16 +4,15 @@
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="./pages/index.css">
   <title>Mesto</title>
 </head>
 <body class="page">
 <header class="header">
-  <img class="header__logo" src="./images/logo.svg" alt="Лого сайта">
+  <img class="header__logo" src="<%=require('./images/logo.svg')%>" alt="Лого сайта">
 </header>
 <main>
   <section class="profile">
-    <img class="profile__img" src="./images/avatar.jpg" alt="Фото профиля">
+    <img class="profile__img" src="<%=require('./images/avatar.jpg')%>" alt="Фото профиля">
     <div class="profile__profile-info">
       <div>
         <h1 class="profile__title">Жак-Ив Кусто</h1>
@@ -35,8 +34,10 @@
       <button type="button" class="popup__close-button"></button>
       <form name="edit-profile-form" class="popup__form popup__form_content_edit-profile">
         <h3 class="popup__title">Редактировать профиль</h3>
-        <input class="popup__field popup__field_info_name" type="text" name="name">
-        <input class="popup__field popup__field_info_desc" type="text" name="nickname">
+        <input class="popup__field popup__field_info_name" id="name-field" type="text" name="name" required minlength="2" maxlength="40" novalidate pattern="[a-zа-яёA-ZА-ЯЁ\s\-]+" data-error-message="Разрешены только латинские, кириллические буквы, знаки дефиса и пробелы">
+        <span class="popup__field-error name-field-error"></span>
+        <input class="popup__field popup__field_info_desc" id="desc-field" type="text" name="nickname" required minlength="2" maxlength="200" novalidate pattern="[a-zа-яёA-ZА-ЯЁ\s\-]+" data-error-message="Разрешены только латинские, кириллические буквы, знаки дефиса и пробелы">
+        <span class="popup__field-error desc-field-error"></span>
         <button type="submit" class="popup__submit-button">Сохранить</button>
       </form>
     </div>
@@ -46,8 +47,10 @@
       <button type="button" class="popup__close-button"></button>
       <form name="add-place-form" class="popup__form">
         <h3 class="popup__title">Новое место</h3>
-        <input class="popup__field popup__field_info_card-name" type="text" name="place-title" placeholder="Название">
-        <input class="popup__field popup__field_info_card-img" type="text" name="image-url" placeholder="Ссылка на картинку">
+        <input class="popup__field popup__field_info_card-name" id="card-field" type="text" name="place-title" placeholder="Название" required minlength="2" maxlength="30" pattern="[a-zа-яёA-ZА-ЯЁ\s\-]+" data-error-message="Разрешены только латинские, кириллические буквы, знаки дефиса и пробелы">
+        <span class="popup__field-error card-field-error"></span>
+        <input class="popup__field popup__field_info_card-img" id="img-field" type="url" name="image-url" placeholder="Ссылка на картинку" required>
+        <span class="popup__field-error img-field-error"></span>
         <button type="submit" class="popup__submit-button">Создать</button>
       </form>
     </div>
@@ -71,6 +74,5 @@
         </div>
       </div>
     </section>
-  <script src="./scripts/script.js"></script>
 </body>
 </html>
