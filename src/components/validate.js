@@ -7,7 +7,6 @@ const hasInvalidInput = (inputList) => {
 const showFieldError = (inputElement, inputErrorClass, errorClass, errorMessage) => {
   const errorEl = document.querySelector(`.${inputElement.id}-error`);
   inputElement.classList.add(inputErrorClass);
-  console.log(inputElement.getAttribute('id'));
   errorEl.textContent = errorMessage;
   errorEl.classList.add(errorClass);
 }
