@@ -3,7 +3,7 @@ import './pages/index.css';
 import { enableValidation } from './components/validate';
 import { addCards, initialCards } from './components/card';
 import { handleProfileFormSubmit, handleformSubmitCardAdd, openPopup, closePopup } from './components/util';
-import { setExitPopupListeners } from './components/popup';
+import { setExitPopupListeners } from './components/modal';
 
 const placesContainer = document.querySelector('.places');
 const buttonEdit = document.querySelector('.profile__edit-button');
