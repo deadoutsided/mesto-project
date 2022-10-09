@@ -1,4 +1,5 @@
 import { createCard } from './card'
+import { setUserInfo, getUserInfo, postCard, renderLoading } from './api'
 
 function handleEscClose(evt){
   if(evt.key === 'Escape'){
@@ -16,18 +17,51 @@ function closePopup(popup){
   document.removeEventListener('keydown', handleEscClose)
 }
 
-function handleformSubmitCardAdd(evt, container, name, url, template, popup, subtitle, cardImg, cardPopup){
+function handleformSubmitCardAdd(evt, name, url, popup){
   evt.preventDefault();
-  const placeElement = createCard(name.value, url.value, template, subtitle, cardImg, cardPopup);
-  container.prepend(placeElement);
+  renderLoading(popup, 'Создать', true);
+  postCard(name.value, url.value)
+  .then((res) => {
+    if(res.ok) {
+      return res.json();
+    } else return res.statusText;
+  })
+  .catch((err) => console.log(err))
+  .finally(() => renderLoading(popup, 'Создать', false));
+
   closePopup(popup);
   evt.target.reset();
 }
 
 function handleProfileFormSubmit(evt, profileName, formName, profileDescription, formDescription, popup){
   evt.preventDefault();
-  profileName.textContent = formName.value;;
-  profileDescription.textContent = formDescription.value;
+  renderLoading(popup, 'Сохранить', true);
+  setUserInfo(formName.value, formDescription.value)
+  .then((res) => {
+    if(res.ok){
+      return res.json();
+    } else return res.statusText;
+  })
+  .catch((err) => {
+    console.log(err);
+  });
+  getUserInfo(profileName, profileDescription)
+  .then((res) => {
+    if(res.ok){
+      return res.json();
+    } else return res.statusText;
+  })
+  .then((data) => {
+    profileName.textContent = data.name;
+    profileDescription.textContent = data.about;
+    if(profileImg === undefined){
+      return data
+    }else{
+      profileImg.src = data.avatar;
+    }
+  })
+  .catch((err) => console.log(err))
+  .finally(() => renderLoading(popup, 'Сохранить', false));
 
   closePopup(popup);
 }
