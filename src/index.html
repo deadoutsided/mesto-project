@@ -12,7 +12,10 @@
 </header>
 <main>
   <section class="profile">
-    <img class="profile__img" src="<%=require('./images/avatar.jpg')%>" alt="Фото профиля">
+    <button class="profile__avatar-button">
+      <img class="profile__img" src="<%=require('./images/avatar.jpg')%>" alt="Фото профиля">
+      <img class ="profile__pen-picture" src="<%=require('./images/pen.svg')%>">
+    </button>
     <div class="profile__profile-info">
       <div>
         <h1 class="profile__title">Жак-Ив Кусто</h1>
@@ -60,7 +63,10 @@
       <img class="place__image">
       <div class="place__description">
         <h2 class="place__title"></h2>
-        <button type="button" class="place__like-button"></button>
+        <div class="place__likes-cont">
+          <button type="button" class="place__like-button"></button>
+          <p class="place__like-count"></p>
+        </div>
       </div>
       <button class="place__delete-button"></button>
     </div>
@@ -68,10 +74,21 @@
     <section class="popup popup_type_place">
       <div class="popup__overlay popup__overlay_column">
         <div class="popup__container">
-          <button type="button" class="popup__close-button popup__close-button_card"></button>
+          <button type="button" class="popup__close-button popup__close-button_place_card"></button>
           <img class="popup__img">
           <p class="popup__subtitle"></p>
         </div>
+      </div>
+    </section>
+    <section class="popup popup_type_avatar">
+      <div class="popup__overlay">
+        <button type="button" class="popup__close-button popup__close-button_place_avatar-form"></button>
+        <form name="avatar-form" class="popup__form popup__form_content_avatar">
+          <h3 class="popup__title">Обновить аватар</h3>
+          <input class="popup__field popup__field_info_avatar" id="avatar-field" type="url" name="avatar-url" placeholder="Ссылка на картинку" required>
+          <span class="popup__field-error avatar-field-error"></span>
+          <button type="submit" class="popup__submit-button">Сохранить</button>
+        </form>
       </div>
     </section>
 </body>

@@ -1,0 +1,20 @@
+.profile__avatar-button{
+  border: none;
+  background-color: transparent;
+  display: flex;
+}
+
+.profile__avatar-button:hover > .profile__img{
+  opacity: 0.2;
+  transition: opacity 0.3s linear;
+}
+
+.profile__avatar-button:hover > .profile__pen-picture{
+  opacity: 1;
+}
+
+@media screen and (max-width: 770px) {
+  .profile__avatar-button{
+    flex-direction: column;
+  }
+}
