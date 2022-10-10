@@ -1,4 +1,4 @@
-.popup__close-button_card{
+.popup__close-button_place_card{
   position: relative;
   align-self: flex-end;
   top: -8px;
@@ -6,7 +6,7 @@
 }
 
 @media screen and (max-width: 770px) {
-  .popup__close-button_card{
+  .popup__close-button_place_card{
     top: -16;
     right: 0;
   }
