@@ -2,9 +2,9 @@ import './pages/index.css';
 
 import { enableValidation, toggleButtonState } from './components/validate';
 import { addCards} from './components/card';
-import { handleProfileFormSubmit, handleformSubmitCardAdd, openPopup, closePopup } from './components/util';
-import { setExitPopupListeners } from './components/modal';
-import { getCards, getUserInfo, setUserInfo, postCard, updateAvatar, renderLoading } from './components/api';
+import { openPopup, closePopup, renderLoading } from './components/util';
+import { setExitPopupListeners, handleProfileFormSubmit, handleformSubmitCardAdd } from './components/modal';
+import { getCards, getUserInfo, setUserInfo, postCard, updateAvatar } from './components/api';
 
 const placesContainer = document.querySelector('.places');
 const buttonEdit = document.querySelector('.profile__edit-button');
@@ -29,43 +29,38 @@ const closeButtons = document.querySelectorAll('.popup__close-button');
 const placeTemplate = document.querySelector('.place-template').content;
 const popups = document.querySelectorAll('.popup__overlay');
 const avatarFormImg = popAvatar.querySelector('.popup__field_info_avatar');
+let profileInfo;
 
-getUserInfo()
-.then((res) => {
-  if(res.ok){
-    return res.json();
-  } else return res.statusText;
+Promise.all([getUserInfo(), getCards()])
+.then(async([userData, cardsData]) => {
+  const user = await userData.json();
+  const cards = await cardsData.json();
+  console.log(userData);
+  console.log(cardsData);
+  return [user, cards];
 })
-.then((data) => {
-  profileName.textContent = data.name;
-  profileDescription.textContent = data.about;
-  profileImg.src = data.avatar;
+.then(([userData, cards]) => {
+  profileName.textContent = userData.name;
+  profileDescription.textContent = userData.about;
+  profileImg.src = userData.avatar;
+  profileInfo = userData;
+  addCards(placesContainer, cards, placeTemplate, cardPopupName, cardPopupImg, cardPopup, profileInfo);
 })
-.catch((err) => console.log(err));
+.catch((err) => {
+  console.log(err);
+});
 
-getCards()
-.then((res) => {
-  if(res.ok){
-    return res.json();
-  } else return res.statusText;
-})
-.then((data) => {
-  addCards(data, placeTemplate, cardPopupName, cardPopupImg, cardPopup, '85c1c9fc702d2028167579d4');
-})
-.catch((err) => console.log(err));
 popAvatar.addEventListener('submit', (evt) =>{
   evt.preventDefault();
   renderLoading(popAvatar, 'Сохранить', true);
   updateAvatar(avatarFormImg.value)
-  .then((res) => {
-    if(res.ok){
-      return res.json();
-    } else return res.statusText;
-    })
   .then((data) => { profileImg.src = data.avatar })
   .catch((err) => console.log(err))
-  .finally(() => renderLoading(popAvatar, 'Сохранить', false));
-  closePopup(popAvatar);
+  .finally(() => {
+    closePopup(popAvatar);
+    renderLoading(popAvatar, 'Сохранить', false);
+    evt.target.reset();
+  });
 });
 
 enableValidation({
@@ -105,7 +100,7 @@ buttonAvatar.addEventListener('click', () => {
   toggleButtonState(inputList, submitButton, 'popup__submit-button_disabled');
 })
 
-addForm.addEventListener('submit', (evt) => handleformSubmitCardAdd(evt, cardName, cardUrl, popAdd));
+addForm.addEventListener('submit', (evt) => handleformSubmitCardAdd(evt, cardName, cardUrl, placeTemplate, cardPopupName, cardPopupImg, cardPopup, profileInfo, popAdd, placesContainer));
 
 popups.forEach((popup) => {
   setExitPopupListeners(popup);
