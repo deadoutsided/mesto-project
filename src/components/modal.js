@@ -16,12 +16,12 @@ function handleformSubmitCardAdd(evt, name, url, template, subtitle, cardImg, ca
   postCard(name.value, url.value)
   .then((data) => {
     addCards(container, data, template, subtitle, cardImg, cardPopup, profileInfo);
+    closePopup(popup);
+    evt.target.reset();
   })
   .catch((err) => console.log(err))
   .finally(() => {
-    closePopup(popup);
     renderLoading(popup, 'Создать', false);
-    evt.target.reset();
   });
 }
 
@@ -29,18 +29,15 @@ function handleProfileFormSubmit(evt, profileName, formName, profileDescription,
   evt.preventDefault();
   renderLoading(popup, 'Сохранить', true);
   setUserInfo(formName.value, formDescription.value)
-  .catch((err) => {
-    console.log(err);
-  });
-  getUserInfo(profileName, profileDescription)
-  .then(checkResp)
   .then((data) => {
     profileName.textContent = data.name;
     profileDescription.textContent = data.about;
-  })
-  .catch((err) => console.log(err))
-  .finally(() => {
     closePopup(popup);
+  })
+  .catch((err) => {
+    console.log(err);
+  })
+  .finally(() => {
     renderLoading(popup, 'Сохранить', false);
   });
 }

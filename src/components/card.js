@@ -1,27 +1,36 @@
 import { openPopup } from "./util";
 import { deleteCard, deleteLikeCard, likeCard } from "./api";
 
-function createCard(title, img, template, subtitle, cardImg, cardPopup, likesCount, cardId){
+function createCard(cardInfo, template, subtitle, cardImg, cardPopup, likesCount, cardId, profileInfo){
   const placeElement = template.querySelector('.place').cloneNode(true);
   const placeImg = placeElement.querySelector('.place__image');
   const placeTitle = placeElement.querySelector('.place__title');
   const likeCounter = placeElement.querySelector('.place__like-count');
-  placeImg.src = img;
-  placeTitle.textContent = title;
+  const likeButtonNode = placeElement.querySelector('.place__like-button');
+  placeImg.src = cardInfo.link;
+  placeTitle.textContent = cardInfo.name;
   likeCounter.textContent = likesCount;
-  placeImg.setAttribute('alt', title);
+  placeImg.setAttribute('alt', cardInfo.name);
   const deleteButton = placeElement.querySelector('.place__delete-button');
 
+  const likesCheck = cardInfo.likes.some((liker) => {
+    return liker._id === profileInfo._id;
+  });
+  if(profileInfo._id !== cardInfo.owner._id){
+    placeElement.querySelector('.place__delete-button').remove();
+  };
+  if(likesCheck){
+    likeButtonNode.classList.add('place__like-button_active');
+  }
+
   placeImg.addEventListener('click', function(evt){
-    const cardRef = evt.target.closest('.place');
-    subtitle.textContent = cardRef.querySelector('.place__title').textContent;
-    cardImg.src = cardRef.querySelector('.place__image').src;
-    cardImg.alt = cardRef.querySelector('.place__image').alt;
+    subtitle.textContent = cardInfo.name;
+    cardImg.src = cardInfo.link;
+    cardImg.alt = cardInfo.name;
     openPopup(cardPopup);
   })
-  placeElement.querySelector('.place__like-button').addEventListener('click', function(evt){
+  likeButtonNode.addEventListener('click', function(evt){
     const likeButton = evt.target;
-    const likeCounter = likeButton.closest('.place__likes-cont').querySelector('.place__like-count');
     if(likeButton.classList.contains('place__like-button_active')){
       deleteLikeCard(cardId)
       .then((data) => {
@@ -57,24 +66,11 @@ function createCard(title, img, template, subtitle, cardImg, cardPopup, likesCou
 function addCards(container, cardsInfo, template, subtitle, cardImg, cardPopup, profileInfo){
   if(Array.isArray(cardsInfo)){
     for(let i = 0; i < cardsInfo.length; i++){
-      const placeElement = createCard(cardsInfo[i].name, cardsInfo[i].link, template, subtitle, cardImg, cardPopup, cardsInfo[i].likes.length, cardsInfo[i]._id);
-      const likesCheck = cardsInfo[i].likes.some((liker) => {
-        return liker._id === profileInfo._id;
-      });
-      console.log(likesCheck)
-      if(profileInfo._id !== cardsInfo[i].owner._id){
-        placeElement.querySelector('.place__delete-button').remove();
-      };
-      if(likesCheck){
-        placeElement.querySelector('.place__like-button').classList.add('place__like-button_active');
-      }
+      const placeElement = createCard(cardsInfo[i], template, subtitle, cardImg, cardPopup, cardsInfo[i].likes.length, cardsInfo[i]._id, profileInfo);
       container.append(placeElement);
     }
     } else {
-      const placeElement = createCard(cardsInfo.name, cardsInfo.link, template, subtitle, cardImg, cardPopup, cardsInfo.likes.length, cardsInfo._id);
-      if(profileInfo._id !== cardsInfo.owner._id){
-        placeElement.querySelector('.place__delete-button').remove();
-      }
+      const placeElement = createCard(cardsInfo, template, subtitle, cardImg, cardPopup, cardsInfo.likes.length, cardsInfo._id, profileInfo);
       container.prepend(placeElement);
     }
 }

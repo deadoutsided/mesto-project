@@ -1,6 +1,6 @@
 import './pages/index.css';
 
-import { enableValidation, toggleButtonState } from './components/validate';
+import { enableValidation, disableButton, toggleButtonState } from './components/validate';
 import { addCards} from './components/card';
 import { openPopup, closePopup, renderLoading } from './components/util';
 import { setExitPopupListeners, handleProfileFormSubmit, handleformSubmitCardAdd } from './components/modal';
@@ -32,13 +32,6 @@ const avatarFormImg = popAvatar.querySelector('.popup__field_info_avatar');
 let profileInfo;
 
 Promise.all([getUserInfo(), getCards()])
-.then(async([userData, cardsData]) => {
-  const user = await userData.json();
-  const cards = await cardsData.json();
-  console.log(userData);
-  console.log(cardsData);
-  return [user, cards];
-})
 .then(([userData, cards]) => {
   profileName.textContent = userData.name;
   profileDescription.textContent = userData.about;
@@ -89,15 +82,11 @@ buttonEdit.addEventListener('click', () => {
 });
 buttonAdd.addEventListener('click', () => {
   openPopup(popAdd);
-  const inputList = Array.from(popAdd.querySelectorAll('.popup__field'));
-  const submitButton = popAdd.querySelector('.popup__submit-button');
-  toggleButtonState(inputList, submitButton, 'popup__submit-button_disabled');
+  disableButton(popAdd);
 });
 buttonAvatar.addEventListener('click', () => {
   openPopup(popAvatar);
-  const inputList = Array.from(popAvatar.querySelectorAll('.popup__field'));
-  const submitButton = popAvatar.querySelector('.popup__submit-button');
-  toggleButtonState(inputList, submitButton, 'popup__submit-button_disabled');
+  disableButton(popAvatar);
 })
 
 addForm.addEventListener('submit', (evt) => handleformSubmitCardAdd(evt, cardName, cardUrl, placeTemplate, cardPopupName, cardPopupImg, cardPopup, profileInfo, popAdd, placesContainer));
