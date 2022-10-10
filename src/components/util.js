@@ -1,5 +1,4 @@
-import { addCards, createCard } from './card'
-import { setUserInfo, getUserInfo, postCard } from './api'
+
 
 function checkResp(res) {
   if(res.ok){

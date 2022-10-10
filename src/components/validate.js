@@ -41,6 +41,12 @@ const toggleButtonState = (inputList, buttonEl, inactiveButtonClass) => {
   }
 }
 
+const disableButton = (popup) => {
+  const inputList = Array.from(popup.querySelectorAll('.popup__field'));
+  const submitButton = popup.querySelector('.popup__submit-button');
+  toggleButtonState(inputList, submitButton, 'popup__submit-button_disabled');
+}
+
 const setEventListeners = (inputList, buttonEl, inputErrorClass, errorClass, inactiveButtonClass) => {
   inputList.forEach((inputEl) => {
     inputEl.addEventListener('input', function () {
@@ -60,4 +66,4 @@ function enableValidation({formSelector, inputSelector, submitButtonSelector, in
   })
 }
 
-export {enableValidation, toggleButtonState};
+export {enableValidation, disableButton, toggleButtonState};

@@ -13,6 +13,7 @@ const getUserInfo = () => {
     method: 'GET',
     headers: config.headers
   })
+  .then(checkResp)
 };
 
 const setUserInfo = (name, about) => {
@@ -32,6 +33,7 @@ const getCards = () => {
     method: 'GET',
     headers: config.headers
   })
+  .then(checkResp)
 };
 
 const postCard = (cardName, cardImg) => {
