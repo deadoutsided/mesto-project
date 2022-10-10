@@ -24,57 +24,59 @@ function createCard(title, img, template, subtitle, cardImg, cardPopup, likesCou
     const likeCounter = likeButton.closest('.place__likes-cont').querySelector('.place__like-count');
     if(likeButton.classList.contains('place__like-button_active')){
       deleteLikeCard(cardId)
-      .then((res) => {
-        if(res.ok){
-          return res.json();
-        } else return res.statusText;
-      })
       .then((data) => {
         likeCounter.textContent = data.likes.length;
+        likeButton.classList.toggle('place__like-button_active');
       })
       .catch((err) => console.log(err));
     } else {
       likeCard(cardId)
-      .then((res) => {
-        if(res.ok){
-          return res.json();
-        } else return res.statusText;
-        })
       .then((data) => {
         likeCounter.textContent = data.likes.length;
+        likeButton.classList.toggle('place__like-button_active');
       })
       .catch((err) => {
         console.log(err);
       });
     }
-    likeButton.classList.toggle('place__like-button_active');
   })
   deleteButton.addEventListener('click', function(){
     const placeItem = deleteButton.closest('.place');
     deleteCard(cardId)
-    .then((res) =>{
-      if(res.ok){
-        return res.json();
-      } else return res.statusText;
+    .then(() => {
+      placeItem.remove();
     })
     .catch((err) => {
       console.log(err);
     });
-    placeItem.remove();
   })
 
   return placeElement;
 };
 
-function addCards(cardsInfo, template, subtitle, cardImg, cardPopup, id){
-  const container = document.querySelector('.places');
-  for(let i = 0; i < cardsInfo.length; i++){
-    const placeElement = createCard(cardsInfo[i].name, cardsInfo[i].link, template, subtitle, cardImg, cardPopup, cardsInfo[i].likes.length, cardsInfo[i]._id);
-    if(id !== cardsInfo[i].owner._id){
-      placeElement.querySelector('.place__delete-button').remove();
+function addCards(container, cardsInfo, template, subtitle, cardImg, cardPopup, profileInfo){
+  if(Array.isArray(cardsInfo)){
+    for(let i = 0; i < cardsInfo.length; i++){
+      const placeElement = createCard(cardsInfo[i].name, cardsInfo[i].link, template, subtitle, cardImg, cardPopup, cardsInfo[i].likes.length, cardsInfo[i]._id);
+      const likesCheck = cardsInfo[i].likes.some((liker) => {
+        return liker._id === profileInfo._id;
+      });
+      console.log(likesCheck)
+      if(profileInfo._id !== cardsInfo[i].owner._id){
+        placeElement.querySelector('.place__delete-button').remove();
+      };
+      if(likesCheck){
+        placeElement.querySelector('.place__like-button').classList.add('place__like-button_active');
+      }
+      container.append(placeElement);
     }
-    container.append(placeElement);
-}
+    } else {
+      const placeElement = createCard(cardsInfo.name, cardsInfo.link, template, subtitle, cardImg, cardPopup, cardsInfo.likes.length, cardsInfo._id);
+      if(profileInfo._id !== cardsInfo.owner._id){
+        placeElement.querySelector('.place__delete-button').remove();
+      }
+      container.prepend(placeElement);
+    }
 }
 
 export { addCards, createCard }
