@@ -1,5 +1,11 @@
-import { createCard } from './card'
-import { setUserInfo, getUserInfo, postCard, renderLoading } from './api'
+import { addCards, createCard } from './card'
+import { setUserInfo, getUserInfo, postCard } from './api'
+
+function checkResp(res) {
+  if(res.ok){
+    return res.json();
+  } else return Promise.reject(`Произошла ошибка ${res.status}`);
+}
 
 function handleEscClose(evt){
   if(evt.key === 'Escape'){
@@ -17,19 +23,26 @@ function closePopup(popup){
   document.removeEventListener('keydown', handleEscClose)
 }
 
-function handleformSubmitCardAdd(evt, name, url, popup){
+function renderLoading(form, baseText, status){
+  const button = form.querySelector('.popup__submit-button');
+  if (status === true){
+    button.textContent = 'Сохранение...';
+  } else {
+    button.textContent = baseText;
+  }
+}
+
+/*function handleformSubmitCardAdd(evt, name, url, template, subtitle, cardImg, cardPopup, profileInfo, popup, container){
   evt.preventDefault();
   renderLoading(popup, 'Создать', true);
   postCard(name.value, url.value)
-  .then((res) => {
-    if(res.ok) {
-      return res.json();
-    } else return res.statusText;
+  .then((data) => {
+    addCards(container, data, template, subtitle, cardImg, cardPopup, profileInfo);
   })
   .catch((err) => console.log(err))
-  .finally(() => renderLoading(popup, 'Создать', false));
-
-  closePopup(popup);
+  .finally(() => {
+    closePopup(popup);
+    renderLoading(popup, 'Создать', false)});
   evt.target.reset();
 }
 
@@ -37,33 +50,19 @@ function handleProfileFormSubmit(evt, profileName, formName, profileDescription,
   evt.preventDefault();
   renderLoading(popup, 'Сохранить', true);
   setUserInfo(formName.value, formDescription.value)
-  .then((res) => {
-    if(res.ok){
-      return res.json();
-    } else return res.statusText;
-  })
   .catch((err) => {
     console.log(err);
   });
   getUserInfo(profileName, profileDescription)
-  .then((res) => {
-    if(res.ok){
-      return res.json();
-    } else return res.statusText;
-  })
+  .then(checkResp)
   .then((data) => {
     profileName.textContent = data.name;
     profileDescription.textContent = data.about;
-    if(profileImg === undefined){
-      return data
-    }else{
-      profileImg.src = data.avatar;
-    }
   })
   .catch((err) => console.log(err))
   .finally(() => renderLoading(popup, 'Сохранить', false));
 
   closePopup(popup);
-}
+}*/
 
-export {handleProfileFormSubmit, handleformSubmitCardAdd, openPopup, closePopup}
+export { renderLoading, openPopup, closePopup, checkResp}

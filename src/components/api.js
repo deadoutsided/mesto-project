@@ -1,3 +1,5 @@
+import { checkResp } from './util.js'
+
 const config = {
   baseUrl: 'https://nomoreparties.co/v1/plus-cohort-15',
   headers: {
@@ -22,6 +24,7 @@ const setUserInfo = (name, about) => {
       about: `${about}`
     })
   })
+  .then(checkResp)
 }
 
 const getCards = () => {
@@ -40,13 +43,15 @@ const postCard = (cardName, cardImg) => {
       link: cardImg
     })
   })
+  .then(checkResp)
 };
 
 const deleteCard = (cardId) => {
   return fetch(`${config.baseUrl}/cards/${cardId}`, {
     method: 'DELETE',
     headers: config.headers
-  });
+  })
+  .then(checkResp)
 }
 
 const likeCard = (cardId) => {
@@ -54,6 +59,7 @@ const likeCard = (cardId) => {
     method: 'PUT',
     headers: config.headers
   })
+  .then(checkResp)
 };
 
 const deleteLikeCard = (cardId) => {
@@ -61,6 +67,7 @@ const deleteLikeCard = (cardId) => {
     method: 'DELETE',
     headers: config.headers
   })
+  .then(checkResp)
 };
 
 const updateAvatar = (newImg) => {
@@ -71,15 +78,7 @@ const updateAvatar = (newImg) => {
       avatar: newImg
     })
   })
+  .then(checkResp)
 }
 
-function renderLoading(form, baseText, status){
-  const button = form.querySelector('.popup__submit-button');
-  if (status === true){
-    button.textContent = 'Сохранение...';
-  } else {
-    button.textContent = baseText;
-  }
-}
-
-export { config, getUserInfo, setUserInfo, getCards, postCard, deleteCard, likeCard, deleteLikeCard, updateAvatar, renderLoading }
+export { config, getUserInfo, setUserInfo, getCards, postCard, deleteCard, likeCard, deleteLikeCard, updateAvatar, checkResp }
