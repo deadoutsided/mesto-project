@@ -1,4 +1,4 @@
-
+import { toggleButtonState } from './validate'
 
 function checkResp(res) {
   if(res.ok){
@@ -31,37 +31,11 @@ function renderLoading(form, baseText, status){
   }
 }
 
-/*function handleformSubmitCardAdd(evt, name, url, template, subtitle, cardImg, cardPopup, profileInfo, popup, container){
-  evt.preventDefault();
-  renderLoading(popup, 'Создать', true);
-  postCard(name.value, url.value)
-  .then((data) => {
-    addCards(container, data, template, subtitle, cardImg, cardPopup, profileInfo);
-  })
-  .catch((err) => console.log(err))
-  .finally(() => {
-    closePopup(popup);
-    renderLoading(popup, 'Создать', false)});
-  evt.target.reset();
+const disableButton = (popup) => {
+  const inputList = Array.from(popup.querySelectorAll('.popup__field'));
+  const submitButton = popup.querySelector('.popup__submit-button');
+  toggleButtonState(inputList, submitButton, 'popup__submit-button_disabled');
 }
 
-function handleProfileFormSubmit(evt, profileName, formName, profileDescription, formDescription, popup){
-  evt.preventDefault();
-  renderLoading(popup, 'Сохранить', true);
-  setUserInfo(formName.value, formDescription.value)
-  .catch((err) => {
-    console.log(err);
-  });
-  getUserInfo(profileName, profileDescription)
-  .then(checkResp)
-  .then((data) => {
-    profileName.textContent = data.name;
-    profileDescription.textContent = data.about;
-  })
-  .catch((err) => console.log(err))
-  .finally(() => renderLoading(popup, 'Сохранить', false));
 
-  closePopup(popup);
-}*/
-
-export { renderLoading, openPopup, closePopup, checkResp}
+export { renderLoading, openPopup, closePopup, checkResp, disableButton}
