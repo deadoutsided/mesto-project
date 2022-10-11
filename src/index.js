@@ -1,10 +1,10 @@
 import './pages/index.css';
 
-import { enableValidation, disableButton, toggleButtonState } from './components/validate';
+import { enableValidation } from './components/validate';
 import { addCards} from './components/card';
-import { openPopup, closePopup, renderLoading } from './components/util';
+import { openPopup, closePopup, disableButton, renderLoading } from './components/util';
 import { setExitPopupListeners, handleProfileFormSubmit, handleformSubmitCardAdd } from './components/modal';
-import { getCards, getUserInfo, setUserInfo, postCard, updateAvatar } from './components/api';
+import { getCards, getUserInfo, updateAvatar } from './components/api';
 
 const placesContainer = document.querySelector('.places');
 const buttonEdit = document.querySelector('.profile__edit-button');
@@ -47,12 +47,14 @@ popAvatar.addEventListener('submit', (evt) =>{
   evt.preventDefault();
   renderLoading(popAvatar, 'Сохранить', true);
   updateAvatar(avatarFormImg.value)
-  .then((data) => { profileImg.src = data.avatar })
+  .then((data) => {
+  profileImg.src = data.avatar;
+  closePopup(popAvatar);
+  evt.target.reset();
+  })
   .catch((err) => console.log(err))
   .finally(() => {
-    closePopup(popAvatar);
     renderLoading(popAvatar, 'Сохранить', false);
-    evt.target.reset();
   });
 });
 
@@ -69,9 +71,6 @@ closeButtons.forEach((button) => {
   const popup = button.closest('.popup');
   button.addEventListener('click', () => closePopup(popup));
 })
-
-formDescription.value = profileDescription.textContent;
-formName.value = profileName.textContent;
 
 editForm.addEventListener('submit', (evt) => handleProfileFormSubmit(evt, profileName, formName, profileDescription, formDescription, popEdit));
 
@@ -91,7 +90,5 @@ buttonAvatar.addEventListener('click', () => {
 
 addForm.addEventListener('submit', (evt) => handleformSubmitCardAdd(evt, cardName, cardUrl, placeTemplate, cardPopupName, cardPopupImg, cardPopup, profileInfo, popAdd, placesContainer));
 
-popups.forEach((popup) => {
-  setExitPopupListeners(popup);
-})
+popups.forEach(setExitPopupListeners);
 

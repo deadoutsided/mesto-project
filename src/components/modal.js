@@ -1,6 +1,6 @@
-import { closePopup, checkResp, renderLoading } from './util.js'
+import { closePopup, renderLoading } from './util.js'
 import { addCards } from './card'
-import { setUserInfo, getUserInfo, postCard } from './api'
+import { setUserInfo, postCard } from './api'
 
 function setExitPopupListeners(popup){
   popup.addEventListener('click', (evt) => {
