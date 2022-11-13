@@ -1,0 +1,19 @@
+.popup__submit-button_type_confirm-delete {
+
+  min-height: 50px;
+  box-sizing: border-box;
+  border-radius: 2px;
+  padding: 0;
+  margin: 19px 0 0;
+}
+
+
+@media (max-width: 770px) {
+  .popup__submit-button_type_confirm-delete {
+    width: 238px;
+    min-height: 46px;
+    font-size: 14px;
+    line-height: 17px;
+    margin-top: 16px;
+  }
+}

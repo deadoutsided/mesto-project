@@ -1,4 +1,4 @@
-import { openPopup } from '../utils/util';
+import { openPopup, closePopup } from '../utils/util';
 import { deleteCard, deleteLikeCard, likeCard } from './Api';
 
 function createCard(
@@ -21,6 +21,12 @@ function createCard(
   likeCounter.textContent = likesCount;
   placeImg.setAttribute('alt', cardInfo.name);
   const deleteButton = placeElement.querySelector('.place__delete-button');
+  const popupConfirmDelete = document.querySelector(
+    '.popup_type_confirm-delete'
+  );
+  const formConfirmDelete = document.querySelector(
+    '.popup__form_content_confirm-delete'
+  );
 
   const likesCheck = cardInfo.likes.some((liker) => {
     return liker._id === profileInfo._id;
@@ -58,15 +64,25 @@ function createCard(
         });
     }
   });
-  deleteButton.addEventListener('click', function () {
+
+  function handleConfirmDeleteSubmit(evt) {
+    evt.preventDefault();
     const placeItem = deleteButton.closest('.place');
+    //запрос на сервер удаления карточки
     deleteCard(cardId)
-      .then(() => {
-        placeItem.remove();
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    .then(() => {
+      closePopup(popupConfirmDelete);
+      placeItem.remove();
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+  }
+
+  //слушатель кнопки удаления карточки
+  deleteButton.addEventListener('click', function () {
+    openPopup(popupConfirmDelete);
+    formConfirmDelete.addEventListener('submit', handleConfirmDeleteSubmit);
   });
 
   return placeElement;

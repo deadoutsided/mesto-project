@@ -49,3 +49,7 @@
 @import url(../src/blocks/popup/__field-error/popup__field-error.css);
 @import url(../src/blocks/popup/__field-error/_active/popup__field-error_active.css);
 @import url(../src/blocks/popup/__field/_type/popup__field_type_error.css);
+@import url(../src/blocks/popup/__form/_content/popup__form_content_confirm-delete.css);
+@import url(../src/blocks/popup/__title/_type/popup__title_type_confirm-delete.css);
+@import url(../src/blocks/popup/__submit-button/_type/popup__submit-button_type_confirm-delete.css);
+@import url(../src/blocks/popup/__close-button/_place/popup__close-button_place_confirm-delete.css);
