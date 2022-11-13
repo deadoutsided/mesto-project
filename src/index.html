@@ -132,17 +132,20 @@
 
     <section class="popup popup_type_confirm-delete">
       <div class="popup__overlay">
-        <h3 class="popup__title">Вы уверены?</h3>
         <form
           class="popup__form popup__form_content_confirm-delete"
           name="delete-card-form"
           novalidate
         >
-          <button type="submit" class="popup__submit-button" value="Да">
+          <h3 class="popup__title popup__title_type_confirm-delete">Вы уверены?</h3>
+          <button type="submit" class="popup__submit-button popup__submit-button_type_confirm-delete" value="Да">
             Да
           </button>
         </form>
-        <button type="button" class="popup__close-button"></button>
+        <button
+          type="button"
+          class="popup__close-button popup__close-button_place_confirm-delete"
+        ></button>
       </div>
     </section>
 
