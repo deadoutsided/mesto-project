@@ -1,19 +1,18 @@
-import { checkResp } from './util.js'
+import { checkResp } from '../utils/util';
 
 const config = {
   baseUrl: 'https://nomoreparties.co/v1/plus-cohort-15',
   headers: {
     authorization: '6e42217e-2177-4476-b93c-c82e4a9b29ea',
-    'Content-Type': 'application/json'
-  }
-}
+    'Content-Type': 'application/json',
+  },
+};
 
 const getUserInfo = () => {
   return fetch(`${config.baseUrl}/users/me`, {
     method: 'GET',
-    headers: config.headers
-  })
-  .then(checkResp)
+    headers: config.headers,
+  }).then(checkResp);
 };
 
 const setUserInfo = (name, about) => {
@@ -22,18 +21,16 @@ const setUserInfo = (name, about) => {
     headers: config.headers,
     body: JSON.stringify({
       name: `${name}`,
-      about: `${about}`
-    })
-  })
-  .then(checkResp)
-}
+      about: `${about}`,
+    }),
+  }).then(checkResp);
+};
 
 const getCards = () => {
   return fetch(`${config.baseUrl}/cards`, {
     method: 'GET',
-    headers: config.headers
-  })
-  .then(checkResp)
+    headers: config.headers,
+  }).then(checkResp);
 };
 
 const postCard = (cardName, cardImg) => {
@@ -42,34 +39,30 @@ const postCard = (cardName, cardImg) => {
     headers: config.headers,
     body: JSON.stringify({
       name: cardName,
-      link: cardImg
-    })
-  })
-  .then(checkResp)
+      link: cardImg,
+    }),
+  }).then(checkResp);
 };
 
 const deleteCard = (cardId) => {
   return fetch(`${config.baseUrl}/cards/${cardId}`, {
     method: 'DELETE',
-    headers: config.headers
-  })
-  .then(checkResp)
-}
+    headers: config.headers,
+  }).then(checkResp);
+};
 
 const likeCard = (cardId) => {
-  return fetch(`${config.baseUrl}/cards/likes/${cardId}`,{
+  return fetch(`${config.baseUrl}/cards/likes/${cardId}`, {
     method: 'PUT',
-    headers: config.headers
-  })
-  .then(checkResp)
+    headers: config.headers,
+  }).then(checkResp);
 };
 
 const deleteLikeCard = (cardId) => {
   return fetch(`${config.baseUrl}/cards/likes/${cardId}`, {
     method: 'DELETE',
-    headers: config.headers
-  })
-  .then(checkResp)
+    headers: config.headers,
+  }).then(checkResp);
 };
 
 const updateAvatar = (newImg) => {
@@ -77,10 +70,20 @@ const updateAvatar = (newImg) => {
     method: 'PATCH',
     headers: config.headers,
     body: JSON.stringify({
-      avatar: newImg
-    })
-  })
-  .then(checkResp)
-}
+      avatar: newImg,
+    }),
+  }).then(checkResp);
+};
 
-export { config, getUserInfo, setUserInfo, getCards, postCard, deleteCard, likeCard, deleteLikeCard, updateAvatar, checkResp }
+export {
+  config,
+  getUserInfo,
+  setUserInfo,
+  getCards,
+  postCard,
+  deleteCard,
+  likeCard,
+  deleteLikeCard,
+  updateAvatar,
+  checkResp,
+};

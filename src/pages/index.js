@@ -1,10 +1,19 @@
-import './pages/index.css';
+import '../index.css';
 
-import { enableValidation } from './components/validate';
-import { addCards} from './components/card';
-import { openPopup, closePopup, disableButton, renderLoading } from './components/util';
-import { setExitPopupListeners, handleProfileFormSubmit, handleformSubmitCardAdd } from './components/modal';
-import { getCards, getUserInfo, updateAvatar } from './components/api';
+import { enableValidation } from '../components/Validate';
+import { addCards } from '../components/Card';
+import {
+  openPopup,
+  closePopup,
+  disableButton,
+  renderLoading,
+} from '../utils/util';
+import {
+  setExitPopupListeners,
+  handleProfileFormSubmit,
+  handleformSubmitCardAdd,
+} from '../components/Modal';
+import { getCards, getUserInfo, updateAvatar } from '../components/Api';
 
 const placesContainer = document.querySelector('.places');
 const buttonEdit = document.querySelector('.profile__edit-button');
@@ -32,30 +41,38 @@ const avatarFormImg = popAvatar.querySelector('.popup__field_info_avatar');
 let profileInfo;
 
 Promise.all([getUserInfo(), getCards()])
-.then(([userData, cards]) => {
-  profileName.textContent = userData.name;
-  profileDescription.textContent = userData.about;
-  profileImg.src = userData.avatar;
-  profileInfo = userData;
-  addCards(placesContainer, cards, placeTemplate, cardPopupName, cardPopupImg, cardPopup, profileInfo);
-})
-.catch((err) => {
-  console.log(err);
-});
+  .then(([userData, cards]) => {
+    profileName.textContent = userData.name;
+    profileDescription.textContent = userData.about;
+    profileImg.src = userData.avatar;
+    profileInfo = userData;
+    addCards(
+      placesContainer,
+      cards,
+      placeTemplate,
+      cardPopupName,
+      cardPopupImg,
+      cardPopup,
+      profileInfo
+    );
+  })
+  .catch((err) => {
+    console.log(err);
+  });
 
-popAvatar.addEventListener('submit', (evt) =>{
+popAvatar.addEventListener('submit', (evt) => {
   evt.preventDefault();
   renderLoading(popAvatar, 'Сохранить', true);
   updateAvatar(avatarFormImg.value)
-  .then((data) => {
-  profileImg.src = data.avatar;
-  closePopup(popAvatar);
-  evt.target.reset();
-  })
-  .catch((err) => console.log(err))
-  .finally(() => {
-    renderLoading(popAvatar, 'Сохранить', false);
-  });
+    .then((data) => {
+      profileImg.src = data.avatar;
+      closePopup(popAvatar);
+      evt.target.reset();
+    })
+    .catch((err) => console.log(err))
+    .finally(() => {
+      renderLoading(popAvatar, 'Сохранить', false);
+    });
 });
 
 enableValidation({
@@ -64,15 +81,24 @@ enableValidation({
   submitButtonSelector: '.popup__submit-button',
   inactiveButtonClass: 'popup__submit-button_disabled',
   inputErrorClass: 'popup__field_type_error',
-  errorClass: 'popup__field-error_active'
-})
+  errorClass: 'popup__field-error_active',
+});
 
 closeButtons.forEach((button) => {
   const popup = button.closest('.popup');
   button.addEventListener('click', () => closePopup(popup));
-})
+});
 
-editForm.addEventListener('submit', (evt) => handleProfileFormSubmit(evt, profileName, formName, profileDescription, formDescription, popEdit));
+editForm.addEventListener('submit', (evt) =>
+  handleProfileFormSubmit(
+    evt,
+    profileName,
+    formName,
+    profileDescription,
+    formDescription,
+    popEdit
+  )
+);
 
 buttonEdit.addEventListener('click', () => {
   openPopup(popEdit);
@@ -86,9 +112,21 @@ buttonAdd.addEventListener('click', () => {
 buttonAvatar.addEventListener('click', () => {
   openPopup(popAvatar);
   disableButton(popAvatar);
-})
+});
 
-addForm.addEventListener('submit', (evt) => handleformSubmitCardAdd(evt, cardName, cardUrl, placeTemplate, cardPopupName, cardPopupImg, cardPopup, profileInfo, popAdd, placesContainer));
+addForm.addEventListener('submit', (evt) =>
+  handleformSubmitCardAdd(
+    evt,
+    cardName,
+    cardUrl,
+    placeTemplate,
+    cardPopupName,
+    cardPopupImg,
+    cardPopup,
+    profileInfo,
+    popAdd,
+    placesContainer
+  )
+);
 
 popups.forEach(setExitPopupListeners);
-
