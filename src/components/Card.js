@@ -1,5 +1,5 @@
-import { openPopup, closePopup } from '../utils/util';
-import { deleteCard, deleteLikeCard, likeCard } from './Api';
+import { openPopup, closePopup } from "../utils/util";
+import { reqvest } from "./Api";
 
 function createCard(
   cardInfo,
@@ -11,53 +11,55 @@ function createCard(
   cardId,
   profileInfo
 ) {
-  const placeElement = template.querySelector('.place').cloneNode(true);
-  const placeImg = placeElement.querySelector('.place__image');
-  const placeTitle = placeElement.querySelector('.place__title');
-  const likeCounter = placeElement.querySelector('.place__like-count');
-  const likeButtonNode = placeElement.querySelector('.place__like-button');
+  const placeElement = template.querySelector(".place").cloneNode(true);
+  const placeImg = placeElement.querySelector(".place__image");
+  const placeTitle = placeElement.querySelector(".place__title");
+  const likeCounter = placeElement.querySelector(".place__like-count");
+  const likeButtonNode = placeElement.querySelector(".place__like-button");
   placeImg.src = cardInfo.link;
   placeTitle.textContent = cardInfo.name;
   likeCounter.textContent = likesCount;
-  placeImg.setAttribute('alt', cardInfo.name);
-  const deleteButton = placeElement.querySelector('.place__delete-button');
+  placeImg.setAttribute("alt", cardInfo.name);
+  const deleteButton = placeElement.querySelector(".place__delete-button");
   const popupConfirmDelete = document.querySelector(
-    '.popup_type_confirm-delete'
+    ".popup_type_confirm-delete"
   );
   const formConfirmDelete = document.querySelector(
-    '.popup__form_content_confirm-delete'
+    ".popup__form_content_confirm-delete"
   );
 
   const likesCheck = cardInfo.likes.some((liker) => {
     return liker._id === profileInfo._id;
   });
   if (profileInfo._id !== cardInfo.owner._id) {
-    placeElement.querySelector('.place__delete-button').remove();
+    placeElement.querySelector(".place__delete-button").remove();
   }
   if (likesCheck) {
-    likeButtonNode.classList.add('place__like-button_active');
+    likeButtonNode.classList.add("place__like-button_active");
   }
 
-  placeImg.addEventListener('click', function (evt) {
+  placeImg.addEventListener("click", function (evt) {
     subtitle.textContent = cardInfo.name;
     cardImg.src = cardInfo.link;
     cardImg.alt = cardInfo.name;
     openPopup(cardPopup);
   });
-  likeButtonNode.addEventListener('click', function (evt) {
+  likeButtonNode.addEventListener("click", function (evt) {
     const likeButton = evt.target;
-    if (likeButton.classList.contains('place__like-button_active')) {
-      deleteLikeCard(cardId)
+    if (likeButton.classList.contains("place__like-button_active")) {
+      reqvest
+        .deleteLikeCard(cardId)
         .then((data) => {
           likeCounter.textContent = data.likes.length;
-          likeButton.classList.toggle('place__like-button_active');
+          likeButton.classList.toggle("place__like-button_active");
         })
         .catch((err) => console.log(err));
     } else {
-      likeCard(cardId)
+      reqvest
+        .likeCard(cardId)
         .then((data) => {
           likeCounter.textContent = data.likes.length;
-          likeButton.classList.toggle('place__like-button_active');
+          likeButton.classList.toggle("place__like-button_active");
         })
         .catch((err) => {
           console.log(err);
@@ -67,22 +69,23 @@ function createCard(
 
   function handleConfirmDeleteSubmit(evt) {
     evt.preventDefault();
-    const placeItem = deleteButton.closest('.place');
+    const placeItem = deleteButton.closest(".place");
     //запрос на сервер удаления карточки
-    deleteCard(cardId)
-    .then(() => {
-      closePopup(popupConfirmDelete);
-      placeItem.remove();
-    })
-    .catch((err) => {
-      console.log(err);
-    });
+    reqvest
+      .deleteCard(cardId)
+      .then(() => {
+        closePopup(popupConfirmDelete);
+        placeItem.remove();
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   }
 
   //слушатель кнопки удаления карточки
-  deleteButton.addEventListener('click', function () {
+  deleteButton.addEventListener("click", function () {
     openPopup(popupConfirmDelete);
-    formConfirmDelete.addEventListener('submit', handleConfirmDeleteSubmit);
+    formConfirmDelete.addEventListener("submit", handleConfirmDeleteSubmit);
   });
 
   return placeElement;

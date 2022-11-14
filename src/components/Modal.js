@@ -1,6 +1,6 @@
 import { closePopup, renderLoading } from '../utils/util';
 import { addCards } from './Card';
-import { setUserInfo, postCard } from './Api';
+import { reqvest } from './Api';
 
 function setExitPopupListeners(popup) {
   popup.addEventListener('click', (evt) => {
@@ -24,7 +24,7 @@ function handleformSubmitCardAdd(
 ) {
   evt.preventDefault();
   renderLoading(popup, 'Создать', true);
-  postCard(name.value, url.value)
+  reqvest.postCard(name.value, url.value)
     .then((data) => {
       addCards(
         container,
@@ -54,7 +54,7 @@ function handleProfileFormSubmit(
 ) {
   evt.preventDefault();
   renderLoading(popup, 'Сохранить', true);
-  setUserInfo(formName.value, formDescription.value)
+  reqvest.setUserInfo(formName.value, formDescription.value)
     .then((data) => {
       profileName.textContent = data.name;
       profileDescription.textContent = data.about;

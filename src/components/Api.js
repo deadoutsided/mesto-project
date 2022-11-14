@@ -1,89 +1,76 @@
-import { checkResp } from '../utils/util';
+import { config, checkResp, } from "../utils/util";
+class Api {
+	constructor(config) {
+    this._baseUrl = config.baseUrl;
+    this._headers= config.headers;
+	}
 
-const config = {
-  baseUrl: 'https://nomoreparties.co/v1/plus-cohort-15',
-  headers: {
-    authorization: '6e42217e-2177-4476-b93c-c82e4a9b29ea',
-    'Content-Type': 'application/json',
-  },
-};
-
-const getUserInfo = () => {
-  return fetch(`${config.baseUrl}/users/me`, {
-    method: 'GET',
-    headers: config.headers,
+getUserInfo () {
+  return fetch(`${this._baseUrl}/users/me`, {
+    method: "GET",
+    headers: this._headers,
   }).then(checkResp);
-};
+}
 
-const setUserInfo = (name, about) => {
-  return fetch(`${config.baseUrl}/users/me`, {
-    method: 'PATCH',
-    headers: config.headers,
+setUserInfo (name, about) {
+  return fetch(`${this._baseUrl}/users/me`, {
+    method: "PATCH",
+    headers: this._headers,
     body: JSON.stringify({
       name: `${name}`,
       about: `${about}`,
     }),
   }).then(checkResp);
-};
+}
 
-const getCards = () => {
-  return fetch(`${config.baseUrl}/cards`, {
-    method: 'GET',
-    headers: config.headers,
+getCards () {
+  return fetch(`${this._baseUrl}/cards`, {
+    method: "GET",
+    headers: this._headers,
   }).then(checkResp);
-};
+}
 
-const postCard = (cardName, cardImg) => {
-  return fetch(`${config.baseUrl}/cards`, {
-    method: 'POST',
-    headers: config.headers,
+postCard (cardName, cardImg) {
+  return fetch(`${this._baseUrl}/cards`, {
+    method: "POST",
+    headers: this._headers,
     body: JSON.stringify({
       name: cardName,
       link: cardImg,
     }),
   }).then(checkResp);
-};
+}
 
-const deleteCard = (cardId) => {
-  return fetch(`${config.baseUrl}/cards/${cardId}`, {
-    method: 'DELETE',
-    headers: config.headers,
+deleteCard (cardId) {
+  return fetch(`${this._baseUrl}/cards/${cardId}`, {
+    method: "DELETE",
+    headers: this._headers,
   }).then(checkResp);
-};
+}
 
-const likeCard = (cardId) => {
-  return fetch(`${config.baseUrl}/cards/likes/${cardId}`, {
-    method: 'PUT',
-    headers: config.headers,
+likeCard (cardId) {
+  return fetch(`${this._baseUrl}/cards/likes/${cardId}`, {
+    method: "PUT",
+    headers: this._headers,
   }).then(checkResp);
-};
+}
 
-const deleteLikeCard = (cardId) => {
-  return fetch(`${config.baseUrl}/cards/likes/${cardId}`, {
-    method: 'DELETE',
-    headers: config.headers,
+deleteLikeCard (cardId) {
+  return fetch(`${this._baseUrl}/cards/likes/${cardId}`, {
+    method: "DELETE",
+    headers: this._headers,
   }).then(checkResp);
-};
+}
 
-const updateAvatar = (newImg) => {
-  return fetch(`${config.baseUrl}/users/me/avatar`, {
-    method: 'PATCH',
-    headers: config.headers,
+updateAvatar (newImg) {
+  return fetch(`${this._baseUrl}/users/me/avatar`, {
+    method: "PATCH",
+    headers: this._headers,
     body: JSON.stringify({
       avatar: newImg,
     }),
   }).then(checkResp);
-};
+}
+}
 
-export {
-  config,
-  getUserInfo,
-  setUserInfo,
-  getCards,
-  postCard,
-  deleteCard,
-  likeCard,
-  deleteLikeCard,
-  updateAvatar,
-  checkResp,
-};
+export const reqvest = new Api(config);
