@@ -1,14 +1,14 @@
 class Popup {
     constructor(selector) {
-        this._selector = selector
+        this._modal = document.querySelector(selector);
     }
 
     open() {
-        document.querySelector(`.${this._selector}`).classList.add('popup_opened');
+        this._modal.classList.add('popup_opened');
     }
 
     close() {
-        document.querySelector(`.${this._selector}`).classList.remove('popup_opened');
+        this._modal.classList.remove('popup_opened');
     }
 
     _handleEscClose() {
