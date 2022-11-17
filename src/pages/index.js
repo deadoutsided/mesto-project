@@ -10,8 +10,6 @@ import {
 } from "../utils/util";
 import {
   setExitPopupListeners,
-  //handleProfileFormSubmit,
-  //handleformSubmitCardAdd,
 } from "../components/Modal";
 import { cardsInfo } from "../components/CardsInfo";
 import { userInfo } from "../components/UserInfo";
@@ -44,11 +42,9 @@ let profileInfo;
 //console.log(reqvest);
 Promise.all([userInfo.getUserInfo(), cardsInfo.getCards()])
   .then(([userData, cards]) => {
-    console.log(userData);
-    userInfo.putUserInfo(userData);
+    //console.log(userData);
     profileImg.src = userData.avatar;
     profileInfo = userData;
-    //console.log(profileInfo);
     addCards(
       placesContainer,
       cards,
@@ -63,13 +59,13 @@ Promise.all([userInfo.getUserInfo(), cardsInfo.getCards()])
     console.log(err);
   });
 
-popAvatar.addEventListener("submit", (evt) => {
-  evt.preventDefault();
+  function handlePopAvatarSubmit(evt) {
+    evt.preventDefault();
   renderLoading(popAvatar, "Сохранить", true);
   userInfo
     .updateAvatar(avatarFormImg.value)
     .then((data) => {
-      console.log(data);
+      //console.log(data);
       profileImg.src = data.avatar;
       closePopup(popAvatar);
       evt.target.reset();
@@ -78,7 +74,65 @@ popAvatar.addEventListener("submit", (evt) => {
     .finally(() => {
       renderLoading(popAvatar, "Сохранить", false);
     });
-});
+  }
+
+  function handleProfileFormSubmit(
+    evt,
+    formName,
+    formDescription,
+    popup
+  ) {
+    evt.preventDefault();
+    renderLoading(popup, 'Сохранить', true);
+    userInfo.setUserInfo(formName.value, formDescription.value)
+      .then(() => {
+        closePopup(popup);
+      })
+      .catch((err) => {
+        console.log(err);
+      })
+      .finally(() => {
+        renderLoading(popup, 'Сохранить', false);
+      });
+  }
+
+  function handleformSubmitCardAdd(
+    evt,
+    name,
+    url,
+    template,
+    subtitle,
+    cardImg,
+    cardPopup,
+    profileInfo,
+    popup,
+    container
+  ) {
+    evt.preventDefault();
+    renderLoading(popup, 'Создать', true);
+    cardsInfo.postCard(name.value, url.value)
+      .then((data) => {
+        addCards(
+          container,
+          data,
+          template,
+          subtitle,
+          cardImg,
+          cardPopup,
+          profileInfo
+        );
+        closePopup(popup);
+        evt.target.reset();
+      })
+      .catch((err) => console.log(err))
+      .finally(() => {
+        renderLoading(popup, 'Создать', false);
+      });
+  }
+
+
+
+popAvatar.addEventListener("submit", (evt) => {handlePopAvatarSubmit(evt)});
 
 enableValidation({
   formSelector: ".popup__form",
@@ -94,70 +148,12 @@ closeButtons.forEach((button) => {
   button.addEventListener("click", () => closePopup(popup));
 });
 
-function handleformSubmitCardAdd(
-  evt,
-  name,
-  url,
-  template,
-  subtitle,
-  cardImg,
-  cardPopup,
-  profileInfo,
-  popup,
-  container
-) {
-  evt.preventDefault();
-  renderLoading(popup, 'Создать', true);
-  cardsInfo.postCard(name.value, url.value)
-    .then((data) => {
-      addCards(
-        container,
-        data,
-        template,
-        subtitle,
-        cardImg,
-        cardPopup,
-        profileInfo
-      );
-      closePopup(popup);
-      evt.target.reset();
-    })
-    .catch((err) => console.log(err))
-    .finally(() => {
-      renderLoading(popup, 'Создать', false);
-    });
-}
 
-function handleProfileFormSubmit(
-  evt,
-  profileName,
-  formName,
-  profileDescription,
-  formDescription,
-  popup
-) {
-  evt.preventDefault();
-  renderLoading(popup, 'Сохранить', true);
-  userInfo.setUserInfo(formName.value, formDescription.value)
-    .then((data) => {
-      profileName.textContent = data.name;
-      profileDescription.textContent = data.about;
-      closePopup(popup);
-    })
-    .catch((err) => {
-      console.log(err);
-    })
-    .finally(() => {
-      renderLoading(popup, 'Сохранить', false);
-    });
-}
 
 editForm.addEventListener("submit", (evt) =>
   handleProfileFormSubmit(
     evt,
-    profileName,
     formName,
-    profileDescription,
     formDescription,
     popEdit
   )
