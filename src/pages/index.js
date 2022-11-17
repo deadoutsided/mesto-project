@@ -1,7 +1,7 @@
 import "../index.css";
 
 import { enableValidation } from "../components/Validate";
-import { addCards } from "../components/Card";
+import { newCard } from "../components/Card";
 import {
   openPopup,
   closePopup,
@@ -43,9 +43,10 @@ let profileInfo;
 Promise.all([userInfo.getUserInfo(), cardsInfo.getCards()])
   .then(([userData, cards]) => {
     //console.log(userData);
+    console.log(cards);
     profileImg.src = userData.avatar;
     profileInfo = userData;
-    addCards(
+    newCard.addCards(
       placesContainer,
       cards,
       placeTemplate,
@@ -112,7 +113,7 @@ Promise.all([userInfo.getUserInfo(), cardsInfo.getCards()])
     renderLoading(popup, 'Создать', true);
     cardsInfo.postCard(name.value, url.value)
       .then((data) => {
-        addCards(
+        newCard.addCards(
           container,
           data,
           template,
