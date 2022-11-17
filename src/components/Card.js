@@ -1,5 +1,5 @@
 import { openPopup, closePopup } from "../utils/util";
-import { reqvest } from "./Api";
+import { cardsInfo } from "./CardsInfo";
 
 function createCard(
   cardInfo,
@@ -47,7 +47,7 @@ function createCard(
   likeButtonNode.addEventListener("click", function (evt) {
     const likeButton = evt.target;
     if (likeButton.classList.contains("place__like-button_active")) {
-      reqvest
+      cardsInfo
         .deleteLikeCard(cardId)
         .then((data) => {
           likeCounter.textContent = data.likes.length;
@@ -55,7 +55,7 @@ function createCard(
         })
         .catch((err) => console.log(err));
     } else {
-      reqvest
+      cardsInfo
         .likeCard(cardId)
         .then((data) => {
           likeCounter.textContent = data.likes.length;
@@ -71,7 +71,7 @@ function createCard(
     evt.preventDefault();
     const placeItem = deleteButton.closest(".place");
     //запрос на сервер удаления карточки
-    reqvest
+    cardsInfo
       .deleteCard(cardId)
       .then(() => {
         closePopup(popupConfirmDelete);
