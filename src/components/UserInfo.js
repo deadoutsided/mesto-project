@@ -1,30 +1,42 @@
-import { config, } from "../utils/util";
-class UserInfo {
-  constructor(selectorProfileName, selectorProfileDescription) {
+import { config } from "../utils/util";
+import { Api } from "./Api";
+class UserInfo extends Api {
+  constructor(config, selectorProfileName, selectorProfileDescription) {
+    super(config);
     this._profileName = document.querySelector(selectorProfileName);
-    this._profileDescription = document.querySelector(selectorProfileDescription);
+    this._profileDescription = document.querySelector(
+      selectorProfileDescription
+    );
   }
 
-  getUserInfo(userData) {
-    this._profileName.textContent = userData.name;
-    this._profileDescription.textContent = userData.about;
-    //let profileInfo;
-   //return profileInfo = userData;
+  async getUserInfo() {
+    return await super._requireApi("/users/me");
   }
 
-  setUserInfo(name, about) {
-    return fetch(`${this._baseUrl}/users/me`, {
-      method: "PATCH",
-      headers: this._headers,
-      body: JSON.stringify({
-        name: `${name}`,
-        about: `${about}`,
-      }),
-    }).then(checkResp);
+putUserInfo(userData) {
+  this._profileName.textContent = userData.name;
+  this._profileDescription.textContent = userData.about;
+}
+
+  async setUserInfo(name, about) {
+    return await super._requireApi(
+      "/users/me",
+      { name: `${name}`, about: `${about}` },
+      "PATCH"
+    );
+  }
+
+  async updateAvatar(newImg) {
+    return await super._requireApi(
+      "/users/me/avatar",
+      { avatar: newImg },
+      "PATCH"
+    );
   }
 }
 
-export const userInfo = new UserInfo('.profile__title', '.profile__paragraph');
-
-//const profileName = document.querySelector(".profile__title");
-//const profileDescription = document.querySelector(".profile__paragraph");
+export const userInfo = new UserInfo(
+  config,
+  ".profile__title",
+  ".profile__paragraph"
+);

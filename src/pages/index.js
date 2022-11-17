@@ -10,10 +10,10 @@ import {
 } from "../utils/util";
 import {
   setExitPopupListeners,
-  handleProfileFormSubmit,
-  handleformSubmitCardAdd,
+  //handleProfileFormSubmit,
+  //handleformSubmitCardAdd,
 } from "../components/Modal";
-import { reqvest } from "../components/Api";
+import { cardsInfo } from "../components/CardsInfo";
 import { userInfo } from "../components/UserInfo";
 
 const placesContainer = document.querySelector(".places");
@@ -42,13 +42,13 @@ const avatarFormImg = popAvatar.querySelector(".popup__field_info_avatar");
 let profileInfo;
 
 //console.log(reqvest);
-Promise.all([reqvest.getUserInfo(), reqvest.getCards()])
+Promise.all([userInfo.getUserInfo(), cardsInfo.getCards()])
   .then(([userData, cards]) => {
-    //console.log(userData);
-    userInfo.getUserInfo(userData);
+    console.log(userData);
+    userInfo.putUserInfo(userData);
     profileImg.src = userData.avatar;
     profileInfo = userData;
-    console.log(profileInfo);
+    //console.log(profileInfo);
     addCards(
       placesContainer,
       cards,
@@ -56,7 +56,7 @@ Promise.all([reqvest.getUserInfo(), reqvest.getCards()])
       cardPopupName,
       cardPopupImg,
       cardPopup,
-     profileInfo
+      profileInfo
     );
   })
   .catch((err) => {
@@ -66,7 +66,7 @@ Promise.all([reqvest.getUserInfo(), reqvest.getCards()])
 popAvatar.addEventListener("submit", (evt) => {
   evt.preventDefault();
   renderLoading(popAvatar, "Сохранить", true);
-  reqvest
+  userInfo
     .updateAvatar(avatarFormImg.value)
     .then((data) => {
       console.log(data);
@@ -93,6 +93,64 @@ closeButtons.forEach((button) => {
   const popup = button.closest(".popup");
   button.addEventListener("click", () => closePopup(popup));
 });
+
+function handleformSubmitCardAdd(
+  evt,
+  name,
+  url,
+  template,
+  subtitle,
+  cardImg,
+  cardPopup,
+  profileInfo,
+  popup,
+  container
+) {
+  evt.preventDefault();
+  renderLoading(popup, 'Создать', true);
+  cardsInfo.postCard(name.value, url.value)
+    .then((data) => {
+      addCards(
+        container,
+        data,
+        template,
+        subtitle,
+        cardImg,
+        cardPopup,
+        profileInfo
+      );
+      closePopup(popup);
+      evt.target.reset();
+    })
+    .catch((err) => console.log(err))
+    .finally(() => {
+      renderLoading(popup, 'Создать', false);
+    });
+}
+
+function handleProfileFormSubmit(
+  evt,
+  profileName,
+  formName,
+  profileDescription,
+  formDescription,
+  popup
+) {
+  evt.preventDefault();
+  renderLoading(popup, 'Сохранить', true);
+  userInfo.setUserInfo(formName.value, formDescription.value)
+    .then((data) => {
+      profileName.textContent = data.name;
+      profileDescription.textContent = data.about;
+      closePopup(popup);
+    })
+    .catch((err) => {
+      console.log(err);
+    })
+    .finally(() => {
+      renderLoading(popup, 'Сохранить', false);
+    });
+}
 
 editForm.addEventListener("submit", (evt) =>
   handleProfileFormSubmit(
