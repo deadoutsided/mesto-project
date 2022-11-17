@@ -14,6 +14,7 @@ import {
   handleformSubmitCardAdd,
 } from "../components/Modal";
 import { reqvest } from "../components/Api";
+import { userInfo } from "../components/UserInfo";
 
 const placesContainer = document.querySelector(".places");
 const buttonEdit = document.querySelector(".profile__edit-button");
@@ -43,10 +44,11 @@ let profileInfo;
 //console.log(reqvest);
 Promise.all([reqvest.getUserInfo(), reqvest.getCards()])
   .then(([userData, cards]) => {
-    profileName.textContent = userData.name;
-    profileDescription.textContent = userData.about;
+    //console.log(userData);
+    userInfo.getUserInfo(userData);
     profileImg.src = userData.avatar;
     profileInfo = userData;
+    console.log(profileInfo);
     addCards(
       placesContainer,
       cards,
@@ -54,7 +56,7 @@ Promise.all([reqvest.getUserInfo(), reqvest.getCards()])
       cardPopupName,
       cardPopupImg,
       cardPopup,
-      profileInfo
+     profileInfo
     );
   })
   .catch((err) => {
@@ -67,6 +69,7 @@ popAvatar.addEventListener("submit", (evt) => {
   reqvest
     .updateAvatar(avatarFormImg.value)
     .then((data) => {
+      console.log(data);
       profileImg.src = data.avatar;
       closePopup(popAvatar);
       evt.target.reset();
@@ -107,6 +110,7 @@ buttonEdit.addEventListener("click", () => {
   formDescription.value = profileDescription.textContent;
   formName.value = profileName.textContent;
 });
+
 buttonAdd.addEventListener("click", () => {
   openPopup(popAdd);
   disableButton(popAdd);

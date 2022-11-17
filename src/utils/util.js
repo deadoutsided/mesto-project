@@ -10,13 +10,6 @@ const config = {
 //16
 //9656253c-3dfe-4770-aeca-f882bc2dc634
 
-
-function checkResp(res) {
-  if (res.ok) {
-    return res.json();
-  } else return Promise.reject(`Произошла ошибка ${res.status}`);
-}
-
 function handleEscClose(evt) {
   if (evt.key === "Escape") {
     closePopup(document.querySelector(".popup_opened"));
@@ -50,7 +43,6 @@ const disableButton = (popup) => {
 
 export {
   config,
-  checkResp,
   renderLoading,
   openPopup,
   closePopup,
