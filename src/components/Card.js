@@ -2,7 +2,29 @@ import { openPopup, closePopup } from "../utils/util";
 
 import { cardsInfo } from "./CardsInfo";
 
-function createCard(
+
+
+class Card {
+  constructor(cardInfo,
+    template,
+    subtitle,
+    cardImg,
+    cardPopup,
+    likesCount,
+    cardId,
+    profileInfo) {
+    this.cardInfo = cardInfo;
+    this.template = template;
+    this.subtitle = subtitle;
+    this.cardImg = cardImg;
+    this.cardPopup = cardPopup;
+    this.likesCount = likesCount;
+    this.cardId = cardId;
+    this.profileInfo = profileInfo;
+  }
+
+
+_createCard(
   cardInfo,
   template,
   subtitle,
@@ -37,14 +59,17 @@ function createCard(
   }
   if (likesCheck) {
     likeButtonNode.classList.add("place__like-button_active");
-  }
+  };
 
-  placeImg.addEventListener("click", function (evt) {
+  function handleCardClick (subtitle, cardImg, cardPopup) {
     subtitle.textContent = cardInfo.name;
     cardImg.src = cardInfo.link;
     cardImg.alt = cardInfo.name;
     openPopup(cardPopup);
-  });
+  }
+
+  placeImg.addEventListener("click", () => {handleCardClick(subtitle, cardImg, cardPopup)});
+
   likeButtonNode.addEventListener("click", function (evt) {
     const likeButton = evt.target;
     if (likeButton.classList.contains("place__like-button_active")) {
@@ -84,7 +109,7 @@ function createCard(
   }
 
   //слушатель кнопки удаления карточки
-  deleteButton.addEventListener("click", function () {
+  deleteButton.addEventListener("click", () => {
     openPopup(popupConfirmDelete);
     formConfirmDelete.addEventListener("submit", handleConfirmDeleteSubmit);
   });
@@ -92,7 +117,46 @@ function createCard(
   return placeElement;
 }
 
-function addCards(
+
+
+
+
+
+
+_setEventListeners() {
+  //слушатель кнопки удаления карточки
+  this._deleteButton.addEventListener("click", () => {
+    openPopup(popupConfirmDelete);
+    formConfirmDelete.addEventListener("submit", this._handleConfirmDeleteSubmit);
+  });
+}
+
+_handleConfirmDeleteSubmit(evt) {
+  evt.preventDefault();
+  const placeItem = this._deleteButton.closest(".place");
+  //запрос на сервер удаления карточки
+  cardsInfo
+    .deleteCard(cardId)
+    .then(() => {
+      closePopup(popupConfirmDelete);
+      placeItem.remove();
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+}
+
+
+
+
+
+
+
+
+
+renderer() {2 + 2}
+
+addCards(
   container,
   cardsInfo,
   template,
@@ -103,7 +167,7 @@ function addCards(
 ) {
   if (Array.isArray(cardsInfo)) {
     for (let i = 0; i < cardsInfo.length; i++) {
-      const placeElement = createCard(
+      const placeElement = this._createCard(
         cardsInfo[i],
         template,
         subtitle,
@@ -116,7 +180,7 @@ function addCards(
       container.append(placeElement);
     }
   } else {
-    const placeElement = createCard(
+    const placeElement = this._createCard(
       cardsInfo,
       template,
       subtitle,
@@ -129,5 +193,6 @@ function addCards(
     container.prepend(placeElement);
   }
 }
+}
 
-export { addCards, createCard };
+export const newCard = new Card;
