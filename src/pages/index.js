@@ -45,7 +45,6 @@ let profileInfo;
 Promise.all([userInfo.getUserInfo(), cardsInfo.getCards()])
   .then(([userData, cards]) => {
     console.log(userData);
-    userInfo.putUserInfo(userData);
     profileImg.src = userData.avatar;
     profileInfo = userData;
     //console.log(profileInfo);
