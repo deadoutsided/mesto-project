@@ -14,6 +14,8 @@ import {
   handleformSubmitCardAdd,
 } from "../components/Modal";
 import { reqvest } from "../components/Api";
+import Popup from "../components/Popup";
+
 
 const placesContainer = document.querySelector(".places");
 const buttonEdit = document.querySelector(".profile__edit-button");
