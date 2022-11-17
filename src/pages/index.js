@@ -1,6 +1,6 @@
 import "../index.css";
 
-import { enableValidation } from "../components/Validate";
+import { FormValidator } from "../components/Validate";
 import { addCards } from "../components/Card";
 import {
   openPopup,
@@ -14,6 +14,7 @@ import {
   handleformSubmitCardAdd,
 } from "../components/Modal";
 import { reqvest } from "../components/Api";
+import { validationList } from "../utils/constants";
 
 const placesContainer = document.querySelector(".places");
 const buttonEdit = document.querySelector(".profile__edit-button");
@@ -38,6 +39,7 @@ const closeButtons = document.querySelectorAll(".popup__close-button");
 const placeTemplate = document.querySelector(".place-template").content;
 const popups = document.querySelectorAll(".popup__overlay");
 const avatarFormImg = popAvatar.querySelector(".popup__field_info_avatar");
+const avatarForm = popAvatar.querySelector(".popup__form");
 let profileInfo;
 
 //console.log(reqvest);
@@ -77,14 +79,13 @@ popAvatar.addEventListener("submit", (evt) => {
     });
 });
 
-enableValidation({
-  formSelector: ".popup__form",
-  inputSelector: ".popup__field",
-  submitButtonSelector: ".popup__submit-button",
-  inactiveButtonClass: "popup__submit-button_disabled",
-  inputErrorClass: "popup__field_type_error",
-  errorClass: "popup__field-error_active",
-});
+//enableValidation({validationList});
+const editFormValidator = new FormValidator(validationList, editForm);
+editFormValidator.enableValidation();
+const addFormValidator = new FormValidator(validationList, addForm);
+addFormValidator.enableValidation();
+const avatarFormValidator = new FormValidator(validationList, avatarForm);
+avatarFormValidator.enableValidation();
 
 closeButtons.forEach((button) => {
   const popup = button.closest(".popup");
