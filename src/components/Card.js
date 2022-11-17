@@ -1,4 +1,5 @@
 import { openPopup, closePopup } from "../utils/util";
+
 import { cardsInfo } from "./CardsInfo";
 
 function createCard(
