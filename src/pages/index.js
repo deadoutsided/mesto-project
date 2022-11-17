@@ -14,7 +14,7 @@ import {
   handleformSubmitCardAdd,
 } from "../components/Modal";
 import { reqvest } from "../components/Api";
-import { validationList } from "../utils/constants";
+import { enableValidation } from "../utils/constants";
 
 const placesContainer = document.querySelector(".places");
 const buttonEdit = document.querySelector(".profile__edit-button");
@@ -79,13 +79,7 @@ popAvatar.addEventListener("submit", (evt) => {
     });
 });
 
-//enableValidation({validationList});
-const editFormValidator = new FormValidator(validationList, editForm);
-editFormValidator.enableValidation();
-const addFormValidator = new FormValidator(validationList, addForm);
-addFormValidator.enableValidation();
-const avatarFormValidator = new FormValidator(validationList, avatarForm);
-avatarFormValidator.enableValidation();
+enableValidation({validationList});
 
 closeButtons.forEach((button) => {
   const popup = button.closest(".popup");
