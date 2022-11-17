@@ -1,5 +1,3 @@
-import { toggleButtonState } from "../components/Validate";
-
 const config = {
   baseUrl: "https://nomoreparties.co/v1/plus-cohort-15",
   headers: {
