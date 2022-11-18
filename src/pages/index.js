@@ -14,6 +14,7 @@ import {
 import { cardsInfo } from "../components/CardsInfo";
 import { userInfo } from "../components/UserInfo";
 
+
 const placesContainer = document.querySelector(".places");
 const buttonEdit = document.querySelector(".profile__edit-button");
 const buttonAvatar = document.querySelector(".profile__avatar-button");
