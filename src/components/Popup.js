@@ -1,20 +1,22 @@
-import { closeButtons } from "../pages/index.js"
-
 export default class Popup {
+    
+    static _closeButtonClass = 'popup__close-button';
+    static _popupOpenClass = 'popup_opened';    
+
     constructor(selector) {
         this._modal = document.querySelector(selector);
     }
 
     open() {
-        this._modal.classList.add('popup_opened');
+        this._modal.classList.add(Popup._popupOpenClass);
         this.setEventListeners();
     }
 
     close() {
-        this._modal.classList.remove('popup_opened');
+        this._modal.classList.remove(Popup._popupOpenClass);
     }
 
-    _handleEscClose() {
+    _handleEscClose () {
         if (event.key === "Escape") {
             this.close();
         }
@@ -26,6 +28,7 @@ export default class Popup {
           } 
     }
 
+  
     setEventListeners() {
         window.addEventListener('keydown', () => {
             this._handleEscClose();
@@ -33,11 +36,8 @@ export default class Popup {
         this._modal.addEventListener('mousedown', () => {
             this._handleOverlayClose();
         });        
-        closeButtons.forEach(el => {
-            el.addEventListener('click', () => {
+        this._modal.querySelector(`.${Popup._closeButtonClass}`).addEventListener('click', () => {
                 this.close();
-            })
         });
     }
-   
 }
