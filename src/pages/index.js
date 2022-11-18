@@ -32,7 +32,7 @@ const cardPopup = document.querySelector(".popup_type_place");
 const cardPopupName = cardPopup.querySelector(".popup__subtitle");
 const cardPopupImg = cardPopup.querySelector(".popup__img");
 const closeButtons = document.querySelectorAll(".popup__close-button");
-//const placeTemplate = document.querySelector(".place-template").content;
+const placeTemplate = ".place-template";
 const popups = document.querySelectorAll(".popup__overlay");
 const avatarFormImg = popAvatar.querySelector(".popup__field_info_avatar");
 let profileInfo;
@@ -45,7 +45,7 @@ Promise.all([userInfo.getUserInfo(), cardsInfo.getCards()])
     profileImg.src = userData.avatar;
     profileInfo = userData;
     const cardList = new Card(
-      ".place-template",
+      placeTemplate,
       placesContainer,
       cards,
       profileInfo,
@@ -113,7 +113,7 @@ function handleformSubmitCardAdd(evt, name, url) {
       console.log(data);
       //debugger;
       const newCard = new Card(
-        ".place-template",
+        placeTemplate,
         placesContainer,
         data,
         profileInfo,
