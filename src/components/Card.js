@@ -8,6 +8,7 @@ export class Card {
     title: ".place__title",
     likeCounte: ".place__like-count",
     likeButton: ".place__like-button",
+    likeButtonActive: "place__like-button_active",
     image: ".place__image",
     deleteButton: ".place__delete-button",
     popupConfirmDelete: ".popup_type_confirm-delete",
@@ -60,7 +61,7 @@ export class Card {
       this._deleteButton.remove();
     }
     if (this._likesCheck) {
-      this._likeButton.classList.add("place__like-button_active");
+      this._likeButton.classList.add(Card.places.likeButtonActive);
     }
 
     return this._element;
@@ -96,10 +97,10 @@ export class Card {
       this.handleCardClick(cardInfo);
     });
     const popupConfirmDelete = document.querySelector(
-      ".popup_type_confirm-delete"
+      Card.places.popupConfirmDelete
     );
     const formConfirmDelete = document.querySelector(
-      ".popup__form_content_confirm-delete"
+      Card.places.formConfirmDelete
     );
     //слушатель кнопки удаления карточки
     this._deleteButton.addEventListener("click", () => {
@@ -126,7 +127,7 @@ export class Card {
       .deleteCard(cardId)
       .then(() => {
         closePopup(popupConfirmDelete);
-        deleteButton.closest(".place").remove();
+        deleteButton.closest(Card.places.place).remove();
       })
       .catch((err) => {
         console.log(err);
@@ -136,17 +137,14 @@ export class Card {
   _handleLikeButtonClick(likesCheck, cardId, likeCounter, likeButton) {
     //console.log(likesCheck);
     //debugger;
-    //let likesCheck = cardInfo.likes.some((liker) => {return liker._id === this._profileInfo._id;
-
     if (likesCheck) {
-      console.log(cardId);
+      //console.log(cardId);
       cardsInfo
         .deleteLikeCard(cardId)
         .then((data) => {
-          console.log(data);
+          //console.log(data);
           likeCounter.textContent = data.likes.length;
-          likeButton.classList.toggle("place__like-button_active");
-          //likesCheck = !likesCheck;
+          likeButton.classList.toggle(Card.places.likeButtonActive);
         })
         .catch((err) => console.log(err));
     } else {
@@ -154,8 +152,7 @@ export class Card {
         .likeCard(cardId)
         .then((data) => {
           likeCounter.textContent = data.likes.length;
-          likeButton.classList.toggle("place__like-button_active");
-          //likesCheck = !likesCheck;
+          likeButton.classList.toggle(Card.places.likeButtonActive);
         })
         .catch((err) => {
           console.log(err);
