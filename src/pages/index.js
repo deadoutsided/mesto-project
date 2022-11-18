@@ -1,16 +1,14 @@
 import "../index.css";
 
 import { enableValidation } from "../components/Validate";
-import { newCard } from "../components/Card";
+import { Card } from "../components/Card";
 import {
   openPopup,
   closePopup,
   disableButton,
   renderLoading,
 } from "../utils/util";
-import {
-  setExitPopupListeners,
-} from "../components/Modal";
+import { setExitPopupListeners } from "../components/Modal";
 import { cardsInfo } from "../components/CardsInfo";
 import { userInfo } from "../components/UserInfo";
 
@@ -35,7 +33,7 @@ const cardPopup = document.querySelector(".popup_type_place");
 const cardPopupName = cardPopup.querySelector(".popup__subtitle");
 const cardPopupImg = cardPopup.querySelector(".popup__img");
 const closeButtons = document.querySelectorAll(".popup__close-button");
-const placeTemplate = document.querySelector(".place-template").content;
+//const placeTemplate = document.querySelector(".place-template").content;
 const popups = document.querySelectorAll(".popup__overlay");
 const avatarFormImg = popAvatar.querySelector(".popup__field_info_avatar");
 let profileInfo;
@@ -44,25 +42,36 @@ let profileInfo;
 Promise.all([userInfo.getUserInfo(), cardsInfo.getCards()])
   .then(([userData, cards]) => {
     //console.log(userData);
-    console.log(cards);
+    //console.log(cards);
     profileImg.src = userData.avatar;
     profileInfo = userData;
-    newCard.addCards(
+    const cardList = new Card(
+      ".place-template",
       placesContainer,
       cards,
-      placeTemplate,
-      cardPopupName,
-      cardPopupImg,
-      cardPopup,
-      profileInfo
+      profileInfo,
+      handleCardClick
     );
+    //console.log(handleCardClick);
+    //console.log(cardList._getElement());
+    //console.log(cardList._generate(cards[0]));
+    console.log(cards);
+    cardList.addCards(cards);
   })
   .catch((err) => {
     console.log(err);
   });
 
-  function handlePopAvatarSubmit(evt) {
-    evt.preventDefault();
+function handleCardClick(cardInfo) {
+  //console.log(this.cardInfo);
+  cardPopupName.textContent = cardInfo.name;
+  cardPopupImg.src = cardInfo.link;
+  cardPopupImg.alt = cardInfo.name;
+  openPopup(cardPopup);
+}
+
+function handlePopAvatarSubmit(evt) {
+  evt.preventDefault();
   renderLoading(popAvatar, "Сохранить", true);
   userInfo
     .updateAvatar(avatarFormImg.value)
@@ -76,65 +85,54 @@ Promise.all([userInfo.getUserInfo(), cardsInfo.getCards()])
     .finally(() => {
       renderLoading(popAvatar, "Сохранить", false);
     });
-  }
+}
 
-  function handleProfileFormSubmit(
-    evt,
-    formName,
-    formDescription,
-    popup
-  ) {
-    evt.preventDefault();
-    renderLoading(popup, 'Сохранить', true);
-    userInfo.setUserInfo(formName.value, formDescription.value)
-      .then(() => {
-        closePopup(popup);
-      })
-      .catch((err) => {
-        console.log(err);
-      })
-      .finally(() => {
-        renderLoading(popup, 'Сохранить', false);
-      });
-  }
+function handleProfileFormSubmit(evt, formName, formDescription, popup) {
+  evt.preventDefault();
+  renderLoading(popup, "Сохранить", true);
+  userInfo
+    .setUserInfo(formName.value, formDescription.value)
+    .then(() => {
+      closePopup(popup);
+    })
+    .catch((err) => {
+      console.log(err);
+    })
+    .finally(() => {
+      renderLoading(popup, "Сохранить", false);
+    });
+}
 
-  function handleformSubmitCardAdd(
-    evt,
-    name,
-    url,
-    template,
-    subtitle,
-    cardImg,
-    cardPopup,
-    profileInfo,
-    popup,
-    container
-  ) {
-    evt.preventDefault();
-    renderLoading(popup, 'Создать', true);
-    cardsInfo.postCard(name.value, url.value)
-      .then((data) => {
-        newCard.addCards(
-          container,
-          data,
-          template,
-          subtitle,
-          cardImg,
-          cardPopup,
-          profileInfo
-        );
-        closePopup(popup);
-        evt.target.reset();
-      })
-      .catch((err) => console.log(err))
-      .finally(() => {
-        renderLoading(popup, 'Создать', false);
-      });
-  }
+function handleformSubmitCardAdd(evt, name, url) {
+  console.log(evt);
+  //debugger;
+  evt.preventDefault();
+  renderLoading(popAdd, "Создать", true);
+  cardsInfo
+    .postCard(name.value, url.value)
+    .then((data) => {
+      console.log(data);
+      //debugger;
+      const newCard = new Card(
+        ".place-template",
+        placesContainer,
+        data,
+        profileInfo,
+        handleCardClick
+      );
+      newCard.addCards(data);
+      closePopup(popAdd);
+      evt.target.reset();
+    })
+    .catch((err) => console.log(err))
+    .finally(() => {
+      renderLoading(popAdd, "Создать", false);
+    });
+}
 
-
-
-popAvatar.addEventListener("submit", (evt) => {handlePopAvatarSubmit(evt)});
+popAvatar.addEventListener("submit", (evt) => {
+  handlePopAvatarSubmit(evt);
+});
 
 enableValidation({
   formSelector: ".popup__form",
@@ -150,15 +148,8 @@ closeButtons.forEach((button) => {
   button.addEventListener("click", () => closePopup(popup));
 });
 
-
-
 editForm.addEventListener("submit", (evt) =>
-  handleProfileFormSubmit(
-    evt,
-    formName,
-    formDescription,
-    popEdit
-  )
+  handleProfileFormSubmit(evt, formName, formDescription, popEdit)
 );
 
 buttonEdit.addEventListener("click", () => {
@@ -177,18 +168,7 @@ buttonAvatar.addEventListener("click", () => {
 });
 
 addForm.addEventListener("submit", (evt) =>
-  handleformSubmitCardAdd(
-    evt,
-    cardName,
-    cardUrl,
-    placeTemplate,
-    cardPopupName,
-    cardPopupImg,
-    cardPopup,
-    profileInfo,
-    popAdd,
-    placesContainer
-  )
+  handleformSubmitCardAdd(evt, cardName, cardUrl)
 );
 
 popups.forEach(setExitPopupListeners);
