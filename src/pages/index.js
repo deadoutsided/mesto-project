@@ -8,6 +8,9 @@ import {
   disableButton,
   renderLoading,
 } from "../utils/util";
+
+import {PopupWithImage} from "../components/PopupWithImage";
+
 import { setExitPopupListeners } from "../components/Modal";
 import { cardsInfo } from "../components/CardsInfo";
 import { userInfo } from "../components/UserInfo";
@@ -29,9 +32,10 @@ const profileImg = document.querySelector(".profile__img");
 const addForm = popAdd.querySelector(".popup__form");
 const cardName = addForm.querySelector(".popup__field_info_card-name");
 const cardUrl = addForm.querySelector(".popup__field_info_card-img");
-const cardPopup = document.querySelector(".popup_type_place");
-const cardPopupName = cardPopup.querySelector(".popup__subtitle");
-const cardPopupImg = cardPopup.querySelector(".popup__img");
+//const cardPopup = document.querySelector(".popup_type_place");
+const cardPopup = ".popup_type_place";
+//const cardPopupName = cardPopup.querySelector(".popup__subtitle");
+//const cardPopupImg = cardPopup.querySelector(".popup__img");
 const closeButtons = document.querySelectorAll(".popup__close-button");
 const placeTemplate = "#card-template";
 const popups = document.querySelectorAll(".popup__overlay");
@@ -63,11 +67,9 @@ Promise.all([userInfo.getUserInfo(), cardsInfo.getCards()])
   });
 
 function handleCardClick(cardInfo) {
-  //console.log(this.cardInfo);
-  cardPopupName.textContent = cardInfo.name;
-  cardPopupImg.src = cardInfo.link;
-  cardPopupImg.alt = cardInfo.name;
-  openPopup(cardPopup);
+  //console.log(cardInfo);
+  const popupWithImage = new PopupWithImage(cardPopup);
+  popupWithImage.open(cardInfo.link, cardInfo.name);
 }
 
 function handlePopAvatarSubmit(evt) {

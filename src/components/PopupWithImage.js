@@ -1,6 +1,6 @@
 import Popup from "./Popup";
 
-export default class PopupWithImage extends Popup{
+export class PopupWithImage extends Popup{
 
     static _imageClass =  'popup__img';
     static _imageCaptionClass = 'popup__subtitle';
@@ -9,7 +9,7 @@ export default class PopupWithImage extends Popup{
         super(selector);
     }
 
-    open(cardLink, cardName) {        
+    open(cardLink, cardName) {
         document.querySelector(`.${PopupWithImage._imageClass}`).src = cardLink;
         document.querySelector(`.${PopupWithImage._imageClass}`).alt = cardName;
         document.querySelector(`.${PopupWithImage._imageCaptionClass}`).textContent = cardName;
