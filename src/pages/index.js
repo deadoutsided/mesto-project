@@ -33,7 +33,7 @@ const cardPopup = document.querySelector(".popup_type_place");
 const cardPopupName = cardPopup.querySelector(".popup__subtitle");
 const cardPopupImg = cardPopup.querySelector(".popup__img");
 const closeButtons = document.querySelectorAll(".popup__close-button");
-const placeTemplate = ".place-template";
+const placeTemplate = "#card-template";
 const popups = document.querySelectorAll(".popup__overlay");
 const avatarFormImg = popAvatar.querySelector(".popup__field_info_avatar");
 let profileInfo;

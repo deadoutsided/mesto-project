@@ -15,6 +15,11 @@ export class Card {
     formConfirmDelete: ".popup__form_content_confirm-delete",
   };
 
+  _selectorTemplate;
+  _container;
+  _cardsInfo;
+  _profileInfo;
+
   constructor(
     selectorTemplate,
     container,
@@ -64,6 +69,33 @@ export class Card {
       this._likeButton.classList.add(Card.places.likeButtonActive);
     }
 
+    const popupConfirmDelete = document.querySelector(
+      Card.places.popupConfirmDelete
+    );
+    const formConfirmDelete = document.querySelector(
+      Card.places.formConfirmDelete
+    );
+    //слушатель кнопки удаления карточки
+    this._deleteButton.addEventListener("click", () => {
+      openPopup(popupConfirmDelete);
+      //console.log(deleteButton);
+      formConfirmDelete.addEventListener("submit", (evt) => {
+        //debugger;
+        evt.preventDefault();
+        //console.log(cardId);
+        //запрос на сервер удаления карточки
+        cardsInfo
+          .deleteCard(cardInfo._id)
+          .then(() => {
+            closePopup(popupConfirmDelete);
+            this._deleteButton.closest(Card.places.place).remove();
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      });
+    });
+
     return this._element;
   }
 
@@ -84,31 +116,16 @@ export class Card {
     }
   }
 
-  _setEventListeners(cardInfo) {
+  _setEventListeners = (cardInfo) => {
     let likesCheck = this._likesCheck;
     const cardId = cardInfo._id;
     const likeCounter = this._likeCounter;
     const likeButton = this._likeButton;
-    const deleteButton = this._deleteButton;
     //console.log(this._deleteButton);
     //слушатель нажатия на картинку карточки
     this._placeImg.addEventListener("click", () => {
       //console.log(evt);
       this.handleCardClick(cardInfo);
-    });
-    const popupConfirmDelete = document.querySelector(
-      Card.places.popupConfirmDelete
-    );
-    const formConfirmDelete = document.querySelector(
-      Card.places.formConfirmDelete
-    );
-    //слушатель кнопки удаления карточки
-    this._deleteButton.addEventListener("click", () => {
-      openPopup(popupConfirmDelete);
-      //console.log(deleteButton);
-      formConfirmDelete.addEventListener("submit", () => {
-        this._handleConfirmDeleteSubmit(cardId, deleteButton);
-      });
     });
 
     //слушатель кнопки Like
@@ -116,23 +133,7 @@ export class Card {
       this._handleLikeButtonClick(likesCheck, cardId, likeCounter, likeButton);
       likesCheck = !likesCheck;
     });
-  }
-
-  _handleConfirmDeleteSubmit(cardId, deleteButton) {
-    //debugger;
-    //evt.preventDefault();
-    //console.log(cardId);
-    //запрос на сервер удаления карточки
-    cardsInfo
-      .deleteCard(cardId)
-      .then(() => {
-        closePopup(popupConfirmDelete);
-        deleteButton.closest(Card.places.place).remove();
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }
+  };
 
   _handleLikeButtonClick(likesCheck, cardId, likeCounter, likeButton) {
     //console.log(likesCheck);
