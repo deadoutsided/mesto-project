@@ -8,22 +8,6 @@ const config = {
 //16
 //9656253c-3dfe-4770-aeca-f882bc2dc634
 
-function handleEscClose(evt) {
-  if (evt.key === "Escape") {
-    closePopup(document.querySelector(".popup_opened"));
-  }
-}
-
-function openPopup(popup) {
-  popup.classList.add("popup_opened");
-  document.addEventListener("keydown", handleEscClose);
-}
-
-function closePopup(popup) {
-  popup.classList.remove("popup_opened");
-  document.removeEventListener("keydown", handleEscClose);
-}
-
 function renderLoading(form, baseText, status) {
   const button = form.querySelector(".popup__submit-button");
   if (status === true) {
@@ -42,7 +26,5 @@ const disableButton = (popup) => {
 export {
   config,
   renderLoading,
-  openPopup,
-  closePopup,
   disableButton,
 };

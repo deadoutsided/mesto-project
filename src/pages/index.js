@@ -3,8 +3,6 @@ import "../index.css";
 import { FormValidator } from "../components/Validate";
 import { Card } from "../components/Card";
 import {
-  openPopup,
-  closePopup,
   disableButton,
   renderLoading,
 } from "../utils/util";

@@ -1,4 +1,3 @@
-import { openPopup, closePopup } from "../utils/util";
 
 import { cardsInfo } from "./CardsInfo";
 
@@ -72,9 +71,6 @@ export class Card {
     }
 
     const popupConfirmDelete = new Popup(Card.places.popupConfirmDelete);
-    /*const popupConfirmDelete = document.querySelector(
-      Card.places.popupConfirmDelete
-    );*/
     const formConfirmDelete = document.querySelector(
       Card.places.formConfirmDelete
     );
