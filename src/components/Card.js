@@ -58,10 +58,11 @@ export class Card {
     this._likesCheck = cardInfo.likes.some((liker) => {
       return liker._id === this._profileInfo._id;
     });
+
     //console.log(this._likesCheck);
 
     this._setEventListeners(cardInfo);
-
+    //console.log(this_deleteButton);
     if (this._profileInfo._id !== cardInfo.owner._id) {
       this._deleteButton.remove();
     }
@@ -73,26 +74,38 @@ export class Card {
     const formConfirmDelete = document.querySelector(
       Card.places.formConfirmDelete
     );
+
+    //console.log(dbtn);
     //слушатель кнопки удаления карточки
-    this._deleteButton.addEventListener("click", () => {
+    this._deleteButton.addEventListener("click", (evt) => {
       popupConfirmDelete.open();
+      const itemButton = evt.currentTarget;
+      //console.log(itemButton);
       //console.log(deleteButton);
+      //const dbtn = () => {return this._deleteButton};
+      //console.log(dbtn);
       formConfirmDelete.addEventListener("submit", (evt) => {
         //debugger;
         evt.preventDefault();
+        // console.log(itemButton);
         //console.log(cardId);
+
         //запрос на сервер удаления карточки
+        //console.log(dd.closest('.place'));
+        //const item = dd.closest(Card.places.place);
+
         cardsInfo
           .deleteCard(cardInfo._id)
           .then(() => {
-            this._deleteButton.closest(Card.places.place).remove()
+            //console.log(this.item);
+            itemButton.closest(Card.places.place).remove();
             popupConfirmDelete.close();
           })
           .catch((err) => {
             console.log(err);
           });
       });
-    })
+    });
 
     return this._element;
   }
@@ -159,4 +172,3 @@ export class Card {
     }
   }
 }
-
