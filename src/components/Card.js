@@ -2,8 +2,6 @@ import { openPopup, closePopup } from "../utils/util";
 
 import { cardsInfo } from "./CardsInfo";
 
-import { Popup } from "./Popup";
-
 export class Card {
   static places = {
     place: ".place",
@@ -71,16 +69,15 @@ export class Card {
       this._likeButton.classList.add(Card.places.likeButtonActive);
     }
 
-    const popupConfirmDelete = new Popup(Card.places.popupConfirmDelete);
-    /*const popupConfirmDelete = document.querySelector(
+    const popupConfirmDelete = document.querySelector(
       Card.places.popupConfirmDelete
-    );*/
+    );
     const formConfirmDelete = document.querySelector(
       Card.places.formConfirmDelete
     );
     //слушатель кнопки удаления карточки
     this._deleteButton.addEventListener("click", () => {
-      popupConfirmDelete.open();
+      openPopup(popupConfirmDelete);
       //console.log(deleteButton);
       formConfirmDelete.addEventListener("submit", (evt) => {
         //debugger;
@@ -90,14 +87,14 @@ export class Card {
         cardsInfo
           .deleteCard(cardInfo._id)
           .then(() => {
-            this._deleteButton.closest(Card.places.place).remove()
-            popupConfirmDelete.close();
+            closePopup(popupConfirmDelete);
+            this._deleteButton.closest(Card.places.place).remove();
           })
           .catch((err) => {
             console.log(err);
           });
       });
-    })
+    });
 
     return this._element;
   }

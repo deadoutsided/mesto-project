@@ -1,7 +1,7 @@
-import { Popup } from "./Popup";
+import Popup from "./Popup";
 
 
-export class PopupWithForm extends Popup {
+export default class PopupWithForm extends Popup {
 
     static _formClass = 'popup__form';
     static _inputsClass = 'popup__field';

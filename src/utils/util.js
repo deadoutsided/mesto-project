@@ -1,3 +1,5 @@
+import { toggleButtonState } from "../components/Validate";
+
 const config = {
   baseUrl: "https://nomoreparties.co/v1/plus-cohort-15",
   headers: {
@@ -34,9 +36,9 @@ function renderLoading(form, baseText, status) {
 }
 
 const disableButton = (popup) => {
+  const inputList = Array.from(popup.querySelectorAll(".popup__field"));
   const submitButton = popup.querySelector(".popup__submit-button");
-  submitButton.disabled = true;
-  submitButton.classList.add("popup__submit-button_disabled");
+  toggleButtonState(inputList, submitButton, "popup__submit-button_disabled");
 };
 
 export {
