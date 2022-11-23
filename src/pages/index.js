@@ -1,25 +1,22 @@
 import "../index.css";
 
-import { enableValidation } from "../components/Validate";
+import { FormValidator } from "../components/Validate";
 import { Card } from "../components/Card";
 import {
-  openPopup,
-  closePopup,
   disableButton,
   renderLoading,
 } from "../utils/util";
 
+import { validationList } from "../utils/constants";
 import {PopupWithImage} from "../components/PopupWithImage";
-
-import { setExitPopupListeners } from "../components/Modal";
+import { PopupWithForm } from "../components/PopupWithForm";
 import { cardsInfo } from "../components/CardsInfo";
 import { userInfo } from "../components/UserInfo";
-
 
 const placesContainer = document.querySelector(".places");
 const buttonEdit = document.querySelector(".profile__edit-button");
 const buttonAvatar = document.querySelector(".profile__avatar-button");
-const popEdit = document.querySelector(".popup_type_edit-profile");
+//const popEdit = document.querySelector(".popup_type_edit-profile");
 const popAdd = document.querySelector(".popup_type_add-place");
 const popAvatar = document.querySelector(".popup_type_avatar");
 const buttonAdd = document.querySelector(".profile__add-button");
@@ -40,6 +37,7 @@ const closeButtons = document.querySelectorAll(".popup__close-button");
 const placeTemplate = "#card-template";
 const popups = document.querySelectorAll(".popup__overlay");
 const avatarFormImg = popAvatar.querySelector(".popup__field_info_avatar");
+const avatarForm = popAvatar.querySelector(".popup__form");
 let profileInfo;
 
 //console.log(reqvest);
@@ -59,7 +57,7 @@ Promise.all([userInfo.getUserInfo(), cardsInfo.getCards()])
     //console.log(handleCardClick);
     //console.log(cardList._getElement());
     //console.log(cardList._generate(cards[0]));
-    console.log(cards);
+    //console.log(cards);
     cardList.addCards(cards);
   })
   .catch((err) => {
@@ -72,48 +70,50 @@ function handleCardClick(cardInfo) {
   popupWithImage.open(cardInfo.link, cardInfo.name);
 }
 
-function handlePopAvatarSubmit(evt) {
-  evt.preventDefault();
-  renderLoading(popAvatar, "Сохранить", true);
-  userInfo
-    .updateAvatar(avatarFormImg.value)
+const profilePopup = new PopupWithForm('.popup_type_edit-profile',
+  {handleFormSubmit: (formData) => {
+    renderLoading(editForm, "Сохранить", true);
+    userInfo.setUserInfo(formData.name, formData.nickname)    
+    .then(user => {
+        profileName.textContent = user.name;
+        profileDescription.textContent = user.about;
+        profilePopup.close();
+    })
+    .catch((err) => {
+        alert(err);
+    })
+    .finally(() => {              
+      renderLoading(editForm, "Сохранить", false);
+    });
+  }
+});
+
+const avatarPopup = new PopupWithForm('.popup_type_avatar',
+  {handleFormSubmit: (formData) => {
+    renderLoading(avatarForm, "Сохранить", true);
+    userInfo
+    .updateAvatar(formData['avatar-url'])
     .then((data) => {
       //console.log(data);
       profileImg.src = data.avatar;
-      closePopup(popAvatar);
-      evt.target.reset();
+      avatarPopup.close();
     })
     .catch((err) => console.log(err))
     .finally(() => {
-      renderLoading(popAvatar, "Сохранить", false);
+      renderLoading(avatarForm, "Сохранить", false);
     });
-}
+  }
+});
 
-function handleProfileFormSubmit(evt, formName, formDescription, popup) {
-  evt.preventDefault();
-  renderLoading(popup, "Сохранить", true);
-  userInfo
-    .setUserInfo(formName.value, formDescription.value)
-    .then(() => {
-      closePopup(popup);
-    })
-    .catch((err) => {
-      console.log(err);
-    })
-    .finally(() => {
-      renderLoading(popup, "Сохранить", false);
-    });
-}
 
-function handleformSubmitCardAdd(evt, name, url) {
-  console.log(evt);
-  //debugger;
-  evt.preventDefault();
-  renderLoading(popAdd, "Создать", true);
-  cardsInfo
-    .postCard(name.value, url.value)
+
+const addCardPopup = new PopupWithForm('.popup_type_add-place',
+  {handleFormSubmit: (formData) => {
+    renderLoading(addForm, "Создать", true);
+    cardsInfo
+    .postCard(formData['place-title'], formData['image-url'])
     .then((data) => {
-      console.log(data);
+      //console.log(data);
       //debugger;
       const newCard = new Card(
         placeTemplate,
@@ -123,54 +123,39 @@ function handleformSubmitCardAdd(evt, name, url) {
         handleCardClick
       );
       newCard.addCards(data);
-      closePopup(popAdd);
-      evt.target.reset();
+      addCardPopup.close();
     })
     .catch((err) => console.log(err))
     .finally(() => {
       renderLoading(popAdd, "Создать", false);
     });
-}
-
-popAvatar.addEventListener("submit", (evt) => {
-  handlePopAvatarSubmit(evt);
+  }
 });
 
-enableValidation({
-  formSelector: ".popup__form",
-  inputSelector: ".popup__field",
-  submitButtonSelector: ".popup__submit-button",
-  inactiveButtonClass: "popup__submit-button_disabled",
-  inputErrorClass: "popup__field_type_error",
-  errorClass: "popup__field-error_active",
-});
 
-closeButtons.forEach((button) => {
-  const popup = button.closest(".popup");
-  button.addEventListener("click", () => closePopup(popup));
-});
 
-editForm.addEventListener("submit", (evt) =>
-  handleProfileFormSubmit(evt, formName, formDescription, popEdit)
-);
+//enableValidation({validationList});
+const editFormValidator = new FormValidator(validationList, editForm);
+editFormValidator.enableValidation();
+const addFormValidator = new FormValidator(validationList, addForm);
+addFormValidator.enableValidation();
+const avatarFormValidator = new FormValidator(validationList, avatarForm);
+avatarFormValidator.enableValidation();
+
 
 buttonEdit.addEventListener("click", () => {
-  openPopup(popEdit);
+  profilePopup.open();
   formDescription.value = profileDescription.textContent;
   formName.value = profileName.textContent;
 });
 
 buttonAdd.addEventListener("click", () => {
-  openPopup(popAdd);
+  addCardPopup.open();
   disableButton(popAdd);
 });
 buttonAvatar.addEventListener("click", () => {
-  openPopup(popAvatar);
+  avatarPopup.open();
   disableButton(popAvatar);
 });
 
-addForm.addEventListener("submit", (evt) =>
-  handleformSubmitCardAdd(evt, cardName, cardUrl)
-);
 
-popups.forEach(setExitPopupListeners);
