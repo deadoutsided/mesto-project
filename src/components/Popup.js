@@ -1,4 +1,4 @@
-export default class Popup {
+export class Popup {
     
     static _closeButtonClass = 'popup__close-button';
     static _popupOpenClass = 'popup_opened';    
@@ -16,16 +16,16 @@ export default class Popup {
         this._modal.classList.remove(Popup._popupOpenClass);
     }
 
-    _handleEscClose () {
+    _handleEscClose() {
         if (event.key === "Escape") {
             this.close();
         }
     }
 
-    _handleOverlayClose() {
-        if(event.target === event.currentTarget) {
+    _handleOverlayClose() {       
+        if (event.target.classList.contains("popup__overlay")) {
             this.close();
-          } 
+        }
     }
 
   
