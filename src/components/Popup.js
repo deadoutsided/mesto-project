@@ -9,7 +9,7 @@ export class Popup {
 
     open() {
         this._modal.classList.add(Popup._popupOpenClass);
-        this.setEventListeners();
+        //this.setEventListeners();
     }
 
     close() {

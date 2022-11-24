@@ -27,16 +27,16 @@ const profileName = document.querySelector(".profile__title");
 const profileDescription = document.querySelector(".profile__paragraph");
 const profileImg = document.querySelector(".profile__img");
 const addForm = popAdd.querySelector(".popup__form");
-const cardName = addForm.querySelector(".popup__field_info_card-name");
-const cardUrl = addForm.querySelector(".popup__field_info_card-img");
+
+
 //const cardPopup = document.querySelector(".popup_type_place");
 const cardPopup = ".popup_type_place";
 //const cardPopupName = cardPopup.querySelector(".popup__subtitle");
 //const cardPopupImg = cardPopup.querySelector(".popup__img");
-const closeButtons = document.querySelectorAll(".popup__close-button");
+
 const placeTemplate = "#card-template";
-const popups = document.querySelectorAll(".popup__overlay");
-const avatarFormImg = popAvatar.querySelector(".popup__field_info_avatar");
+
+
 const avatarForm = popAvatar.querySelector(".popup__form");
 let profileInfo;
 
@@ -68,6 +68,7 @@ function handleCardClick(cardInfo) {
   //console.log(cardInfo);
   const popupWithImage = new PopupWithImage(cardPopup);
   popupWithImage.open(cardInfo.link, cardInfo.name);
+  popupWithImage.setEventListeners();
 }
 
 const profilePopup = new PopupWithForm('.popup_type_edit-profile',
@@ -77,7 +78,7 @@ const profilePopup = new PopupWithForm('.popup_type_edit-profile',
     .then(user => {
         profileName.textContent = user.name;
         profileDescription.textContent = user.about;
-        profilePopup.close();
+        profilePopup.close();        
     })
     .catch((err) => {
         alert(err);
@@ -94,7 +95,6 @@ const avatarPopup = new PopupWithForm('.popup_type_avatar',
     userInfo
     .updateAvatar(formData['avatar-url'])
     .then((data) => {
-      //console.log(data);
       profileImg.src = data.avatar;
       avatarPopup.close();
     })
@@ -113,8 +113,6 @@ const addCardPopup = new PopupWithForm('.popup_type_add-place',
     cardsInfo
     .postCard(formData['place-title'], formData['image-url'])
     .then((data) => {
-      //console.log(data);
-      //debugger;
       const newCard = new Card(
         placeTemplate,
         placesContainer,
@@ -123,15 +121,14 @@ const addCardPopup = new PopupWithForm('.popup_type_add-place',
         handleCardClick
       );
       newCard.addCards(data);
-      addCardPopup.close();
+      addCardPopup.close();      
     })
     .catch((err) => console.log(err))
     .finally(() => {
-      renderLoading(popAdd, "Создать", false);
+      renderLoading(addForm, "Создать", false);
     });
   }
 });
-
 
 
 //enableValidation({validationList});
@@ -148,14 +145,16 @@ buttonEdit.addEventListener("click", () => {
   formDescription.value = profileDescription.textContent;
   formName.value = profileName.textContent;
 });
+profilePopup.setEventListeners();
 
 buttonAdd.addEventListener("click", () => {
   addCardPopup.open();
   disableButton(popAdd);
 });
+addCardPopup.setEventListeners();
+
 buttonAvatar.addEventListener("click", () => {
   avatarPopup.open();
   disableButton(popAvatar);
 });
-
-
+avatarPopup.setEventListeners();
