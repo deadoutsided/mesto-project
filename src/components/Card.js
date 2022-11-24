@@ -42,7 +42,7 @@ export class Card {
     return cardElement;
   }
 
-  _generate(cardInfo) {
+  generate(cardInfo) {
     this._element = this._getElement();
     this._placeImg = this._element.querySelector(Card.places.image);
     this._placeTitle = this._element.querySelector(Card.places.title);
@@ -70,7 +70,8 @@ export class Card {
       this._likeButton.classList.add(Card.places.likeButtonActive);
     }
 
-    const popupConfirmDelete = new Popup(Card.places.popupConfirmDelete);
+    //const popupConfirmDelete = new Popup(Card.places.popupConfirmDelete);
+    const popup = new Popup(Card.places.popupConfirmDelete);
     const formConfirmDelete = document.querySelector(
       Card.places.formConfirmDelete
     );
@@ -78,8 +79,10 @@ export class Card {
     //console.log(dbtn);
     //слушатель кнопки удаления карточки
     this._deleteButton.addEventListener("click", (evt) => {
-      popupConfirmDelete.open();
+      //popupConfirmDelete.open();
+      popup.open();
       const itemButton = evt.currentTarget;
+      popup.setEventListeners();
       //console.log(itemButton);
       //console.log(deleteButton);
       //const dbtn = () => {return this._deleteButton};
@@ -93,13 +96,12 @@ export class Card {
         //запрос на сервер удаления карточки
         //console.log(dd.closest('.place'));
         //const item = dd.closest(Card.places.place);
-
         cardsInfo
           .deleteCard(cardInfo._id)
           .then(() => {
             //console.log(this.item);
             itemButton.closest(Card.places.place).remove();
-            popupConfirmDelete.close();
+            popup.close();
           })
           .catch((err) => {
             console.log(err);
@@ -108,23 +110,6 @@ export class Card {
     });
 
     return this._element;
-  }
-
-  addCards(cardsInfo) {
-    //console.log(cardsInfo);
-    //console.log(this._cardsInfo);
-    if (Array.isArray(cardsInfo)) {
-      for (let i = 0; i < cardsInfo.length; i++) {
-        //console.log(cardsInfo[i].link);
-        const placeElement = this._generate(cardsInfo[i]);
-        //console.log(placeElement);
-        //console.log(this._container);
-        this._container.append(placeElement);
-      }
-    } else {
-      const placeElement = this._generate(cardsInfo);
-      this._container.prepend(placeElement);
-    }
   }
 
   _setEventListeners = (cardInfo) => {
