@@ -7,6 +7,7 @@ export class PopupWithImage extends Popup{
 
     constructor (selector) {
         super(selector);
+        this._modal = document.querySelector(selector);
     }
 
     open(cardLink, cardName) {
@@ -14,6 +15,6 @@ export class PopupWithImage extends Popup{
         document.querySelector(`.${PopupWithImage._imageClass}`).alt = cardName;
         document.querySelector(`.${PopupWithImage._imageCaptionClass}`).textContent = cardName;
         this._modal.classList.add(Popup._popupOpenClass);
-        super.setEventListeners();
+        //super.setEventListeners();
     }
 }

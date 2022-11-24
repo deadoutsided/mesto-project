@@ -9,22 +9,23 @@ export class PopupWithForm extends Popup {
     constructor(selector, {handleFormSubmit}) {
         super(selector);
         this._handleFormSubmit = handleFormSubmit
+        this._modal = document.querySelector(selector);
     }
 
     close() {                
         this._modal.classList.remove(Popup._popupOpenClass);
         this._form = this._modal.querySelector(`.${PopupWithForm._formClass}`);
-        this._form.reset();        
+        this._form.reset();                
     }
 
     _getInputValues () { 
+        this._form = this._modal.querySelector(`.${PopupWithForm._formClass}`);       
         this._inputList = this._modal.querySelectorAll(`.${PopupWithForm._inputsClass}`);
         this._formValues = {};
         this._inputList.forEach(input => {
             this._formValues[input.name] = input.value;
         });
-        console.log(this._formValues);
-        return this._formValues;        
+        return this._formValues;       
     }
 
     setEventListeners() {
@@ -39,24 +40,8 @@ export class PopupWithForm extends Popup {
         });
         this._modal.addEventListener('submit', (evt) => {
             evt.preventDefault();
-            this._handleFormSubmit(this._getInputValues());
+            this._handleFormSubmit(this._getInputValues());            
         });
     }
 }
 
-
-/*  Создание экземпляра класса (пример для формы Профиля):
-
-const profilePopup = new PopupWithForm('селектор модалки',
-  {handleFormSubmit: (formData) => {
-    reqvest.setUserInfo(formData.name, formData.job)    
-    .then(user => {
-        profileName.textContent = user.name;
-        profileDescription.textContent = user.nickname;
-        profilePopup.close();
-    })
-    .catch((err) => {
-        alert(err);
-    })
-  }
-});*/
