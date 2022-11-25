@@ -14,7 +14,9 @@ export class PopupWithImage extends Popup{
         document.querySelector(`.${PopupWithImage._imageClass}`).src = cardLink;
         document.querySelector(`.${PopupWithImage._imageClass}`).alt = cardName;
         document.querySelector(`.${PopupWithImage._imageCaptionClass}`).textContent = cardName;
+        window.addEventListener('keydown', () => {
+            super._handleEscClose();
+        });
         this._modal.classList.add(Popup._popupOpenClass);
-        //super.setEventListeners();
     }
 }
