@@ -14,6 +14,9 @@ export class PopupWithForm extends Popup {
 
     close() {
         this._modal.classList.remove(Popup._popupOpenClass);
+        window.removeEventListener('keydown', () => {
+            super._handleEscClose();
+        });
         this._form = this._modal.querySelector(`.${PopupWithForm._formClass}`);
         this._form.reset();
     }
@@ -29,9 +32,6 @@ export class PopupWithForm extends Popup {
     }
 
     setEventListeners() {
-        window.addEventListener('keydown', () => {
-            super._handleEscClose();
-        });
         this._modal.addEventListener('mousedown', () => {
             super._handleOverlayClose();
         });

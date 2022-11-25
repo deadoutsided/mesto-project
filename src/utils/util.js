@@ -1,10 +1,4 @@
-const config = {
-  baseUrl: "https://nomoreparties.co/v1/plus-cohort-15",
-  headers: {
-    authorization: "6e42217e-2177-4476-b93c-c82e4a9b29ea",
-    "Content-Type": "application/json",
-  },
-};
+
 //16
 //9656253c-3dfe-4770-aeca-f882bc2dc634
 
