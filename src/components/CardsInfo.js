@@ -1,4 +1,4 @@
-import { config } from "../utils/util";
+import { config } from "../utils/constants";
 import { Api } from "./Api";
 
 class CardsInfo extends Api {

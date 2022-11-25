@@ -9,11 +9,16 @@ export class Popup {
 
     open() {
         this._modal.classList.add(Popup._popupOpenClass);
-        //this.setEventListeners();
+        window.addEventListener('keydown', () => {
+            this._handleEscClose();
+        });
     }
 
     close() {
         this._modal.classList.remove(Popup._popupOpenClass);
+        window.removeEventListener('keydown', () => {
+            this._handleEscClose();
+        });        
     }
 
     _handleEscClose() {
@@ -29,10 +34,7 @@ export class Popup {
     }
 
   
-    setEventListeners() {
-        window.addEventListener('keydown', () => {
-            this._handleEscClose();
-        });
+    setEventListeners() {        
         this._modal.addEventListener('mousedown', () => {
             this._handleOverlayClose();
         });        
