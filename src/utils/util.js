@@ -17,7 +17,6 @@ const disableButton = (popup) => {
 };
 
 export {
-  //config,
   renderLoading,
   disableButton,
 };
