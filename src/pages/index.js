@@ -25,7 +25,7 @@ const profileName = document.querySelector(".profile__title");
 const profileDescription = document.querySelector(".profile__paragraph");
 const profileImg = document.querySelector(".profile__img");
 const addForm = popAdd.querySelector(".popup__form");
-
+const formConfirmDelete = document.querySelector('popup__form_content_confirm-delete');
 //const cardPopup = document.querySelector(".popup_type_place");
 const cardPopup = ".popup_type_place";
 //const cardPopupName = cardPopup.querySelector(".popup__subtitle");
@@ -48,7 +48,8 @@ Promise.all([userInfo.getUserInfo(), cardsInfo.getCards()])
       placesContainer,
       cards,
       profileInfo,
-      handleCardClick
+      handleCardClick,
+      popDelConfirm
     );
     //console.log(handleCardClick);
     //console.log(cardList._getElement());
@@ -73,9 +74,7 @@ Promise.all([userInfo.getUserInfo(), cardsInfo.getCards()])
 
 function handleCardClick(cardInfo) {
   //console.log(cardInfo);
-  const popupWithImage = new PopupWithImage(cardPopup);
   popupWithImage.open(cardInfo.link, cardInfo.name);
-  popupWithImage.setEventListeners();
 }
 
 const profilePopup = new PopupWithForm(".popup_type_edit-profile", {
@@ -124,7 +123,8 @@ const addCardPopup = new PopupWithForm(".popup_type_add-place", {
           placesContainer,
           data,
           profileInfo,
-          handleCardClick
+          handleCardClick,
+          popDelConfirm
         );
 
         const itemNew = new Section(
@@ -148,6 +148,11 @@ const addCardPopup = new PopupWithForm(".popup_type_add-place", {
       });
   },
 });
+
+const popupWithImage = new PopupWithImage(cardPopup);
+const popDelConfirm = new PopupWithForm(".popup_type_confirm-delete",{
+handleFormSubmit: () => {}});
+popupWithImage.setEventListeners();
 
 //enableValidation({validationList});
 const editFormValidator = new FormValidator(validationList, editForm);
