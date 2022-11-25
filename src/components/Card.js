@@ -25,13 +25,15 @@ export class Card {
     container,
     cardsInfo,
     profileInfo,
-    handleCardClick
+    handleCardClick,
+    popDelConfirm
   ) {
     this._selectorTemplate = selectorTemplate;
     this._container = container;
     this._cardsInfo = cardsInfo;
     this._profileInfo = profileInfo;
     this.handleCardClick = handleCardClick;
+    this._popDelConfirm = popDelConfirm;
   }
 
   _getElement() {
@@ -70,38 +72,23 @@ export class Card {
       this._likeButton.classList.add(Card.places.likeButtonActive);
     }
 
-    //const popupConfirmDelete = new Popup(Card.places.popupConfirmDelete);
-    const popup = new Popup(Card.places.popupConfirmDelete);
-    const formConfirmDelete = document.querySelector(
-      Card.places.formConfirmDelete
-    );
+    const popDel = document.querySelector(Card.places.popupConfirmDelete);
 
-    //console.log(dbtn);
     //слушатель кнопки удаления карточки
     this._deleteButton.addEventListener("click", (evt) => {
-      //popupConfirmDelete.open();
-      popup.open();
+      const formConfirmDelete = document.querySelector(Card.places.formConfirmDelete).cloneNode(true);
+      document.querySelector(Card.places.formConfirmDelete).remove();
+      popDel.querySelector('.popup__overlay').prepend(formConfirmDelete);
+      this._popDelConfirm.open();
       const itemButton = evt.currentTarget;
-      popup.setEventListeners();
-      //console.log(itemButton);
-      //console.log(deleteButton);
-      //const dbtn = () => {return this._deleteButton};
-      //console.log(dbtn);
+      this._popDelConfirm.setEventListeners();
       formConfirmDelete.addEventListener("submit", (evt) => {
-        //debugger;
         evt.preventDefault();
-        // console.log(itemButton);
-        //console.log(cardId);
-
-        //запрос на сервер удаления карточки
-        //console.log(dd.closest('.place'));
-        //const item = dd.closest(Card.places.place);
         cardsInfo
           .deleteCard(cardInfo._id)
           .then(() => {
-            //console.log(this.item);
             itemButton.closest(Card.places.place).remove();
-            popup.close();
+            this._popDelConfirm.close();
           })
           .catch((err) => {
             console.log(err);
@@ -117,10 +104,8 @@ export class Card {
     const cardId = cardInfo._id;
     const likeCounter = this._likeCounter;
     const likeButton = this._likeButton;
-    //console.log(this._deleteButton);
     //слушатель нажатия на картинку карточки
     this._placeImg.addEventListener("click", () => {
-      //console.log(evt);
       this.handleCardClick(cardInfo);
     });
 
@@ -132,14 +117,10 @@ export class Card {
   };
 
   _handleLikeButtonClick(likesCheck, cardId, likeCounter, likeButton) {
-    //console.log(likesCheck);
-    //debugger;
     if (likesCheck) {
-      //console.log(cardId);
       cardsInfo
         .deleteLikeCard(cardId)
         .then((data) => {
-          //console.log(data);
           likeCounter.textContent = data.likes.length;
           likeButton.classList.toggle(Card.places.likeButtonActive);
         })
