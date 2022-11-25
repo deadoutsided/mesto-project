@@ -1,4 +1,3 @@
-
 //16
 //9656253c-3dfe-4770-aeca-f882bc2dc634
 
@@ -18,8 +17,7 @@ const disableButton = (popup) => {
 };
 
 export {
-  config,
+  //config,
   renderLoading,
   disableButton,
 };
-
