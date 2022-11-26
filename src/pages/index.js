@@ -1,22 +1,62 @@
 import "../index.css";
 
+import { config } from "../utils/constants";
 import { FormValidator } from "../components/Validate";
 import { Card } from "../components/Card";
 import { Section } from "../components/Section";
 import { disableButton, renderLoading } from "../utils/util";
-import { validationList, placesContainer, buttonEdit, buttonAvatar,
-  popAdd, popAvatar, buttonAdd, editForm, formName, formDescription,
-  profileName, profileDescription, profileImg, addForm, cardPopup,
-  placeTemplate, avatarForm } from "../utils/constants";
+import {
+  validationList,
+  placesContainer,
+  buttonEdit,
+  buttonAvatar,
+  popAdd,
+  popAvatar,
+  buttonAdd,
+  editForm,
+  formName,
+  formDescription,
+  profileName,
+  profileDescription,
+  profileImg,
+  addForm,
+  cardPopup,
+  placeTemplate,
+  avatarForm,
+} from "../utils/constants";
 import { PopupWithImage } from "../components/PopupWithImage";
 import { PopupWithForm } from "../components/PopupWithForm";
+import { Api } from "../components/Api";
 import { cardsInfo } from "../components/CardApi";
 import { userInfo } from "../components/UserInfo";
 
 let profileInfo;
 
-//console.log(reqvest);
-Promise.all([userInfo.getUserInfo(), cardsInfo.getCards()])
+//Серверная часть обработки данных пользователя
+async function getUserInfo() {
+  const api = new Api(config);
+  const result = await api.requireApi("/users/me");
+  userInfo.putUserInfo(result);
+  return result;
+}
+
+async function setUserInfo(name, about) {
+  const api = new Api(config);
+  const result = await api.requireApi(
+    "/users/me",
+    { name: `${name}`, about: `${about}` },
+    "PATCH"
+  );
+  userInfo.putUserInfo(result);
+  return result;
+}
+
+async function updateAvatar(newImg) {
+  const api = new Api(config);
+  return await api.requireApi("/users/me/avatar", { avatar: newImg }, "PATCH");
+}
+
+Promise.all([getUserInfo(), cardsInfo.getCards()])
   .then(([userData, cards]) => {
     //console.log(userData);
     //console.log(cards);
@@ -59,8 +99,7 @@ function handleCardClick(cardInfo) {
 const profilePopup = new PopupWithForm(".popup_type_edit-profile", {
   handleFormSubmit: (formData) => {
     renderLoading(editForm, "Сохранить", true);
-    userInfo
-      .setUserInfo(formData.name, formData.nickname)
+    setUserInfo(formData.name, formData.nickname)
       .then((user) => {
         profileName.textContent = user.name;
         profileDescription.textContent = user.about;
@@ -78,8 +117,7 @@ const profilePopup = new PopupWithForm(".popup_type_edit-profile", {
 const avatarPopup = new PopupWithForm(".popup_type_avatar", {
   handleFormSubmit: (formData) => {
     renderLoading(avatarForm, "Сохранить", true);
-    userInfo
-      .updateAvatar(formData["avatar-url"])
+    updateAvatar(formData["avatar-url"])
       .then((data) => {
         profileImg.src = data.avatar;
         avatarPopup.close();
@@ -129,15 +167,15 @@ const addCardPopup = new PopupWithForm(".popup_type_add-place", {
 });
 
 const popupWithImage = new PopupWithImage(cardPopup);
-const popDelConfirm = new PopupWithForm(".popup_type_confirm-delete",{
-handleFormSubmit: () => {}});
+const popDelConfirm = new PopupWithForm(".popup_type_confirm-delete", {
+  handleFormSubmit: () => {},
+});
 popupWithImage.setEventListeners();
 
 //enableValidation({validationList});
 const editFormValidator = new FormValidator(validationList, editForm);
 const addFormValidator = new FormValidator(validationList, addForm);
 const avatarFormValidator = new FormValidator(validationList, avatarForm);
-
 
 buttonEdit.addEventListener("click", () => {
   editFormValidator.enableValidation();
@@ -150,7 +188,6 @@ buttonAdd.addEventListener("click", () => {
   disableButton(popAdd);
   addFormValidator.enableValidation();
   addCardPopup.open();
-
 });
 
 buttonAvatar.addEventListener("click", () => {

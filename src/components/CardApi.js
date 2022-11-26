@@ -7,11 +7,11 @@ class CardApi extends Api {
   }
 
   async getCards() {
-    return await super._requireApi("/cards");
+    return await super.requireApi("/cards");
   }
 
   async postCard(cardName, cardImg) {
-    return await super._requireApi(
+    return await super.requireApi(
       "/cards",
       { name: cardName, link: cardImg },
       "POST"
@@ -19,15 +19,15 @@ class CardApi extends Api {
   }
 
   async deleteCard(cardId) {
-    return await super._requireApi(`/cards/${cardId}`, {}, "DELETE");
+    return await super.requireApi(`/cards/${cardId}`, {}, "DELETE");
   }
 
   async likeCard(cardId) {
-    return await super._requireApi(`/cards/likes/${cardId}`, {}, "PUT");
+    return await super.requireApi(`/cards/likes/${cardId}`, {}, "PUT");
   }
 
   async deleteLikeCard(cardId) {
-    return await super._requireApi(`/cards/likes/${cardId}`, {}, "DELETE");
+    return await super.requireApi(`/cards/likes/${cardId}`, {}, "DELETE");
   }
 }
 
