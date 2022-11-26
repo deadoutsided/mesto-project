@@ -197,11 +197,13 @@ function handleFormSubmit() {
 const popupWithImage = new PopupWithImage(cardPopup);
 
 const editFormValidator = new FormValidator(validationList, editForm);
+editFormValidator.enableValidation();
 const addFormValidator = new FormValidator(validationList, addForm);
+addFormValidator.enableValidation();
 const avatarFormValidator = new FormValidator(validationList, avatarForm);
+avatarFormValidator.enableValidation();
 
 buttonEdit.addEventListener("click", () => {
-  editFormValidator.enableValidation();
   profilePopup.open();
   formDescription.value = profileDescription.textContent;
   formName.value = profileName.textContent;
@@ -209,13 +211,11 @@ buttonEdit.addEventListener("click", () => {
 
 buttonAdd.addEventListener("click", () => {
   disableButton(popAdd);
-  addFormValidator.enableValidation();
   addCardPopup.open();
 });
 
 buttonAvatar.addEventListener("click", () => {
   disableButton(popAvatar);
-  avatarFormValidator.enableValidation();
   avatarPopup.open();
 });
 
