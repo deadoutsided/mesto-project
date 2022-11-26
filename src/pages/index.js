@@ -1,7 +1,7 @@
 import "../index.css";
 
+import { FormValidator } from "../components/FormValidator";
 import { config } from "../utils/constants";
-import { FormValidator } from "../components/Validate";
 import { Card } from "../components/Card";
 import { Section } from "../components/Section";
 import { disableButton, renderLoading } from "../utils/util";
