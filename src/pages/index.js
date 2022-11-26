@@ -29,6 +29,7 @@ import { PopupWithForm } from "../components/PopupWithForm";
 import { Api } from "../components/Api";
 import { cardsInfo } from "../components/CardApi";
 import { userInfo } from "../components/UserInfo";
+//import { create } from "core-js/core/object";
 
 let profileInfo;
 
@@ -56,6 +57,20 @@ async function updateAvatar(newImg) {
   return await api.requireApi("/users/me/avatar", { avatar: newImg }, "PATCH");
 }
 
+function createCard(cardItem) {
+  const newCard = new Card(
+    placeTemplate,
+    placesContainer,
+    cardItem,
+    profileInfo,
+    handleCardClick,
+    handleLikeButtonClick,
+    handleDelButtonClick
+  );
+  const cardElement = newCard.generate(cardItem);
+  return cardElement;
+}
+
 Promise.all([getUserInfo(), cardsInfo.getCards()])
   .then(([userData, cards]) => {
     //console.log(userData);
@@ -66,18 +81,7 @@ Promise.all([getUserInfo(), cardsInfo.getCards()])
       {
         items: cards,
         renderer: (cardItem) => {
-          const newCard = new Card(
-            placeTemplate,
-            placesContainer,
-            cardItem,
-            profileInfo,
-            handleCardClick,
-            handleLikeButtonClick,
-            handleDelButtonClick
-          );
-          //console.log(cardItem);
-          const cardElement = newCard.generate(cardItem);
-          itemList.setItem(cardElement);
+          itemList.setItem(createCard(cardItem));
         },
       },
       ".places"
@@ -131,23 +135,12 @@ const addCardPopup = new PopupWithForm(".popup_type_add-place", {
     cardsInfo
       .postCard(formData["place-title"], formData["image-url"])
       .then((data) => {
-        const newCard = new Card(
-          placeTemplate,
-          placesContainer,
-          data,
-          profileInfo,
-          handleCardClick,
-          handleLikeButtonClick,
-          handleDelButtonClick
-        );
-
         const itemNew = new Section(
           {
             items: data,
             renderer: (cardItem) => {
               //console.log(data);
-              const cardElement = newCard.generate(cardItem);
-              itemNew.setItem(cardElement);
+              itemNew.setItem(createCard(data));
             },
           },
           ".places"
@@ -222,7 +215,8 @@ const avatarFormValidator = new FormValidator(validationList, avatarForm);
 buttonEdit.addEventListener("click", () => {
   editFormValidator.enableValidation();
   profilePopup.open();
-  formDescription.value = document.querySelector(profileDescription).textContent;
+  formDescription.value =
+    document.querySelector(profileDescription).textContent;
   formName.value = document.querySelector(profileName).textContent;
 });
 
