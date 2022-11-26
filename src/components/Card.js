@@ -1,4 +1,4 @@
-import { cardsInfo } from "./CardsInfo";
+import { cardsInfo } from "./CardApi";
 
 import { Popup } from "./Popup";
 

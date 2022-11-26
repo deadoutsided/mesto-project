@@ -10,7 +10,7 @@ import { validationList, placesContainer, buttonEdit, buttonAvatar,
   placeTemplate, avatarForm } from "../utils/constants";
 import { PopupWithImage } from "../components/PopupWithImage";
 import { PopupWithForm } from "../components/PopupWithForm";
-import { cardsInfo } from "../components/CardsInfo";
+import { cardsInfo } from "../components/CardApi";
 import { userInfo } from "../components/UserInfo";
 
 let profileInfo;
@@ -150,13 +150,13 @@ buttonAdd.addEventListener("click", () => {
   disableButton(popAdd);
   addFormValidator.enableValidation();
   addCardPopup.open();
-  
+
 });
 
 buttonAvatar.addEventListener("click", () => {
   disableButton(popAvatar);
   avatarFormValidator.enableValidation();
-  avatarPopup.open();  
+  avatarPopup.open();
 });
 
 profilePopup.setEventListeners();

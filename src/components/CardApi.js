@@ -1,7 +1,7 @@
 import { config } from "../utils/constants";
 import { Api } from "./Api";
 
-class CardsInfo extends Api {
+class CardApi extends Api {
   constructor(config, selectorProfileName, selectorProfileDescription) {
     super(config);
   }
@@ -31,4 +31,4 @@ class CardsInfo extends Api {
   }
 }
 
-export const cardsInfo = new CardsInfo(config);
+export const cardsInfo = new CardApi(config);
