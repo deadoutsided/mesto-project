@@ -59,27 +59,24 @@ async function updateAvatar(newImg) {
 Promise.all([getUserInfo(), cardsInfo.getCards()])
   .then(([userData, cards]) => {
     //console.log(userData);
-    //console.log(cards);
     profileImg.src = userData.avatar;
     profileInfo = userData;
-    const cardList = new Card(
-      placeTemplate,
-      placesContainer,
-      cards,
-      profileInfo,
-      handleCardClick,
-      popDelConfirm
-    );
-    //console.log(handleCardClick);
-    //console.log(cardList._getElement());
-    //console.log(cardList._generate(cards[0]));
     //console.log(cards);
     const itemList = new Section(
       {
         items: cards,
         renderer: (cardItem) => {
-          //console.log(cards);
-          const cardElement = cardList.generate(cardItem);
+          const newCard = new Card(
+            placeTemplate,
+            placesContainer,
+            cardItem,
+            profileInfo,
+            handleCardClick,
+            handleLikeButtonClick,
+            handleDelButtonClick
+          );
+          //console.log(cardItem);
+          const cardElement = newCard.generate(cardItem);
           itemList.setItem(cardElement);
         },
       },
@@ -91,9 +88,9 @@ Promise.all([getUserInfo(), cardsInfo.getCards()])
     console.log(err);
   });
 
-function handleCardClick(cardInfo) {
+function handleCardClick(evt) {
   //console.log(cardInfo);
-  popupWithImage.open(cardInfo.link, cardInfo.name);
+  popupWithImage.open(evt.target.currentSrc, evt.target.alt);
 }
 
 const profilePopup = new PopupWithForm(".popup_type_edit-profile", {
@@ -141,7 +138,8 @@ const addCardPopup = new PopupWithForm(".popup_type_add-place", {
           data,
           profileInfo,
           handleCardClick,
-          popDelConfirm
+          handleLikeButtonClick,
+          handleDelButtonClick
         );
 
         const itemNew = new Section(
@@ -166,11 +164,56 @@ const addCardPopup = new PopupWithForm(".popup_type_add-place", {
   },
 });
 
-const popupWithImage = new PopupWithImage(cardPopup);
+//Серверная и исполнительная части обработки данных карточек
+//Обработчик лайков
+function handleLikeButtonClick(likesCheck, dataCard) {
+  if (likesCheck) {
+    cardsInfo
+      .deleteLikeCard(dataCard._cardInfo._id)
+      .then((data) => {
+        //console.log(data.likes.length);
+        dataCard.togglLike(data);
+      })
+      .catch((err) => console.log(err));
+  } else {
+    cardsInfo
+      .likeCard(dataCard._cardInfo._id)
+      .then((data) => {
+        dataCard.togglLike(data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }
+}
+//Обработчики удаления
+let itemDelButton;
+let dataDelCard;
+function handleDelButtonClick(evt, dataCard) {
+  popDelConfirm.open();
+  itemDelButton = evt.currentTarget;
+  dataDelCard = dataCard;
+  //console.log(itemDelButton, dataDelCard);
+}
+
 const popDelConfirm = new PopupWithForm(".popup_type_confirm-delete", {
-  handleFormSubmit: () => {},
+  handleFormSubmit,
 });
-popupWithImage.setEventListeners();
+
+function handleFormSubmit() {
+  //console.log(itemDelButton, dataDelCard);
+  cardsInfo
+    .deleteCard(dataDelCard._cardInfo._id)
+    .then(() => {
+      dataDelCard.removeCard(itemDelButton);
+      popDelConfirm.close();
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+}
+//Попап картинки
+const popupWithImage = new PopupWithImage(cardPopup);
 
 //enableValidation({validationList});
 const editFormValidator = new FormValidator(validationList, editForm);
@@ -199,3 +242,5 @@ buttonAvatar.addEventListener("click", () => {
 profilePopup.setEventListeners();
 addCardPopup.setEventListeners();
 avatarPopup.setEventListeners();
+popupWithImage.setEventListeners();
+popDelConfirm.setEventListeners();
