@@ -72,23 +72,23 @@ export class Card {
       this._likeButton.classList.add(Card.places.likeButtonActive);
     }
 
-    const popDel = document.querySelector(Card.places.popupConfirmDelete);
+    const popupConfirmDelete = new Popup(Card.places.popupConfirmDelete);
+    const formConfirmDelete = document.querySelector(
+      Card.places.formConfirmDelete
+    );
 
     //слушатель кнопки удаления карточки
     this._deleteButton.addEventListener("click", (evt) => {
-      const formConfirmDelete = document.querySelector(Card.places.formConfirmDelete).cloneNode(true);
-      document.querySelector(Card.places.formConfirmDelete).remove();
-      popDel.querySelector('.popup__overlay').prepend(formConfirmDelete);
-      this._popDelConfirm.open();
+      popupConfirmDelete.open();
       const itemButton = evt.currentTarget;
-      this._popDelConfirm.setEventListeners();
       formConfirmDelete.addEventListener("submit", (evt) => {
         evt.preventDefault();
         cardsInfo
           .deleteCard(cardInfo._id)
           .then(() => {
+            //console.log(this.item);
             itemButton.closest(Card.places.place).remove();
-            this._popDelConfirm.close();
+            popupConfirmDelete.close();
           })
           .catch((err) => {
             console.log(err);
