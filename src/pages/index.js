@@ -18,7 +18,7 @@ import {
   formDescription,
   profileName,
   profileDescription,
-  profileImg,
+  //profileImg,
   addForm,
   cardPopup,
   placeTemplate,
@@ -59,7 +59,7 @@ async function updateAvatar(newImg) {
 Promise.all([getUserInfo(), cardsInfo.getCards()])
   .then(([userData, cards]) => {
     //console.log(userData);
-    profileImg.src = userData.avatar;
+    userInfo.putAvatar(userData);
     profileInfo = userData;
     //console.log(cards);
     const itemList = new Section(
@@ -98,8 +98,7 @@ const profilePopup = new PopupWithForm(".popup_type_edit-profile", {
     renderLoading(editForm, "Сохранить", true);
     setUserInfo(formData.name, formData.nickname)
       .then((user) => {
-        profileName.textContent = user.name;
-        profileDescription.textContent = user.about;
+        userInfo.putUserInfo(user);
         profilePopup.close();
       })
       .catch((err) => {
@@ -116,7 +115,7 @@ const avatarPopup = new PopupWithForm(".popup_type_avatar", {
     renderLoading(avatarForm, "Сохранить", true);
     updateAvatar(formData["avatar-url"])
       .then((data) => {
-        profileImg.src = data.avatar;
+        userInfo.putAvatar(data);
         avatarPopup.close();
       })
       .catch((err) => console.log(err))
@@ -223,8 +222,8 @@ const avatarFormValidator = new FormValidator(validationList, avatarForm);
 buttonEdit.addEventListener("click", () => {
   editFormValidator.enableValidation();
   profilePopup.open();
-  formDescription.value = profileDescription.textContent;
-  formName.value = profileName.textContent;
+  formDescription.value = document.querySelector(profileDescription).textContent;
+  formName.value = document.querySelector(profileName).textContent;
 });
 
 buttonAdd.addEventListener("click", () => {
