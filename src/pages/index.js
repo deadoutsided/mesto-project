@@ -7,7 +7,7 @@ import { Section } from "../components/Section";
 import { disableButton, renderLoading } from "../utils/util";
 import {
   validationList,
-  placesContainer,
+  cardsContainer,
   buttonEdit,
   buttonAvatar,
   popAdd,
@@ -60,7 +60,6 @@ async function updateAvatar(newImg) {
 function createCard(cardItem) {
   const newCard = new Card(
     placeTemplate,
-    placesContainer,
     cardItem,
     profileInfo,
     handleCardClick,
@@ -84,7 +83,7 @@ Promise.all([getUserInfo(), cardsInfo.getCards()])
           itemList.setItem(createCard(cardItem));
         },
       },
-      ".places"
+      cardsContainer
     );
     itemList.renderItems();
   })
@@ -140,10 +139,10 @@ const addCardPopup = new PopupWithForm(".popup_type_add-place", {
             items: data,
             renderer: (cardItem) => {
               //console.log(data);
-              itemNew.setItem(createCard(data));
+              itemNew.setItem(createCard(cardItem));
             },
           },
-          ".places"
+          cardsContainer
         );
         itemNew.renderItems();
         //newCard.addCards(data);
@@ -215,9 +214,8 @@ const avatarFormValidator = new FormValidator(validationList, avatarForm);
 buttonEdit.addEventListener("click", () => {
   editFormValidator.enableValidation();
   profilePopup.open();
-  formDescription.value =
-    document.querySelector(profileDescription).textContent;
-  formName.value = document.querySelector(profileName).textContent;
+  formDescription.value = profileDescription.textContent;
+  formName.value = profileName.textContent;
 });
 
 buttonAdd.addEventListener("click", () => {

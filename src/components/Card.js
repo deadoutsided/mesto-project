@@ -12,13 +12,11 @@ export class Card {
   };
 
   _selectorTemplate;
-  _container;
   _cardsInfo;
   _profileInfo;
 
   constructor(
     selectorTemplate,
-    container,
     cardInfo,
     profileInfo,
     handleCardClick,
@@ -26,7 +24,6 @@ export class Card {
     handleDelButtonClick
   ) {
     this._selectorTemplate = selectorTemplate;
-    this._container = container;
     this._cardInfo = cardInfo;
     this._profileInfo = profileInfo;
     this.handleCardClick = handleCardClick;

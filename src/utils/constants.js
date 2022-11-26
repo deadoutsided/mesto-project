@@ -14,7 +14,7 @@ const config = {
     "Content-Type": "application/json",
   },
 };
-const placesContainer = document.querySelector(".places");
+const cardsContainer = document.querySelector(".places");
 const buttonEdit = document.querySelector(".profile__edit-button");
 const buttonAvatar = document.querySelector(".profile__avatar-button");
 const popAdd = document.querySelector(".popup_type_add-place");
@@ -23,9 +23,9 @@ const buttonAdd = document.querySelector(".profile__add-button");
 const editForm = document.querySelector(".popup__form_content_edit-profile");
 const formName = editForm.querySelector(".popup__field_info_name");
 const formDescription = editForm.querySelector(".popup__field_info_desc");
-const profileName = ".profile__title";
-const profileDescription = ".profile__paragraph";
-const profileImg = ".profile__img";
+const profileName = document.querySelector(".profile__title");
+const profileDescription = document.querySelector(".profile__paragraph");
+const profileImg = document.querySelector(".profile__img");
 const addForm = popAdd.querySelector(".popup__form");
 const cardPopup = ".popup_type_place";
 const placeTemplate = "#card-template";
@@ -36,7 +36,7 @@ const avatarForm = popAvatar.querySelector(".popup__form");
 export {
   validationList,
   config,
-  placesContainer,
+  cardsContainer,
   buttonEdit,
   buttonAvatar,
   popAdd,

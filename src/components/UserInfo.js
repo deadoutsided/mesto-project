@@ -6,15 +6,13 @@ import {
 
 class UserInfo {
   constructor({
-    selectorProfileName,
-    selectorProfileDescription,
-    selectorProfileAvatar,
+    profileName,
+    profileDescription,
+    profileAvatar,
   }) {
-    this._profileName = document.querySelector(selectorProfileName);
-    this._profileDescription = document.querySelector(
-      selectorProfileDescription
-    );
-    this._profileAvatar = document.querySelector(selectorProfileAvatar);
+    this._profileName = profileName;
+    this._profileDescription = profileDescription;
+    this._profileAvatar = profileAvatar;
   }
 
   putUserInfo(userData) {
@@ -28,7 +26,7 @@ class UserInfo {
 }
 
 export const userInfo = new UserInfo({
-  selectorProfileName: profileName,
-  selectorProfileDescription: profileDescription,
-  selectorProfileAvatar: profileImg,
+  profileName: profileName,
+  profileDescription: profileDescription,
+  profileAvatar: profileImg,
 });
