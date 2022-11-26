@@ -1,11 +1,12 @@
 export class Api {
-    constructor(config) {
-      this._baseUrl = config.baseUrl;
-      this._headers = config.headers;
-    }
-  
-    async _requireApi(url = "", body, method = "GET") {
-      let options = {
+  constructor(config) {
+    this._baseUrl = config.baseUrl;
+    this._headers = config.headers;
+  }
+
+  async _requireApi(url = "", body, method = "GET") {
+    try {
+      const options = {
         method,
         headers: this._headers,
       };
@@ -20,5 +21,8 @@ export class Api {
       } else {
         throw Error(`Произошла ошибка ${response.status}`);
       }
+    } catch (error) {
+      console.log(error);
     }
   }
+}
