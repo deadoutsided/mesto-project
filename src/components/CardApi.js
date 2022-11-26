@@ -1,17 +1,17 @@
 import { config } from "../utils/constants";
 import { Api } from "./Api";
 
-class CardsInfo extends Api {
+class CardApi extends Api {
   constructor(config, selectorProfileName, selectorProfileDescription) {
     super(config);
   }
 
   async getCards() {
-    return await super._requireApi("/cards");
+    return await super.requireApi("/cards");
   }
 
   async postCard(cardName, cardImg) {
-    return await super._requireApi(
+    return await super.requireApi(
       "/cards",
       { name: cardName, link: cardImg },
       "POST"
@@ -19,16 +19,16 @@ class CardsInfo extends Api {
   }
 
   async deleteCard(cardId) {
-    return await super._requireApi(`/cards/${cardId}`, {}, "DELETE");
+    return await super.requireApi(`/cards/${cardId}`, {}, "DELETE");
   }
 
   async likeCard(cardId) {
-    return await super._requireApi(`/cards/likes/${cardId}`, {}, "PUT");
+    return await super.requireApi(`/cards/likes/${cardId}`, {}, "PUT");
   }
 
   async deleteLikeCard(cardId) {
-    return await super._requireApi(`/cards/likes/${cardId}`, {}, "DELETE");
+    return await super.requireApi(`/cards/likes/${cardId}`, {}, "DELETE");
   }
 }
 
-export const cardsInfo = new CardsInfo(config);
+export const cardsInfo = new CardApi(config);

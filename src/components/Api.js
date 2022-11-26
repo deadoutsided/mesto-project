@@ -4,7 +4,7 @@ export class Api {
     this._headers = config.headers;
   }
 
-  async _requireApi(url = "", body, method = "GET") {
+  async requireApi(url = "", body, method = "GET") {
     try {
       const options = {
         method,

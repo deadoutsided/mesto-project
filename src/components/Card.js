@@ -1,7 +1,3 @@
-import { cardsInfo } from "./CardsInfo";
-
-import { Popup } from "./Popup";
-
 export class Card {
   static places = {
     place: ".place",
@@ -16,24 +12,23 @@ export class Card {
   };
 
   _selectorTemplate;
-  _container;
   _cardsInfo;
   _profileInfo;
 
   constructor(
     selectorTemplate,
-    container,
-    cardsInfo,
+    cardInfo,
     profileInfo,
     handleCardClick,
-    popDelConfirm
+    handleLikeButtonClick,
+    handleDelButtonClick
   ) {
     this._selectorTemplate = selectorTemplate;
-    this._container = container;
-    this._cardsInfo = cardsInfo;
+    this._cardInfo = cardInfo;
     this._profileInfo = profileInfo;
     this.handleCardClick = handleCardClick;
-    this._popDelConfirm = popDelConfirm;
+    this.handleLikeButtonClick = handleLikeButtonClick;
+    this.handleDelButtonClick = handleDelButtonClick;
   }
 
   _getElement() {
@@ -44,7 +39,7 @@ export class Card {
     return cardElement;
   }
 
-  generate(cardInfo) {
+  generate() {
     this._element = this._getElement();
     this._placeImg = this._element.querySelector(Card.places.image);
     this._placeTitle = this._element.querySelector(Card.places.title);
@@ -52,89 +47,53 @@ export class Card {
     this._likeButton = this._element.querySelector(Card.places.likeButton);
     this._deleteButton = this._element.querySelector(Card.places.deleteButton);
     //console.log(cardInfo.link);
-    this._placeImg.src = cardInfo.link;
-    this._placeTitle.textContent = cardInfo.name;
-    this._likeCounter.textContent = cardInfo.likes.length;
-    this._placeImg.setAttribute("alt", cardInfo.name);
+    this._placeImg.src = this._cardInfo.link;
+    this._placeTitle.textContent = this._cardInfo.name;
+    this._likeCounter.textContent = this._cardInfo.likes.length;
+    this._placeImg.setAttribute("alt", this._cardInfo.name);
     //console.log(cardInfo._id);
-    this._likesCheck = cardInfo.likes.some((liker) => {
+    this._likesCheck = this._cardInfo.likes.some((liker) => {
       return liker._id === this._profileInfo._id;
     });
 
-    //console.log(this._likesCheck);
-
-    this._setEventListeners(cardInfo);
+    this._setEventListeners();
     //console.log(this_deleteButton);
-    if (this._profileInfo._id !== cardInfo.owner._id) {
+    if (this._profileInfo._id !== this._cardInfo.owner._id) {
       this._deleteButton.remove();
     }
     if (this._likesCheck) {
       this._likeButton.classList.add(Card.places.likeButtonActive);
     }
 
-    const popDel = document.querySelector(Card.places.popupConfirmDelete);
-
-    //слушатель кнопки удаления карточки
-    this._deleteButton.addEventListener("click", (evt) => {
-      const formConfirmDelete = document.querySelector(Card.places.formConfirmDelete).cloneNode(true);
-      document.querySelector(Card.places.formConfirmDelete).remove();
-      popDel.querySelector('.popup__overlay').prepend(formConfirmDelete);
-      this._popDelConfirm.open();
-      const itemButton = evt.currentTarget;
-      this._popDelConfirm.setEventListeners();
-      formConfirmDelete.addEventListener("submit", (evt) => {
-        evt.preventDefault();
-        cardsInfo
-          .deleteCard(cardInfo._id)
-          .then(() => {
-            itemButton.closest(Card.places.place).remove();
-            this._popDelConfirm.close();
-          })
-          .catch((err) => {
-            console.log(err);
-          });
-      });
-    });
-
     return this._element;
   }
 
-  _setEventListeners = (cardInfo) => {
+  togglLike = (data) => {
+    this._likeCounter.textContent = data.likes.length;
+    this._likeButton.classList.toggle(Card.places.likeButtonActive);
+  }
+
+  removeCard = (itemDelButton) => {
+    itemDelButton.closest(Card.places.place).remove();
+  }
+
+
+  _setEventListeners = () => {
     let likesCheck = this._likesCheck;
-    const cardId = cardInfo._id;
-    const likeCounter = this._likeCounter;
-    const likeButton = this._likeButton;
     //слушатель нажатия на картинку карточки
-    this._placeImg.addEventListener("click", () => {
-      this.handleCardClick(cardInfo);
+    this._placeImg.addEventListener("click", (evt) => {
+      this.handleCardClick(evt);
     });
 
     //слушатель кнопки Like
     this._likeButton.addEventListener("click", () => {
-      this._handleLikeButtonClick(likesCheck, cardId, likeCounter, likeButton);
+      this.handleLikeButtonClick(likesCheck, this);
       likesCheck = !likesCheck;
     });
-  };
 
-  _handleLikeButtonClick(likesCheck, cardId, likeCounter, likeButton) {
-    if (likesCheck) {
-      cardsInfo
-        .deleteLikeCard(cardId)
-        .then((data) => {
-          likeCounter.textContent = data.likes.length;
-          likeButton.classList.toggle(Card.places.likeButtonActive);
-        })
-        .catch((err) => console.log(err));
-    } else {
-      cardsInfo
-        .likeCard(cardId)
-        .then((data) => {
-          likeCounter.textContent = data.likes.length;
-          likeButton.classList.toggle(Card.places.likeButtonActive);
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-    }
-  }
+    //слушатель кнопки удаления карточки
+    this._deleteButton.addEventListener("click", (evt) => {
+      this.handleDelButtonClick(evt, this);
+    });
+  };
 }
