@@ -1,6 +1,6 @@
 import "../index.css";
 
-import { FormValidator } from "../components/Validate";
+import { FormValidator } from "../components/FormValidator";
 import { Card } from "../components/Card";
 import { Section } from "../components/Section";
 import { disableButton, renderLoading } from "../utils/util";
@@ -150,13 +150,13 @@ buttonAdd.addEventListener("click", () => {
   disableButton(popAdd);
   addFormValidator.enableValidation();
   addCardPopup.open();
-  
+
 });
 
 buttonAvatar.addEventListener("click", () => {
   disableButton(popAvatar);
   avatarFormValidator.enableValidation();
-  avatarPopup.open();  
+  avatarPopup.open();
 });
 
 profilePopup.setEventListeners();

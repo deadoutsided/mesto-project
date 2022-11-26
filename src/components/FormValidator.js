@@ -6,6 +6,8 @@ class FormValidator{
     this._inputErrorClass = inputErrorClass;
     this._errorClass = errorClass;
     this._formElement = formElement;
+    this._inputList = Array.from(this._formElement.querySelectorAll(`${this._inputSelector}`));
+    this._submitButton = this._formElement.querySelector(`${this._submitButtonSelector}`);
   }
 
   _hasInvalidInput(){
@@ -61,8 +63,6 @@ class FormValidator{
   }
 
   enableValidation(){
-    this._inputList = Array.from(this._formElement.querySelectorAll(`${this._inputSelector}`));
-    this._submitButton = this._formElement.querySelector(`${this._submitButtonSelector}`);
     console.log(this._submitButton);
     console.log(this._inputList);
     this._setEventListeners();
