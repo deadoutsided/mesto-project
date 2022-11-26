@@ -18,7 +18,6 @@ import {
   formDescription,
   profileName,
   profileDescription,
-  //profileImg,
   addForm,
   cardPopup,
   placeTemplate,
@@ -29,7 +28,6 @@ import { PopupWithForm } from "../components/PopupWithForm";
 import { Api } from "../components/Api";
 import { cardsInfo } from "../components/CardApi";
 import { userInfo } from "../components/UserInfo";
-//import { create } from "core-js/core/object";
 
 let profileInfo;
 
@@ -72,10 +70,8 @@ function createCard(cardItem) {
 
 Promise.all([getUserInfo(), cardsInfo.getCards()])
   .then(([userData, cards]) => {
-    //console.log(userData);
     userInfo.putAvatar(userData);
     profileInfo = userData;
-    //console.log(cards);
     const itemList = new Section(
       {
         items: cards,
@@ -92,7 +88,6 @@ Promise.all([getUserInfo(), cardsInfo.getCards()])
   });
 
 function handleCardClick(evt) {
-  //console.log(cardInfo);
   popupWithImage.open(evt.target.currentSrc, evt.target.alt);
 }
 
@@ -138,14 +133,12 @@ const addCardPopup = new PopupWithForm(".popup_type_add-place", {
           {
             items: data,
             renderer: (cardItem) => {
-              //console.log(data);
               itemNew.setItem(createCard(cardItem));
             },
           },
           cardsContainer
         );
         itemNew.renderItems();
-        //newCard.addCards(data);
         addCardPopup.close();
       })
       .catch((err) => console.log(err))
@@ -162,7 +155,6 @@ function handleLikeButtonClick(likesCheck, dataCard) {
     cardsInfo
       .deleteLikeCard(dataCard._cardInfo._id)
       .then((data) => {
-        //console.log(data.likes.length);
         dataCard.togglLike(data);
       })
       .catch((err) => console.log(err));
@@ -184,7 +176,6 @@ function handleDelButtonClick(evt, dataCard) {
   popDelConfirm.open();
   itemDelButton = evt.currentTarget;
   dataDelCard = dataCard;
-  //console.log(itemDelButton, dataDelCard);
 }
 
 const popDelConfirm = new PopupWithForm(".popup_type_confirm-delete", {
@@ -192,7 +183,6 @@ const popDelConfirm = new PopupWithForm(".popup_type_confirm-delete", {
 });
 
 function handleFormSubmit() {
-  //console.log(itemDelButton, dataDelCard);
   cardsInfo
     .deleteCard(dataDelCard._cardInfo._id)
     .then(() => {
@@ -206,7 +196,6 @@ function handleFormSubmit() {
 //Попап картинки
 const popupWithImage = new PopupWithImage(cardPopup);
 
-//enableValidation({validationList});
 const editFormValidator = new FormValidator(validationList, editForm);
 const addFormValidator = new FormValidator(validationList, addForm);
 const avatarFormValidator = new FormValidator(validationList, avatarForm);
