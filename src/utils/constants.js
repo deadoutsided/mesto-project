@@ -13,8 +13,8 @@ const config = {
     authorization: "6e42217e-2177-4476-b93c-c82e4a9b29ea",
     "Content-Type": "application/json",
   },
-};  
-const placesContainer = document.querySelector(".places");
+};
+const cardsContainer = document.querySelector(".places");
 const buttonEdit = document.querySelector(".profile__edit-button");
 const buttonAvatar = document.querySelector(".profile__avatar-button");
 const popAdd = document.querySelector(".popup_type_add-place");
@@ -30,17 +30,17 @@ const addForm = popAdd.querySelector(".popup__form");
 const cardPopup = ".popup_type_place";
 const placeTemplate = "#card-template";
 const avatarForm = popAvatar.querySelector(".popup__form");
-  
 
-  
-export { 
+
+
+export {
   validationList,
-  config, 
-  placesContainer,
+  config,
+  cardsContainer,
   buttonEdit,
   buttonAvatar,
   popAdd,
-  popAvatar,   
+  popAvatar,
   buttonAdd,
   editForm,
   formName,

@@ -1,45 +1,32 @@
-import { config } from "../utils/constants";
-import { Api } from "./Api";
-class UserInfo extends Api {
-  constructor(config, { selectorProfileName, selectorProfileDescription }) {
-    super(config);
-    this._profileName = document.querySelector(selectorProfileName);
-    this._profileDescription = document.querySelector(
-      selectorProfileDescription
-    );
+import {
+  profileName,
+  profileDescription,
+  profileImg,
+} from "../utils/constants";
+
+class UserInfo {
+  constructor({
+    profileName,
+    profileDescription,
+    profileAvatar,
+  }) {
+    this._profileName = profileName;
+    this._profileDescription = profileDescription;
+    this._profileAvatar = profileAvatar;
   }
 
-  _putUserInfo(userData) {
+  putUserInfo(userData) {
     this._profileName.textContent = userData.name;
     this._profileDescription.textContent = userData.about;
   }
 
-  async getUserInfo() {
-    const result = await super._requireApi("/users/me");
-    this._putUserInfo(result);
-    return result;
-  }
-
-  async setUserInfo(name, about) {
-    const result = await super._requireApi(
-      "/users/me",
-      { name: `${name}`, about: `${about}` },
-      "PATCH"
-    );
-    this._putUserInfo(result);
-    return result;
-  }
-
-  async updateAvatar(newImg) {
-    return await super._requireApi(
-      "/users/me/avatar",
-      { avatar: newImg },
-      "PATCH"
-    );
+  putAvatar(data) {
+    this._profileAvatar.src = data.avatar;
   }
 }
 
-export const userInfo = new UserInfo(config, {
-  selectorProfileName: ".profile__title",
-  selectorProfileDescription: ".profile__paragraph",
+export const userInfo = new UserInfo({
+  profileName: profileName,
+  profileDescription: profileDescription,
+  profileAvatar: profileImg,
 });

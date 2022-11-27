@@ -1,6 +1,5 @@
 import { Popup } from "./Popup";
 
-
 export class PopupWithForm extends Popup {
 
     static _formClass = 'popup__form';
@@ -34,5 +33,3 @@ export class PopupWithForm extends Popup {
             this._handleFormSubmit(this._getInputValues());
         });
     }
-}
-
