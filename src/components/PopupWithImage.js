@@ -8,15 +8,14 @@ export class PopupWithImage extends Popup{
     constructor (selector) {
         super(selector);
         this._modal = document.querySelector(selector);
+        this._image = document.querySelector(`.${PopupWithImage._imageClass}`);
+        this._imageCaption = document.querySelector(`.${PopupWithImage._imageCaptionClass}`);
     }
 
     open(cardLink, cardName) {
-        document.querySelector(`.${PopupWithImage._imageClass}`).src = cardLink;
-        document.querySelector(`.${PopupWithImage._imageClass}`).alt = cardName;
-        document.querySelector(`.${PopupWithImage._imageCaptionClass}`).textContent = cardName;
-        window.addEventListener('keydown', () => {
-            super._handleEscClose();
-        });
-        this._modal.classList.add(Popup._popupOpenClass);
+        this._image.src = cardLink;
+        this._image.alt = cardName;
+        this._imageCaption.textContent = cardName;
+        super.open();
     }
 }
