@@ -10,19 +10,15 @@ export class PopupWithForm extends Popup {
         super(selector);
         this._handleFormSubmit = handleFormSubmit
         this._modal = document.querySelector(selector);
+        this._form = this._modal.querySelector(`.${PopupWithForm._formClass}`);
     }
 
     close() {
-        this._modal.classList.remove(Popup._popupOpenClass);
-        window.removeEventListener('keydown', () => {
-            super._handleEscClose();
-        });
-        this._form = this._modal.querySelector(`.${PopupWithForm._formClass}`);
+        super.close();        
         this._form.reset();
     }
 
     _getInputValues () {
-        this._form = this._modal.querySelector(`.${PopupWithForm._formClass}`);
         this._inputList = this._modal.querySelectorAll(`.${PopupWithForm._inputsClass}`);
         this._formValues = {};
         this._inputList.forEach(input => {
@@ -32,12 +28,7 @@ export class PopupWithForm extends Popup {
     }
 
     setEventListeners() {
-        this._modal.addEventListener('mousedown', () => {
-            super._handleOverlayClose();
-        });
-        this._modal.querySelector(`.${Popup._closeButtonClass}`).addEventListener('click', () => {
-            this.close();
-        });
+        super.setEventListeners();
         this._modal.addEventListener('submit', (evt) => {
             evt.preventDefault();
             this._handleFormSubmit(this._getInputValues());
