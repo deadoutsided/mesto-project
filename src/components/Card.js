@@ -73,8 +73,9 @@ export class Card {
     this._likeButton.classList.toggle(Card.places.likeButtonActive);
   }
 
-  removeCard = (itemDelButton) => {
-    itemDelButton.closest(Card.places.place).remove();
+  removeCard = () => {
+    this._element.remove();
+    this._element = null;
   }
 
 
@@ -92,8 +93,8 @@ export class Card {
     });
 
     //слушатель кнопки удаления карточки
-    this._deleteButton.addEventListener("click", (evt) => {
-      this.handleDelButtonClick(evt, this);
+    this._deleteButton.addEventListener("click", () => {
+      this.handleDelButtonClick(this);
     });
   };
 }

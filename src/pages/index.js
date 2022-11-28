@@ -161,11 +161,10 @@ function handleLikeButtonClick(likesCheck, dataCard) {
   }
 }
 //Обработчики удаления
-let itemDelButton;
+
 let dataDelCard;
-function handleDelButtonClick(evt, dataCard) {
+function handleDelButtonClick(dataCard) {
   popDelConfirm.open();
-  itemDelButton = evt.currentTarget;
   dataDelCard = dataCard;
 }
 
@@ -177,7 +176,7 @@ function handleFormSubmit() {
   cardsInfo
     .deleteCard(dataDelCard._cardInfo._id)
     .then(() => {
-      dataDelCard.removeCard(itemDelButton);
+      dataDelCard.removeCard();
       popDelConfirm.close();
     })
     .catch((err) => {
