@@ -68,20 +68,24 @@ function createCard(cardItem) {
   return cardElement;
 }
 
+function creatSection(dataCard) {
+  const newSection = new Section(
+    {
+      items: dataCard,
+      renderer: (cardItem) => {
+        newSection.setItem(createCard(cardItem));
+      },
+    },
+    cardsContainer
+  );
+  newSection.renderItems();
+}
+
 Promise.all([getUserInfo(), cardsInfo.getCards()])
   .then(([userData, cards]) => {
     userInfo.putAvatar(userData);
     profileInfo = userData;
-    const itemList = new Section(
-      {
-        items: cards,
-        renderer: (cardItem) => {
-          itemList.setItem(createCard(cardItem));
-        },
-      },
-      cardsContainer
-    );
-    itemList.renderItems();
+    creatSection(cards);
   })
   .catch((err) => {
     console.log(err);
@@ -129,16 +133,7 @@ const addCardPopup = new PopupWithForm(".popup_type_add-place", {
     cardsInfo
       .postCard(formData["place-title"], formData["image-url"])
       .then((data) => {
-        const itemNew = new Section(
-          {
-            items: data,
-            renderer: (cardItem) => {
-              itemNew.setItem(createCard(cardItem));
-            },
-          },
-          cardsContainer
-        );
-        itemNew.renderItems();
+        creatSection(data);
         addCardPopup.close();
       })
       .catch((err) => console.log(err))
