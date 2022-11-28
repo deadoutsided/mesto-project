@@ -16,8 +16,6 @@ import {
   editForm,
   formName,
   formDescription,
-  profileName,
-  profileDescription,
   addForm,
   cardPopup,
   placeTemplate,
@@ -198,8 +196,7 @@ avatarFormValidator.enableValidation();
 
 buttonEdit.addEventListener("click", () => {
   profilePopup.open();
-  formDescription.value = profileDescription.textContent;
-  formName.value = profileName.textContent;
+  userInfo.getUserInfo(formName, formDescription);
 });
 
 buttonAdd.addEventListener("click", () => {

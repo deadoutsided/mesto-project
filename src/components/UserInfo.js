@@ -5,11 +5,7 @@ import {
 } from "../utils/constants";
 
 class UserInfo {
-  constructor({
-    profileName,
-    profileDescription,
-    profileAvatar,
-  }) {
+  constructor({ profileName, profileDescription, profileAvatar }) {
     this._profileName = profileName;
     this._profileDescription = profileDescription;
     this._profileAvatar = profileAvatar;
@@ -18,6 +14,11 @@ class UserInfo {
   putUserInfo(userData) {
     this._profileName.textContent = userData.name;
     this._profileDescription.textContent = userData.about;
+  }
+
+  getUserInfo(name, description) {
+    name.value = this._profileName.textContent;
+    description.value = this._profileDescription.textContent;
   }
 
   putAvatar(data) {
