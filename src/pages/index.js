@@ -29,18 +29,17 @@ import { Api } from "../components/Api";
 import { cardsInfo } from "../components/CardApi";
 import { userInfo } from "../components/UserInfo";
 
+const api = new Api(config);
 let profileInfo;
 
 //Серверная часть обработки данных пользователя
 async function getUserInfo() {
-  const api = new Api(config);
   const result = await api.requireApi("/users/me");
   userInfo.putUserInfo(result);
   return result;
 }
 
 async function setUserInfo(name, about) {
-  const api = new Api(config);
   const result = await api.requireApi(
     "/users/me",
     { name: `${name}`, about: `${about}` },
@@ -51,7 +50,6 @@ async function setUserInfo(name, about) {
 }
 
 async function updateAvatar(newImg) {
-  const api = new Api(config);
   return await api.requireApi("/users/me/avatar", { avatar: newImg }, "PATCH");
 }
 
