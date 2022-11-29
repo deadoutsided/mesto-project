@@ -7,7 +7,6 @@ import { Section } from "../components/Section";
 import { disableButton, renderLoading } from "../utils/util";
 import {
   validationList,
-  cardsContainer,
   buttonEdit,
   buttonAvatar,
   popAdd,
@@ -64,24 +63,20 @@ function createCard(cardItem) {
   return cardElement;
 }
 
-function creatSection(dataCard) {
-  const newSection = new Section(
-    {
-      items: dataCard,
-      renderer: (cardItem) => {
-        newSection.setItem(createCard(cardItem));
-      },
+const cardsContainer = new Section(
+  {
+    renderer: (cardItem) => {
+      cardsContainer.setItem(createCard(cardItem));
     },
-    cardsContainer
-  );
-  newSection.renderItems();
-}
+  },
+  document.querySelector(".places")
+);
 
 Promise.all([getUserInfo(), cardsInfo.getCards()])
   .then(([userData, cards]) => {
     userInfo.putAvatar(userData);
     profileInfo = userData;
-    creatSection(cards);
+    cardsContainer.renderItems(cards);
   })
   .catch((err) => {
     console.log(err);
@@ -129,7 +124,7 @@ const addCardPopup = new PopupWithForm(".popup_type_add-place", {
     cardsInfo
       .postCard(formData["place-title"], formData["image-url"])
       .then((data) => {
-        creatSection(data);
+        cardsContainer.renderItems(data);
         addCardPopup.close();
       })
       .catch((err) => console.log(err))
@@ -160,8 +155,8 @@ function handleLikeButtonClick(likesCheck, dataCard) {
       });
   }
 }
-//Обработчики удаления
 
+//Обработчики удаления
 let dataDelCard;
 function handleDelButtonClick(dataCard) {
   popDelConfirm.open();
@@ -196,8 +191,8 @@ avatarFormValidator.enableValidation();
 buttonEdit.addEventListener("click", () => {
   profilePopup.open();
   const userInformation = userInfo.getUserInfo();
-  formName.value = userInformation.name
-  formDescription.value = userInformation.description
+  formName.value = userInformation.name;
+  formDescription.value = userInformation.description;
 });
 
 buttonAdd.addEventListener("click", () => {

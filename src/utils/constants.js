@@ -14,7 +14,7 @@ const config = {
     "Content-Type": "application/json",
   },
 };
-const cardsContainer = document.querySelector(".places");
+//const cardsContainer = document.querySelector(".places");
 const buttonEdit = document.querySelector(".profile__edit-button");
 const buttonAvatar = document.querySelector(".profile__avatar-button");
 const popAdd = document.querySelector(".popup_type_add-place");
@@ -36,7 +36,6 @@ const avatarForm = popAvatar.querySelector(".popup__form");
 export {
   validationList,
   config,
-  cardsContainer,
   buttonEdit,
   buttonAvatar,
   popAdd,

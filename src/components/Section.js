@@ -5,13 +5,12 @@ export class Section {
     this._container = cardsContainer;
   }
 
-  renderItems() {
-    console.log(this._items);
-    if (Array.isArray(this._items)) {
-      const reversedItems = this._items.reverse();
+  renderItems(items) {
+    if (Array.isArray(items)) {
+      const reversedItems = items.reverse();
       reversedItems.forEach((item) => this._renderer(item));
     } else {
-      this._renderer(this._items);
+      this._renderer(items);
     }
   }
 
