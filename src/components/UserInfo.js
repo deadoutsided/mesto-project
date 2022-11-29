@@ -16,9 +16,11 @@ class UserInfo {
     this._profileDescription.textContent = userData.about;
   }
 
-  getUserInfo(name, description) {
-    name.value = this._profileName.textContent;
-    description.value = this._profileDescription.textContent;
+  getUserInfo() {
+    const obj ={};
+    obj.name = this._profileName.textContent;
+    obj.description = this._profileDescription.textContent;
+    return obj;
   }
 
   putAvatar(data) {

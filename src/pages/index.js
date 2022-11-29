@@ -195,7 +195,9 @@ avatarFormValidator.enableValidation();
 
 buttonEdit.addEventListener("click", () => {
   profilePopup.open();
-  userInfo.getUserInfo(formName, formDescription);
+  const userInformation = userInfo.getUserInfo();
+  formName.value = userInformation.name
+  formDescription.value = userInformation.description
 });
 
 buttonAdd.addEventListener("click", () => {
