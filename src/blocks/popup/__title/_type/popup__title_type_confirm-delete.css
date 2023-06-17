@@ -1,0 +1,14 @@
+.popup__title_type_confirm-delete {
+  margin: 0 0 19px;
+  font-weight: 900;
+  font-size: 24px;
+  line-height: 30px;
+  padding: 0;
+}
+
+@media (max-width: 770px) {
+  .popup__title_type_confirm-delete {
+    font-size: 18px;
+    line-height: 22px;
+  }
+}
