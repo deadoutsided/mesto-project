@@ -8,18 +8,16 @@
 
 **Интро**
 
-Это продолжение студенческого проекта Yandex-Практикума курса web-разработки+ "Меsto". На текущем этапе в проекте реализовано взаимодействие с сервером.
+Это студенческий проект Яндек.Практикума курса "Web-разработчик плюс" "Меsto". На текущем этапе в проекте реализовано взаимодействие с сервером.
 
 **Методы**
 
-Сайт выполнен по макетам в Figma. https://www.figma.com/file/2cn9N9jSkmxD84oJik7xL7/JavaScript.-Sprint-4?node-id=0%3A1, https://www.figma.com/file/bjyvbKKJN2naO0ucURl2Z0/JavaScript.-Sprint-5?node-id=0%3A1, https://code.s3.yandex.net/web-developer/project-6/JavaScript.Sprint-6.fig и https://www.figma.com/file/PSdQFRHoxXJFs2FH8IXViF/JavaScript-9-sprint?node-id=0%3A1.
+Сайт выполнен по макету в Figma.
+* [Ссылка на макет в Figma](https://www.figma.com/file/2cn9N9jSkmxD84oJik7xL7/JavaScript.-Sprint-4?node-id=0%3A1, https://www.figma.com/file/bjyvbKKJN2naO0ucURl2Z0/JavaScript.-Sprint-5?node-id=0%3A1, https://code.s3.yandex.net/web-developer/project-6/JavaScript.Sprint-6.fig и https://www.figma.com/file/PSdQFRHoxXJFs2FH8IXViF/JavaScript-9-sprint?node-id=0%3A1)
 
 Таблицы стилей .css распределены в файловой структуре каталога blocks согласно методологии БЭМ Nested.
-
 Шрифты с открытым доступом Inter расположены в Vendor.
-
 Проект прошёл валидацию.
-
 В вёрстке страницы использованы методы flex и grid.
 
 ## New!
@@ -59,22 +57,16 @@
 
 ## New! New! New! New!
 
-В командном спринте проект портировать на ООП.
+В командном спринте проект портирован на ООП.
 
 **Инструменты**
 
 Изображения оптимизированы на ресурсе: https://tinypng.com/.
-
 Файл .nojekyll размещен с целью корректной публикации в pages на GitHub.
-
-Файл .editorconfig содержит установки для приложения VS Code.
-
+Файл .editorconfig содержит установки VS Code.
 Используются webpack , webpack-cli и webpack-dev-server.
-
 Файлы package.json и webpack.config.js содержат скрипты для настройки среды Webpack.
-
 В файле .gitignore прописаны строки: node_modules и dist для push на GitHub.
+Использован инструментарий вкладки браузера Network для просмотра запросов и дебагинга.
 
-Использована вкладка браузера Network для просмотра запросов и инструментарий дебагинга.
-
-Ссылка на "Mesto" в GitHub Pages: https://vasaykh2.github.io/mesto-project/.
+* [Ссылка на "Mesto" в GitHub Pages] (https://vasaykh2.github.io/mesto-project/)

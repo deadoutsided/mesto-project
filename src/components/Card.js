@@ -51,7 +51,7 @@ export class Card {
     this._placeTitle.textContent = this._cardInfo.name;
     this._likeCounter.textContent = this._cardInfo.likes.length;
     this._placeImg.setAttribute("alt", this._cardInfo.name);
-    //console.log(cardInfo._id);
+    console.log(cardInfo._id);
     this._likesCheck = this._cardInfo.likes.some((liker) => {
       return liker._id === this._profileInfo._id;
     });
